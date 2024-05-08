@@ -1,16 +1,28 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const { JobSeekerForm } = require("../models");
+const db = require("../models");
+const { JobSeekerForm, RecruiterForm } = require("../models/forms");
 
-
-router.get('/',(req,res)=>{
-    res.json("Hello World");
+// Route to handle job seeker form submissions
+router.post("/jobseeker", async (req, res) => {
+  try {
+    const jobSeekerData = req.body;
+    const createdJobSeeker = await JobSeekerForm.create(jobSeekerData);
+    res.status(201).json(createdJobSeeker);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
 });
 
-router.post("/",async(req,res)=>{
-    const form = req.body;
-    await JobSeekerForm.create(form);
-    res.json(form);
+// Route to handle recruiter form submissions
+router.post("/recruiter", async (req, res) => {
+  try {
+    const recruiterData = req.body;
+    const createdRecruiter = await RecruiterForm.create(recruiterData);
+    res.status(201).json(createdRecruiter);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
 });
 
 module.exports = router;

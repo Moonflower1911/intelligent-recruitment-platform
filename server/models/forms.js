@@ -4,7 +4,7 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.STRING,
             allowNull: false
         },
-        prénom: {
+        prenom: {
             type: DataTypes.STRING,
             allowNull: false
         },
@@ -42,7 +42,7 @@ module.exports = (sequelize, DataTypes) => {
         },
     });
 
-    /*const RecruiterForm = sequelize.define("RecruiterForm", {
+    const RecruiterForm = sequelize.define("RecruiterForm", {
         nomEntreprise: {
             type: DataTypes.STRING,
             allowNull: false
@@ -85,7 +85,7 @@ module.exports = (sequelize, DataTypes) => {
         },
     });
 
-    return { JobSeekerForm, RecruiterForm };*/
-    return JobSeekerForm;
+    return { JobSeekerForm, RecruiterForm };
+    //return JobSeekerForm;
 };
 
