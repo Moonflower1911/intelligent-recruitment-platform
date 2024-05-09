@@ -7,12 +7,25 @@ import { useEffect, useState} from "react";
 function App() {
 
   const [listOfJobSeekerForms, setListOfJobSeekerForms] = useState([]);
+  const [urlPath, setUrlPath] = useState(window.location.pathname);
+
 
   useEffect(() => {
-    axios.get("http://localhost:3001/jobseeker").then((response) => {
-      setListOfJobSeekerForms(response.data);
-    });
-  }, []);
+    const fetchData = async () => {
+      if (urlPath.includes("/recruiter/jobseeker")) {
+        try {
+          const response = await axios.get("http://localhost:3001/jobseeker");
+          setListOfJobSeekerForms(response.data);
+        } catch (error) {
+          console.error('Error fetching data:', error);
+        }
+      }
+    };
+
+    fetchData();
+  }, [urlPath]);
+
+
 
   return <div className="App">
       {listOfJobSeekerForms.map((value, key) => 
@@ -33,10 +46,6 @@ function App() {
       <div className='langues' > {value.langues}</div>
         <div  className='langages' > {value.langages}</div>
         <div className='logiciels' > {value.logiciels}</div>
-      </div>
-      
-      <div className='body'>
-
       </div>
       </div>;
       })}
