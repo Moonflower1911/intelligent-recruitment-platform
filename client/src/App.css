@@ -1,3 +1,90 @@
 .App {
   text-align: center;
 }
+/* General styling */
+/* Style for jobseekerPost container */
+.jobseekerPost {
+  font-family: Arial, sans-serif;
+  width: 80%;
+  margin: auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Style for personalInfo section */
+.personalInfo {
+  margin-bottom: 20px;
+}
+
+.personalInfo > div {
+  margin-bottom: 10px;
+}
+
+/* Style for body section */
+.body {
+  margin-bottom: 20px;
+}
+
+/* Style for skills section */
+.skills {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.skills > div {
+  flex: 1;
+  margin-right: 10px;
+}
+
+/* Additional styles for specific elements */
+.nom,
+.prenom,
+.email,
+.phoneNumber,
+.address {
+  font-weight: bold;
+}
+
+.langues,
+.langages,
+.logiciels {
+  font-style: italic;
+}
+
+.recruiterPost {
+  border: 1px solid #ccc; /* Add border */
+  border-radius: 5px; /* Optional: Add rounded corners */
+  padding: 10px;
+  margin-bottom: 20px;
+}
+
+/* Rest of the CSS remains the same */
+.companyInfo {
+  margin-bottom: 10px;
+}
+
+.posteInfo {
+  margin-bottom: 10px;
+}
+
+.requirementsInfo {
+  margin-bottom: 10px;
+}
+
+.companyInfo .nomEntreprise {
+  font-weight: bold;
+}
+
+.posteInfo .poste {
+  font-weight: bold;
+}
+
+.requirementsInfo .experience,
+.requirementsInfo .formations,
+.requirementsInfo .skills,
+.requirementsInfo .keywords,
+.requirementsInfo .langues {
+  margin-top: 5px;
+}
