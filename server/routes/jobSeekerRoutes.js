@@ -3,8 +3,10 @@ const express = require('express');
 const router = express.Router();
 const { JobSeekerForm } = require('../models');
 
-router.get("/",(req,res)=>{
-  res.json("Hello World");
+router.get("/",async(req,res)=>{
+  const listJobSeeker= await JobSeekerForm.findAll();
+  res.json(listJobSeeker);
+
 });
 
 router.post("/", async (req, res) => {
