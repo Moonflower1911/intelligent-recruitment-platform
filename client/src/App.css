@@ -1,0 +1,179 @@
+.App {
+  text-align: center;
+}
+/* General styling */
+/* Style for jobseekerPost container */
+.jobseekerPost {
+  font-family: Arial, sans-serif;
+  width: 80%;
+  margin: auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Style for personalInfo section */
+.personalInfo {
+  margin-bottom: 20px;
+}
+
+.personalInfo > div {
+  margin-bottom: 10px;
+}
+
+/* Style for body section */
+.body {
+  margin-bottom: 20px;
+}
+
+/* Style for skills section */
+.skills {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.skills > div {
+  flex: 1;
+  margin-right: 10px;
+}
+
+/* Additional styles for specific elements */
+.nom,
+.prenom,
+.email,
+.phoneNumber,
+.address {
+  font-weight: bold;
+}
+
+.langues,
+.langages,
+.logiciels {
+  font-style: italic;
+}
+
+.recruiterPost {
+  border: 1px solid #ccc; /* Add border */
+  border-radius: 5px; /* Optional: Add rounded corners */
+  padding: 10px;
+  margin-bottom: 20px;
+}
+
+/* Rest of the CSS remains the same */
+.companyInfo {
+  margin-bottom: 10px;
+}
+
+.posteInfo {
+  margin-bottom: 10px;
+}
+
+.requirementsInfo {
+  margin-bottom: 10px;
+}
+
+.companyInfo .nomEntreprise {
+  font-weight: bold;
+}
+
+.posteInfo .poste {
+  font-weight: bold;
+}
+
+.requirementsInfo .experience,
+.requirementsInfo .formations,
+.requirementsInfo .skills,
+.requirementsInfo .keywords,
+.requirementsInfo .langues {
+  margin-top: 5px;
+}
+
+.jobOfferContainer {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+  border: 1px solid #031088;
+  border-radius: 5px;
+  background-color: #828dbf;
+}
+
+.jobOfferContainer label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+  color: #000000;
+}
+
+.jobOfferContainer input,
+.jobOfferContainer textarea {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-sizing: border-box;
+  /* Ensure padding is included in width */
+  background-color: #fff;
+}
+
+.jobOfferContainer button {
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.jobOfferContainer button:hover {
+  background-color: #0056b3;
+}
+.resumeContainer {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+  border: 1px solid #031088;
+  border-radius: 5px;
+  background-color: #828dbf;
+}
+
+.resumeContainer label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+  color: #000000;
+}
+
+.resumeContainer input,
+.resumeContainer textarea {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-sizing: border-box;
+  /* Ensure padding is included in width */
+  background-color: #fff;
+}
+
+.resumeContainer button {
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.resumeContainer button:hover {
+  background-color: #0056b3;
+}
+
+.error{
+  color: rgb(215, 26, 26);
+  font-weight: bold;
+}
+
