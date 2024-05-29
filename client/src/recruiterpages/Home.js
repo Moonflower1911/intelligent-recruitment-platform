@@ -1,24 +1,27 @@
 import React from "react";
 import axios from "axios";
-import { useEffect, useState} from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 function Home() {
 
     const [listOfJobSeekerForms, setListOfJobSeekerForms] = useState([]);
+    let navigate = useNavigate();
 
     useEffect(() => {
-        axios.get("http://localhost:3001/jobseeker").then((response)=>{
+        axios.get("http://localhost:3001/jobseeker").then((response) => {
             setListOfJobSeekerForms(response.data);
         });
-    },[]);
-    
+    }, []);
+
     return (
         <div>
             <Link to='/CreateJobOffer'>Create Job Offer</Link>
             {listOfJobSeekerForms.map((value, key) => {
                 return (
-                    <div className="jobseekerPost">
+                    <div className="jobseekerPost" onClick={() => { navigate(`/CV/${value.id}`); }}
+                        key={key} >
                         <div className="personalInfo">
                             <div className="nom"> {value.nom}</div>
                             <div className="prenom"> {value.prenom} </div>

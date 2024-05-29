@@ -32,16 +32,23 @@ function CreateJobOffer() {
   });
 
   const onSubmit = async (data) => {
-       
-    const response = await axios.post("http://localhost:3001/recruiter", data);
-    console.log("Response: ", response.data);
-};
+    try {
+      const response = await axios.post("http://localhost:3001/recruiter", data);
+      console.log("Response: ", response.data);
+    } catch (error) {
+      console.error("There was an error submitting the form!", error);
+    }
+  };
 
   return (
     <div className="pageContainer">
       <Link to="/recruiter" className="backButton">Go Back to Home</Link>
       <div className="jobOfferContainer">
-        <Formik initialValues={initialValues} onSubmit={onSubmit} validationSchema={validationSchema}  >
+        <Formik
+          initialValues={initialValues}
+          onSubmit={onSubmit}
+          validationSchema={validationSchema}
+        >
           <Form>
             <label>Nom de l'entreprise : </label>
             <ErrorMessage name="nomEntreprise" component="span" />
@@ -58,7 +65,7 @@ function CreateJobOffer() {
               placeholder="(Ex. 123 Main St..)"
             />
             <label>Ville :</label>
-            <ErrorMessage name="ity" component="span" />
+            <ErrorMessage name="city" component="span" />
             <Field id="inputCity" name="city" placeholder="(Ex. New York)" />
 
             <label>Poste :</label>

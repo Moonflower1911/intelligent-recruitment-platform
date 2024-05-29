@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
 
 function JobSeekerHome() {
     const [listOfRecruiters, setListOfRecruiters] = useState([]);
+    let navigate =useNavigate();
+    
 
     useEffect(() => {
         axios.get("http://localhost:3001/recruiter").then((response) => {
@@ -15,7 +18,8 @@ function JobSeekerHome() {
         <div>
             <Link to='/createCV'>CreateCV</Link>
             {listOfRecruiters.map((value, key) => (
-                <div className="recruiterPost" key={key}>
+                <div className="recruiterPost"  onClick={() => {
+                    navigate(`/jobOffer/${value.id}`)}}>
                     <div className="personalInfo">
                         <div className="nomEntreprise"> {value.nomEntreprise}</div>
                         <div className="address"> {value.address} </div>
