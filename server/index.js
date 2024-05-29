@@ -11,9 +11,14 @@ const db = require("./models");
 // Routers
 const jobSeekerRoutes = require("./routes/jobSeekerRoutes");
 const recruiterRoutes = require("./routes/recruiterRoutes");
+const UserJobSeekerRoutes = require("./routes/UserJobSeekerRoutes");
+const UserRecruiterRoutes = require("./routes/UserRecruiterRoutes");
 
 app.use("/jobseeker", jobSeekerRoutes);
 app.use("/recruiter", recruiterRoutes);
+app.use("/authJobSeeker", UserJobSeekerRoutes );
+app.use("/authRecruiter", UserRecruiterRoutes );
+
 
 db.sequelize.sync().then(() => {
     app.listen(3001, () => {
