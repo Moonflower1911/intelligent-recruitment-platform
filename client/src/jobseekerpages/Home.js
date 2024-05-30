@@ -16,7 +16,9 @@ function JobSeekerHome() {
 
     return (
         <div>
+            <div className="CvNavbar">
             <Link to='/createCV'>CreateCV</Link>
+            </div>
             {listOfRecruiters.map((value, key) => (
                 <div className="recruiterPost"  onClick={() => {
                     navigate(`/jobOffer/${value.id}`)}}>

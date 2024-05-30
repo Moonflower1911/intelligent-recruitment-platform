@@ -6,6 +6,11 @@ import CreateCV from './jobseekerpages/form';
 import CreateJobOffer from './recruiterpages/form';
 import JobOffer from './jobseekerpages/JobOffer';
 import CV from './recruiterpages/cvs';
+import LandingPage from './LandingPage/LandingPage';
+import RegisterJobSeeker from './authJobSeeker/RegisterJobSeeker';
+import LoginJobSeeker from './authJobSeeker/LoginJobSeeker';
+import LoginRecruiter from './AuthRecruiter/LoginRecruiter';
+import RegisterRecruiter from './AuthRecruiter/RegisterRecruiter';
 
 function App() {
   return (
@@ -18,6 +23,11 @@ function App() {
           <Route path="/CreateJobOffer" element={<CreateJobOffer />} />
           <Route path="/jobOffer/:id" element={<JobOffer />} />
           <Route path="/CV/:id" element={<CV />} />
+          <Route path="/landingpage" element={<LandingPage/>} />
+          <Route path="/authjobseeker" element={<RegisterJobSeeker/>} />
+          <Route path="/authjobseeker/login" element={<LoginJobSeeker/>} />
+          <Route path="/authrecruiter" element={<RegisterRecruiter/>} />
+          <Route path="/authrecruiter/login" element={<LoginRecruiter/>} />
         </Routes>
       </Router>
     </div>

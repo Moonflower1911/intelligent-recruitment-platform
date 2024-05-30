@@ -12,7 +12,7 @@ module.exports = (sequelize, DataTypes) => {
         },
     });
         recruiter.associate = (models) => {
-            UserRecruiter.hasOne(models.jobSeeker,{
+            UserRecruiter.hasMany(models.recruiter,{
                 onDelete : "cascade"
             });
         };

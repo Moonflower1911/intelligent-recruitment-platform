@@ -40,7 +40,7 @@ function CreateCV() {
     };
 
     return (
-        <div>
+        <div className='HomeJs'>
             <Link to="/jobseeker">Go Back to Home</Link>
             <div className="resumeContainer">
                 <Formik

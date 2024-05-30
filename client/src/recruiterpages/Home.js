@@ -17,7 +17,9 @@ function Home() {
 
     return (
         <div>
-            <Link to='/CreateJobOffer'>Create Job Offer</Link>
+            <div className="jobNavbar">
+                <Link to='/CreateJobOffer'>Create Job Offer</Link>
+            </div>
             {listOfJobSeekerForms.map((value, key) => {
                 return (
                     <div className="jobseekerPost" onClick={() => { navigate(`/CV/${value.id}`); }}

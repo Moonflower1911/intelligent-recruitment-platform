@@ -19,7 +19,7 @@ router.post('/', async (req, res) => {
         // Create user with hashed password
         await UserRecruiter.create({
             username: username,
-            password: hashedPassword,
+            password: hashedPassword  ,
         });
 
         // Respond with success message

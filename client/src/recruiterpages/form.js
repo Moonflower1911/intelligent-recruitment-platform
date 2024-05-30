@@ -41,7 +41,7 @@ function CreateJobOffer() {
   };
 
   return (
-    <div className="pageContainer">
+    <div className="homeR">
       <Link to="/recruiter" className="backButton">Go Back to Home</Link>
       <div className="jobOfferContainer">
         <Formik
