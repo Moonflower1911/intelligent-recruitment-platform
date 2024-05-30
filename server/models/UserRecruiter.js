@@ -4,18 +4,18 @@ module.exports = (sequelize, DataTypes) => {
     const UserRecruiter = sequelize.define("UserRecruiter", {
         username: {
             type: DataTypes.STRING,
-            allowNull: false, 
+            allowNull: false,
         },
         password: {
             type: DataTypes.STRING,
-            allowNull: false, 
+            allowNull: false,
         },
     });
-        recruiter.associate = (models) => {
-            UserRecruiter.hasMany(models.recruiter,{
-                onDelete : "cascade"
-            });
-        };
-    
+    recruiter.associate = (models) => {
+        UserRecruiter.hasMany(models.recruiter, {
+            onDelete: "cascade"
+        });
+    };
+
     return UserRecruiter;
 };

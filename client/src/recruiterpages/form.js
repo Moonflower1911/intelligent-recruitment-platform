@@ -33,8 +33,13 @@ function CreateJobOffer() {
 
   const onSubmit = async (data) => {
     try {
-      const response = await axios.post("http://localhost:3001/recruiter", data);
+      const response = await axios.post("http://localhost:3001/recruiter", data, {
+        headers: {
+          accessToken: sessionStorage.getItem("accessToken"),
+        }
+      });
       console.log("Response: ", response.data);
+      alert(response.data.error);
     } catch (error) {
       console.error("There was an error submitting the form!", error);
     }

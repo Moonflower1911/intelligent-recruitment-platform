@@ -40,10 +40,10 @@ module.exports = (sequelize, DataTypes) => {
         logiciels:{
             type: DataTypes.STRING,
         },
-        /*username: {
+        username: {
             type: DataTypes.STRING,
             allowNull: false, 
-        },*/
+        },
     });
     return JobSeekerForm;
 };

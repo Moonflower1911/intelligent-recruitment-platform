@@ -31,7 +31,7 @@ function RegisterJobSeeker() {
             <button type="submit">Register</button>
             </form>
             <p>
-                Already have an account? <Link to="/authRecruiter/login">login here</Link>
+                Already have an account? <Link to="/authjobseeker/login">login here</Link>
             </p>
             
         

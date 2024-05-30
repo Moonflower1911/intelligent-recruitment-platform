@@ -2,6 +2,7 @@
 const express = require("express");
 const router = express.Router();
 const { RecruiterForm } = require('../models');
+const { validateToken } = require('../middlewares/AuthMiddleware');
 
 router.get("/",async(req,res)=>{
   const listRecruiter= await RecruiterForm.findAll();
@@ -14,7 +15,7 @@ router.get('/byId/:id',async(req,res)=>{
   res.json(jobOffer);
 })
 
-router.post("/", async (req, res) => {
+router.post("/", validateToken,async (req, res) => {
   const form = req.body;
   await RecruiterForm.create(form);
   res.json(form);

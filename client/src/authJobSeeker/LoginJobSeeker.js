@@ -1,18 +1,27 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 function LoginJobSeeker() {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
 
+    const navigate = useNavigate();
+
     const handleSubmit = async (event) => {
         event.preventDefault();
         try {
-            const response = await axios.post('http://localhost:3001/authjobseeker/login', { username, password });
-            alert('Login successful');
-            console.log(response.data.token);
+            const data = {username,password};
+            const response = await axios.post('http://localhost:3001/authjobseeker/login', data);
+            if (response.data.error) {
+                alert(response.data.error);
+            } else {
+                sessionStorage.setItem("accessToken", response.data);
+                alert('Login successful');
+                navigate("/jobseeker");
+            }
         } catch (error) {
+            console.error(error);
             alert('Login failed');
         }
     };
