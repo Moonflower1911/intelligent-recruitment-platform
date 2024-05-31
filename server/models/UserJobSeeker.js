@@ -1,4 +1,4 @@
-const jobSeeker = require("./jobSeeker");
+const JobSeekerForm = require("./jobSeeker");
 
 module.exports = (sequelize, DataTypes) => {
     const UserJobSeeker = sequelize.define("UserJobSeeker", {
@@ -11,8 +11,8 @@ module.exports = (sequelize, DataTypes) => {
             allowNull: false,
         },
     });
-    jobSeeker.associate = (models) => {
-        UserJobSeeker.hasOne(models.jobSeeker, {
+    UserJobSeeker.associate = (models) => {
+        UserJobSeeker.hasOne(models.JobSeekerForm, {
             onDelete: "cascade"
         });
     };

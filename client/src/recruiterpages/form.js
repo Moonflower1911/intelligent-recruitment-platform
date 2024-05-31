@@ -39,7 +39,9 @@ function CreateJobOffer() {
         }
       });
       console.log("Response: ", response.data);
-      alert(response.data.error);
+      if(response.data.error){
+        alert(response.data.error);
+      }
     } catch (error) {
       console.error("There was an error submitting the form!", error);
     }

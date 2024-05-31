@@ -11,6 +11,7 @@ import RegisterJobSeeker from './authJobSeeker/RegisterJobSeeker';
 import LoginJobSeeker from './authJobSeeker/LoginJobSeeker';
 import LoginRecruiter from './AuthRecruiter/LoginRecruiter';
 import RegisterRecruiter from './AuthRecruiter/RegisterRecruiter';
+import AccountRecruiter from './recruiterpages/account';
 
 function App() {
   return (
@@ -28,6 +29,7 @@ function App() {
           <Route path="/authjobseeker/login" element={<LoginJobSeeker/>} />
           <Route path="/authrecruiter" element={<RegisterRecruiter/>} />
           <Route path="/authrecruiter/login" element={<LoginRecruiter/>} />
+          <Route path="/accountRecruiter" element={<AccountRecruiter/>} />
         </Routes>
       </Router>
     </div>

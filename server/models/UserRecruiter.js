@@ -1,4 +1,4 @@
-const recruiter = require("./jobSeeker");
+const RecruiterForm = require("./recruiter");
 
 module.exports = (sequelize, DataTypes) => {
     const UserRecruiter = sequelize.define("UserRecruiter", {
@@ -11,9 +11,11 @@ module.exports = (sequelize, DataTypes) => {
             allowNull: false,
         },
     });
-    recruiter.associate = (models) => {
-        UserRecruiter.hasMany(models.recruiter, {
-            onDelete: "cascade"
+
+    UserRecruiter.associate = (models) => {
+        UserRecruiter.hasMany(models.RecruiterForm, {
+            foreignKey: 'UserRecruiterId',
+            onDelete: 'CASCADE'
         });
     };
 

@@ -18,7 +18,7 @@ function Home() {
     return (
         <div>
             <div className="jobNavbar">
-                <Link to='/CreateJobOffer'>Create Job Offer</Link>
+                <Link to='/accountRecruiter'>Mon compte</Link>
             </div>
             {listOfJobSeekerForms.map((value, key) => {
                 return (

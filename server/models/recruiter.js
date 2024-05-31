@@ -44,7 +44,18 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.STRING,
             allowNull: false, 
         },
+        UserRecruiterId: {
+            type: DataTypes.INTEGER,
+            allowNull: false
+        }
     });
+
+    RecruiterForm.associate = (models) => {
+        RecruiterForm.belongsTo(models.UserRecruiter, {
+            foreignKey: 'UserRecruiterId',
+            onDelete: 'CASCADE'
+        });
+    };
 
     return RecruiterForm;
 };
