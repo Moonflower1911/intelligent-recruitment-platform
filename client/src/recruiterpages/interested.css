@@ -1,0 +1,68 @@
+/* interested.css */
+
+.interested {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(to bottom, #175d69 23%, #07142b 95%);
+    display: flex;
+    justify-content: center; /* Center content horizontally */
+    align-items: center; /* Center content vertically */
+    min-height: 100vh; /* Ensure full viewport height */
+  }
+  
+  .offer-container {
+    width: 80%;
+    padding: 20px;
+    background-color: #c8d0d2;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    font-family: Arial, sans-serif;
+    color: #333;
+  }
+  
+  .offer-container h2 {
+    text-align: center;
+    color: #175d69;
+    margin-bottom: 20px;
+  }
+  
+  .job-seeker {
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+    padding: 20px;
+  }
+  
+  .job-seeker div {
+    margin: 5px 0;
+  }
+  
+  .job-seeker div.nom,
+  .job-seeker div.prenom {
+    font-weight: bold;
+    font-size: 1.2em;
+  }
+  
+  .offer-container p {
+    text-align: center;
+    color: #888;
+  }
+  
+  .goback {
+    display: block;
+    margin: 20px auto;
+    padding: 10px 20px;
+    background-color: #df9500;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .goback:hover {
+    background-color: #0e3c46;
+  }
+  
