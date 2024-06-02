@@ -26,7 +26,11 @@ function JobOffer() {
             alert("Intérêt montré avec succès !");
         } catch (error) {
             console.error("Erreur lors de la manifestation d'intérêt :", error);
-            alert("Échec de la manifestation d'intérêt.");
+            if (error.response && error.response.data && error.response.data.error) {
+                alert(error.response.data.error);
+            } else {
+                alert("Échec de la manifestation d'intérêt.");
+            }
         }
     };
 

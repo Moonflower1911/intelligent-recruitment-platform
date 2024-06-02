@@ -8,14 +8,22 @@ router.post("/", validateToken, async (req, res) => {
     const UserJobSeekerId = req.user.id;
 
     if (!OfferId) {
-        return res.status(400).json({ error: "OfferId is required" });
+        return res.status(400).json({ error: "OfferId est requis" });
     }
 
     try {
+        // Vérifiez si le chercheur d'emploi a un CV
+        const jobSeekerForm = await JobSeekerForm.findOne({ where: { UserJobSeekerId: UserJobSeekerId } });
+
+        if (!jobSeekerForm) {
+            return res.status(400).json({ error: "Vous devez créer un CV avant de montrer de l'intérêt pour une offre d'emploi." });
+        }
+
         const interest = await Interest.create({ OfferId: OfferId, UserJobSeekerId: UserJobSeekerId });
         res.json(interest);
     } catch (error) {
-        res.status(500).json({ error: "Failed to create interest" });
+        console.error("Erreur lors de la création de l'intérêt:", error);
+        res.status(500).json({ error: "Échec de la création de l'intérêt" });
     }
 });
 
