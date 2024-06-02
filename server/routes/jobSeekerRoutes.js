@@ -1,11 +1,11 @@
 // routes/jobSeekerRoutes.js
 const express = require('express');
 const router = express.Router();
-const { JobSeekerForm, UserJobSeeker } = require('../models');
+const { sequelize, JobSeekerForm, Interest, UserJobSeeker } = require('../models');
 const { validateToken } = require('../middlewares/AuthMiddleware');
 
-router.get("/",async(req,res)=>{
-  const listJobSeeker= await JobSeekerForm.findAll();
+router.get("/", async (req, res) => {
+  const listJobSeeker = await JobSeekerForm.findAll();
   res.json(listJobSeeker);
 });
 
@@ -26,9 +26,9 @@ router.get('/account', validateToken, async (req, res) => {
   }
 });
 
-router.get('/byId/:id', async(req,res)=>{
+router.get('/byId/:id', async (req, res) => {
   const id = req.params.id;
-  const cv  = await JobSeekerForm.findByPk(id);
+  const cv = await JobSeekerForm.findByPk(id);
   res.json(cv);
 })
 
@@ -70,13 +70,24 @@ router.post('/', validateToken, async (req, res) => {
   }
 });
 
+
 router.delete("/:id", validateToken, async (req, res) => {
   const resumeId = req.params.id;
-  const resume = await JobSeekerForm.findOne({ where: { id: resumeId, UserJobSeekerId: req.user.id } });
+
+  const resume = await JobSeekerForm.findOne({
+    where: { id: resumeId, UserJobSeekerId: req.user.id }
+  });
+
   if (!resume) {
-      return res.status(404).json({ error: "Job offer not found or you don't have permission to delete it" });
+    return res.status(404).json({ error: "Job resume not found or you don't have permission to delete it" });
   }
-  await resume.destroy();
-  res.json({ message: "Job offer deleted successfully" });
+
+  await sequelize.transaction(async (transaction) => {
+    await resume.destroy({ transaction });
+  });
+
+  res.json({ message: "Job resume deleted successfully" });
 });
+
+
 module.exports = router;
