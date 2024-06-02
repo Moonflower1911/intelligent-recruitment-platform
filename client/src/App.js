@@ -13,6 +13,13 @@ import RegisterRecruiter from './AuthRecruiter/RegisterRecruiter';
 import AccountRecruiter from './recruiterpages/account';
 import AccountJobSeeker from './jobseekerpages/account';
 import OfferInterested from './recruiterpages/OfferInterested';
+import AdminAccount from './Admin/Account';
+import AdminLogin from './Admin/AdminLogin';
+import AdminOffers from './Admin/AdminOffers';
+import AdminCV from './Admin/AdminCV';
+
+
+
 
 function App() {
   return (
@@ -32,6 +39,15 @@ function App() {
           <Route path="/authrecruiter/login" element={<LoginRecruiter/>} />      
           <Route path="/accountjobseeker" element={<AccountJobSeeker/>} />
           <Route path="/OfferInterested/:id" element={<OfferInterested />} />
+          <Route path="/OfferInterested/:id" element={<OfferInterested />} />
+          <Route path="/admin/login" element={<AdminLogin/>} />
+          <Route path="/admin/account" element={<AdminAccount />} />
+          <Route path="/admin/offres" element={<AdminOffers />} />
+          <Route path="/admin/cv" element={<AdminCV />} />
+          
+
+
+        
         </Routes>
       </Router>
     </div>
