@@ -8,22 +8,49 @@ router.post("/", validateToken, async (req, res) => {
     const UserJobSeekerId = req.user.id;
 
     if (!OfferId) {
-        return res.status(400).json({ error: "OfferId est requis" });
+        return res.status(400).json({ error: "L'ID de l'offre est requis" });
     }
 
     try {
-        // Vérifiez si le chercheur d'emploi a un CV
+        // Vérifie si le chercheur d'emploi a un CV
         const jobSeekerForm = await JobSeekerForm.findOne({ where: { UserJobSeekerId: UserJobSeekerId } });
 
         if (!jobSeekerForm) {
-            return res.status(400).json({ error: "Vous devez créer un CV avant de montrer de l'intérêt pour une offre d'emploi." });
+            return res.status(400).json({ error: "Vous devez créer un CV avant de manifester un intérêt pour une offre d'emploi" });
+        }
+
+        // Vérifie si le chercheur d'emploi a déjà manifesté un intérêt pour cette offre
+        const existingInterest = await Interest.findOne({ where: { OfferId: OfferId, UserJobSeekerId: UserJobSeekerId } });
+
+        if (existingInterest) {
+            return res.status(400).json({ error: "Vous avez déjà manifesté un intérêt pour cette offre d'emploi" });
         }
 
         const interest = await Interest.create({ OfferId: OfferId, UserJobSeekerId: UserJobSeekerId });
         res.json(interest);
     } catch (error) {
-        console.error("Erreur lors de la création de l'intérêt:", error);
-        res.status(500).json({ error: "Échec de la création de l'intérêt" });
+        console.error("Erreur lors de la création de l'intérêt :", error);
+        res.status(500).json({ error: "Échec de la manifestation d'intérêt" });
+    }
+});
+
+router.delete("/:OfferId", validateToken, async (req, res) => {
+    const OfferId = req.params.OfferId;
+    const UserJobSeekerId = req.user.id;
+
+    try {
+        // Vérifie si l'intérêt existe
+        const interest = await Interest.findOne({ where: { OfferId: OfferId, UserJobSeekerId: UserJobSeekerId } });
+
+        if (!interest) {
+            return res.status(404).json({ error: "Intérêt non trouvé" });
+        }
+
+        await interest.destroy();
+        res.json({ message: "Intérêt retiré avec succès !" });
+    } catch (error) {
+        console.error("Erreur lors du retrait de l'intérêt :", error);
+        res.status(500).json({ error: "Échec du retrait de l'intérêt" });
     }
 });
 

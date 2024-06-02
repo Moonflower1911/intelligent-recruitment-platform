@@ -1,11 +1,13 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
 import "./form.css";
 
 function CreateCV() {
+  const navigate = useNavigate();
+
   const initialValues = {
     nom: "",
     prenom: "",
@@ -21,21 +23,19 @@ function CreateCV() {
   };
 
   const validationSchema = Yup.object().shape({
-    nom: Yup.string().required("Nom is required"),
-    prenom: Yup.string().required("Prenom is required"),
+    nom: Yup.string().required("Le nom est obligatoire"),
+    prenom: Yup.string().required("Le prénom est obligatoire"),
     email: Yup.string()
-      .email("Invalid email format")
-      .required("Email is required"),
+      .email("Format d'email invalide")
+      .required("L'email est obligatoire"),
     phoneNumber: Yup.string()
-      .matches(/^[0-9]{10}$/, "Phone number must be exactly 10 digits")
-      .required("Phone number is required"),
-    address: Yup.string().required("Address is required"),
-    formations: Yup.string().required("Formations are required"),
-    experiences: Yup.string().required("Experiences are required"),
-    projetsAcademiques: Yup.string().required(
-      "Projets Academiques are required"
-    ),
-    langues: Yup.string().required("Langues are required"),
+      .matches(/^[0-9]{10}$/, "Le numéro de téléphone doit contenir exactement 10 chiffres")
+      .required("Le numéro de téléphone est obligatoire"),
+    address: Yup.string().required("L'adresse est obligatoire"),
+    formations: Yup.string().required("Les formations sont obligatoires"),
+    experiences: Yup.string().required("Les expériences sont obligatoires"),
+    projetsAcademiques: Yup.string().required("Les projets académiques sont obligatoires"),
+    langues: Yup.string().required("Les langues sont obligatoires"),
     langages: Yup.string(),
     logiciels: Yup.string(),
   });
@@ -55,13 +55,15 @@ function CreateCV() {
       if (response.data.error) {
         // Check if the error message indicates a duplicate resume
         if (response.data.error.includes("already has a resume")) {
-          alert("You already have a CV. You cannot create another one.");
+          alert("Vous avez déjà un CV. Vous ne pouvez pas en créer un autre.");
         } else {
           alert(response.data.error);
         }
+      } else {
+        navigate("/accountjobseeker"); // Redirect to the account job seeker page
       }
     } catch (error) {
-      console.error("There was an error submitting the form!", error);
+      console.error("Erreur lors de la soumission du formulaire!", error);
     } finally {
       setSubmitting(false);
     }
@@ -70,7 +72,7 @@ function CreateCV() {
   return (
     <div className="form">
       <div className="homeR">
-      <Link to="/jobseeker" className="backButton">
+        <Link to="/jobseeker" className="backButton">
           Accueil
         </Link>
         <div className="resumeContainer">
@@ -90,11 +92,7 @@ function CreateCV() {
                 />
 
                 <label>Prénom :</label>
-                <ErrorMessage
-                  name="prenom"
-                  component="span"
-                  className="error"
-                />
+                <ErrorMessage name="prenom" component="span" className="error" />
                 <Field
                   id="inputPrenomCandidat"
                   name="prenom"
@@ -109,24 +107,16 @@ function CreateCV() {
                   placeholder="(Ex. Mark@gmail.com)"
                 />
 
-                <label>Phone number :</label>
-                <ErrorMessage
-                  name="phoneNumber"
-                  component="span"
-                  className="error"
-                />
+                <label>Numéro de téléphone :</label>
+                <ErrorMessage name="phoneNumber" component="span" className="error" />
                 <Field
                   id="inputPhoneNumberCandidat"
                   name="phoneNumber"
                   placeholder="(Ex. 060000000)"
                 />
 
-                <label>Address :</label>
-                <ErrorMessage
-                  name="address"
-                  component="span"
-                  className="error"
-                />
+                <label>Adresse :</label>
+                <ErrorMessage name="address" component="span" className="error" />
                 <Field
                   id="inputAddress"
                   name="address"
@@ -134,59 +124,39 @@ function CreateCV() {
                 />
 
                 <label>Formation :</label>
-                <ErrorMessage
-                  name="formations"
-                  component="span"
-                  className="error"
-                />
+                <ErrorMessage name="formations" component="span" className="error" />
                 <Field
                   id="inputFormation"
                   name="formations"
-                  placeholder="(Ex. Responsible for developing web applications...)"
+                  placeholder="(Ex. Développement d'applications web...)"
                 />
 
-                <label>Experience :</label>
-                <ErrorMessage
-                  name="experiences"
-                  component="span"
-                  className="error"
-                />
+                <label>Expérience :</label>
+                <ErrorMessage name="experiences" component="span" className="error" />
                 <Field
                   id="inputExperience"
                   name="experiences"
-                  placeholder="(Ex. 3 years)"
+                  placeholder="(Ex. 3 ans)"
                 />
 
                 <label>Projets académiques :</label>
-                <ErrorMessage
-                  name="projetsAcademiques"
-                  component="span"
-                  className="error"
-                />
+                <ErrorMessage name="projetsAcademiques" component="span" className="error" />
                 <Field
                   id="inputProjetsAcademiques"
                   name="projetsAcademiques"
-                  placeholder="(Ex. Bachelor's degree in Computer Science)"
+                  placeholder="(Ex. Licence en Informatique)"
                 />
 
                 <label>Langues :</label>
-                <ErrorMessage
-                  name="langues"
-                  component="span"
-                  className="error"
-                />
+                <ErrorMessage name="langues" component="span" className="error" />
                 <Field
                   id="inputLangues"
                   name="langues"
-                  placeholder="(Ex. Francais, Anglais, Arabe...)"
+                  placeholder="(Ex. Français, Anglais, Arabe...)"
                 />
 
                 <label>Langages :</label>
-                <ErrorMessage
-                  name="langages"
-                  component="span"
-                  className="error"
-                />
+                <ErrorMessage name="langages" component="span" className="error" />
                 <Field
                   id="inputLangages"
                   name="langages"
@@ -194,11 +164,7 @@ function CreateCV() {
                 />
 
                 <label>Logiciels :</label>
-                <ErrorMessage
-                  name="logiciels"
-                  component="span"
-                  className="error"
-                />
+                <ErrorMessage name="logiciels" component="span" className="error" />
                 <Field
                   id="inputLogiciels"
                   name="logiciels"

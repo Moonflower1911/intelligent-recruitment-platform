@@ -28,25 +28,25 @@ function JobSeekerHome() {
               onClick={() => navigate(`/jobOffer/${value.id}`)}
             >
               <div className="personalInfo">
-                <div className="nomEntreprise"> {value.nomEntreprise}</div>
-                <div className="address"> {value.address} </div>
-                <div className="city"> {value.City} </div>
+                <div className="nomEntreprise">Nom de l'entreprise: {value.nomEntreprise}</div>
+                <div className="address">Adresse: {value.address}</div>
+                <div className="city">Ville: {value.City}</div>
               </div>
               <div className="body">
-                <div className="poste"> {value.poste}</div>
-                <div className="description"> {value.description}</div>
-                <div className="experience"> {value.experience}</div>
-                <div className="formations"> {value.formations}</div>
-                <div className="skills"> {value.skills}</div>
-                <div className="keywords"> {value.keywords}</div>
-                <div className="langues"> {value.langues}</div>
+                <div className="poste">Poste: {value.poste}</div>
+                <div className="description">Description: {value.description}</div>
+                <div className="experience">Expérience: {value.experience}</div>
+                <div className="formations">Formations: {value.formations}</div>
+                <div className="skills">Compétences: {value.skills}</div>
+                <div className="keywords">Mots-clés: {value.keywords}</div>
+                <div className="langues">Langues: {value.langues}</div>
               </div>
             </div>
           ))}
         </div>
       </div>
     </div>
-  );
+  );  
 }
 
 export default JobSeekerHome;

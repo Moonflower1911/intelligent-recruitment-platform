@@ -8,6 +8,7 @@
     justify-content: center;
     align-items: center;
     min-height: 100vh;
+    overflow-wrap: break-word;
 }
 
 /* Header styling */
@@ -64,10 +65,11 @@ header.CvNavbar a:hover {
     border: 1px solid #ddd;
     border-radius: 10px;
     padding: 20px;
-    width: calc(33.333% - 40px); /* Adjust the width as needed */
+    width: 400px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     transition: transform 0.2s ease, box-shadow 0.2s ease;
     cursor: pointer;
+    overflow: hidden; /* Ensure no overflow content visible */
 }
 
 .jobOffer1:hover {
@@ -78,6 +80,7 @@ header.CvNavbar a:hover {
 /* Personal info section styling */
 .personalInfo {
     margin-bottom: 20px;
+    overflow-wrap: break-word; /* Ensure text wraps within container */
 }
 
 .nomEntreprise {
