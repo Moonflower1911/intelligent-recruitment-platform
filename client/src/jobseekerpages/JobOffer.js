@@ -1,71 +1,42 @@
 import React, { useEffect, useState } from 'react';
-import { useParams, useNavigate, Link } from 'react-router-dom';
+import { useParams,  Link } from 'react-router-dom';
 import axios from "axios";
 import './JobOffer.css';
 
 function JobOffer() {
-    let { id } = useParams();
+    const { id } = useParams(); // Get the job offer ID from the URL
+    
     const [offreEmploi, setOffreEmploi] = useState({});
-    const [hasShownInterest, setHasShownInterest] = useState(false);
-    const navigate = useNavigate();
+    const [liked, setLiked] = useState(false);
 
     useEffect(() => {
         axios.get(`http://localhost:3001/recruiter/byId/${id}`).then((response) => {
             setOffreEmploi(response.data);
         });
 
-        const accessToken = sessionStorage.getItem("accessToken");
-        axios.get(`http://localhost:3001/interest/${id}`, {
-            headers: {
-                accessToken: accessToken
-            }
+        // Check if the user has already liked the offer
+        axios.get(`http://localhost:3001/interest/check/${id}`, {
+            headers: { accessToken: sessionStorage.getItem('accessToken') }
         }).then((response) => {
-            setHasShownInterest(response.data.hasInterest);
-        }).catch((error) => {
-            console.error("Erreur lors de la vérification de l'intérêt :", error);
+            setLiked(response.data.liked);
         });
     }, [id]);
 
-    const montrerInteret = async () => {
-        const accessToken = sessionStorage.getItem("accessToken");
-
-        try {
-            await axios.post("http://localhost:3001/interest", { OfferId: id }, {
-                headers: {
-                    accessToken: accessToken
-                }
-            });
-            alert("Intérêt manifesté avec succès !");
-            setHasShownInterest(true);
-        } catch (error) {
+    const handleLike = () => {
+        axios.post("http://localhost:3001/interest", { OfferId: id }, {
+            headers: { accessToken: sessionStorage.getItem('accessToken') }
+        })
+        .then((response) => {
+            setLiked(response.data.liked);
+        })
+        .catch((error) => {
             console.error("Erreur lors de la manifestation d'intérêt :", error);
             if (error.response && error.response.data && error.response.data.error) {
                 alert(error.response.data.error);
             } else {
                 alert("Échec de la manifestation d'intérêt.");
-            }
         }
-    };
-
-    const retirerInteret = async () => {
-        const accessToken = sessionStorage.getItem("accessToken");
-
-        try {
-            await axios.delete(`http://localhost:3001/interest/${id}`, {
-                headers: {
-                    accessToken: accessToken
-                }
-            });
-            alert("Intérêt retiré avec succès !");
-            setHasShownInterest(false);
-        } catch (error) {
-            console.error("Erreur lors du retrait de l'intérêt :", error);
-            if (error.response && error.response.data && error.response.data.error) {
-                alert(error.response.data.error);
-            } else {
-                alert("Échec du retrait de l'intérêt.");
-            }
-        }
+        });
     };
 
     return (
@@ -82,14 +53,10 @@ function JobOffer() {
                 <div className="jobOfferDetail"><strong>Expérience :</strong> {offreEmploi.experience}</div>
                 <div className="jobOfferDetail"><strong>Formation :</strong> {offreEmploi.formations}</div>
                 <div className="jobOfferDetail"><strong>Compétences :</strong> {offreEmploi.skills}</div>
-                <div className="jobOfferDetail"><strong>Mots-clés :</strong> {offreEmploi.keywords}</div>
                 <div className="jobOfferDetail"><strong>Langues :</strong> {offreEmploi.langues}</div>
-
-                {hasShownInterest ? (
-                    <button onClick={retirerInteret} className="showInterestButton">Retirer mon intérêt</button>
-                ) : (
-                    <button onClick={montrerInteret} className="showInterestButton">Je suis intéressé</button>
-                )}
+                <button onClick={handleLike} className="likeButton">
+                    {liked ? 'Unlike' : 'Like'}
+                </button>
             </div>
         </div>
     );

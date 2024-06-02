@@ -113,6 +113,11 @@ function AdminOffers() {
                     <p><strong>Nom de l'entreprise :</strong> {selectedOffer.nomEntreprise}</p>
                     <p><strong>Description :</strong> {selectedOffer.description}</p>
                     <p><strong>Expérience :</strong> {selectedOffer.experience}</p>
+                    <p><strong>Addresse :</strong> {selectedOffer.address}</p>
+                    <p><strong>Formations :</strong> {selectedOffer.formations}</p>
+                    <p><strong> Skills:</strong> {selectedOffer.skills}</p>
+                    <p><strong>Keywords:</strong> {selectedOffer.keywords}</p>
+                    <p><strong> Langues:</strong> {selectedOffer.langues}</p>
                     {/* Add more details here */}
                   </div>
                 </div>

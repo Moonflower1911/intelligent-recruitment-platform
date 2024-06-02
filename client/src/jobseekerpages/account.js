@@ -68,7 +68,7 @@ function AccountJobSeeker() {
   };
 
   const deleteResume = (id) => {
-    if (window.confirm("Are you sure you want to delete this resume?")) {
+    if (window.confirm("Etes vous sur de vouloir supprimer ce CV?")) {
       axios
         .delete(`http://localhost:3001/jobseeker/${id}`, {
           headers: {
