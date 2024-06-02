@@ -76,7 +76,7 @@ function JobOffer() {
             <div className="jobOfferContainer2">
                 <div className="jobOfferDetail"><strong>Nom de l'entreprise :</strong> {offreEmploi.nomEntreprise}</div>
                 <div className="jobOfferDetail"><strong>Adresse :</strong> {offreEmploi.address}</div>
-                <div className="jobOfferDetail"><strong>Ville :</strong> {offreEmploi.City}</div>
+                <div className="jobOfferDetail"><strong>Ville :</strong> {offreEmploi.city}</div>
                 <div className="jobOfferDetail"><strong>Poste :</strong> {offreEmploi.poste}</div>
                 <div className="jobOfferDetail"><strong>Description :</strong> {offreEmploi.description}</div>
                 <div className="jobOfferDetail"><strong>Expérience :</strong> {offreEmploi.experience}</div>

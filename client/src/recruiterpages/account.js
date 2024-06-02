@@ -92,7 +92,7 @@ function AccountRecruiter() {
           {isLoggedIn && <button onClick={logout}>Se déconnecter</button>}
         </div>
         <div className="jobOffers">
-          <h2>Mes Offres d'emploi</h2>
+          <h2 className="title6">Mes Offres d'emploi</h2>
           {jobOffers.map((offer, index) => (
             <div className="jobOffer" key={index}>
               <p>

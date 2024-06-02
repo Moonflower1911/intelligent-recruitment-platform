@@ -42,26 +42,26 @@ function OfferInterested() {
         ) : (
           listOfJobSeekerForms.map((value, index) => (
             <div key={index} className="job-seeker">
-              <div className="nom"> Nom : {value.nom}</div>
-              <div className="prenom"> Prénom : {value.prenom} </div>
-              <div className="email"> Email : {value.email} </div>
-              <div className="phoneNumber">
+              <div className="text1"> Nom : {value.nom}</div>
+              <div className="text1"> Prénom : {value.prenom} </div>
+              <div className="text"> Email : {value.email} </div>
+              <div className="text">
                 {" "}
                 Téléphone : {value.phoneNumber}{" "}
               </div>
-              <div className="address"> Adresse : {value.address} </div>
-              <div className="formations"> Formations : {value.formations}</div>
-              <div className="experiences">
+              <div className="text"> Adresse : {value.address} </div>
+              <div className="text"> Formations : {value.formations}</div>
+              <div className="text">
                 {" "}
                 Expériences : {value.experiences}
               </div>
-              <div className="projetsAcademiques">
+              <div className="text">
                 {" "}
                 Projets Académiques : {value.projetsAcademiques}
               </div>
-              <div className="langues"> Langues : {value.langues}</div>
-              <div className="langages"> Langages : {value.langages}</div>
-              <div className="logiciels"> Logiciels : {value.logiciels}</div>
+              <div className="text"> Langues : {value.langues}</div>
+              <div className="text"> Langages : {value.langages}</div>
+              <div className="text"> Logiciels : {value.logiciels}</div>
             </div>
           ))
         )}

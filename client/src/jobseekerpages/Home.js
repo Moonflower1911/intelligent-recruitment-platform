@@ -30,7 +30,7 @@ function JobSeekerHome() {
               <div className="personalInfo">
                 <div className="nomEntreprise">Nom de l'entreprise: {value.nomEntreprise}</div>
                 <div className="address">Adresse: {value.address}</div>
-                <div className="city">Ville: {value.City}</div>
+                <div className="city">Ville: {value.city}</div>
               </div>
               <div className="body">
                 <div className="poste">Poste: {value.poste}</div>
