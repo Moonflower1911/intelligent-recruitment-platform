@@ -64,15 +64,42 @@ function AccountRecruiter() {
 
   if (!isLoggedIn) {
     return (
-      <div>
-        <h1>Mon Compte</h1>
-        <button onClick={() => navigate("/authrecruiter/login")}>Login</button>
+      <div className="login-container">
+        <style jsx>{`
+          .login-container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: linear-gradient(to bottom, #175d69 23%, #07142b 95%);
+            font-family: Arial, sans-serif;
+            color: #fff;
+            text-align: center;
+            padding: 20px;
+          }
+  
+          .acces-requis {
+            font-size: 1.5em;
+            margin-bottom: 20px;
+            background-color: rgba(0, 0, 0, 0.6);
+            padding: 10px 20px;
+            border-radius: 5px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            color: #fff;
+          }
+  
+    
+        `}</style>
+        <h2 className="acces-requis">Pour accéder à la page veuillez vous connectez</h2>
+        <button className="login-button" onClick={() => navigate("/authrecruiter/login")}>Login</button>
       </div>
     );
   }
+  
 
   if (!userData) {
-    return <div>Loading...</div>;
+    return <div className="loading">Loading...</div>;
   }
 
   return (

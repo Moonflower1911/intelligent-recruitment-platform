@@ -98,15 +98,15 @@ function AccountJobSeeker() {
 
   if (!isLoggedIn) {
     return (
-      <div>
-        <h1>Mon Compte</h1>
+      <div className="login-container">
+        <h2 className="acces-requis">Pour accéder à la page veuillez vous connectez</h2>
         <button onClick={() => navigate("/authjobseeker/login")}>Login</button>
       </div>
     );
   }
 
   if (!userData) {
-    return <div>Loading...</div>;
+    return <div className="loading">Loading...</div>;
   }
 
   return (
