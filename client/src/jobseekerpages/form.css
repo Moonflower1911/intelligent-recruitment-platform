@@ -1,0 +1,92 @@
+/*  */
+.form {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 10px;
+  background: linear-gradient(to bottom, #175d69 23%, #07142b 95%);
+  display: flex;
+}
+.homeR {
+  width: 100%;
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+}
+
+.resumeContainer {
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  margin-top: 20px;
+  width: 80%;
+  max-width: 500px;
+}
+
+.backButton {
+  background-color: #df9500;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin-bottom: 20px;
+  border-radius: 3px;
+}
+
+.backButton:hover {
+  opacity: 0.8;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+
+label {
+  margin-top: 10px;
+}
+
+input {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  margin-top: 5px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+span {
+  color: red;
+  font-size: 12px;
+  margin-top: 5px;
+}
+
+button {
+  background-color: #df9500;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin-top: 20px;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+button:hover {
+  opacity: 0.8;
+}
+label{
+  color: black;
+}
