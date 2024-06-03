@@ -14,12 +14,27 @@ function JobSeekerHome() {
     });
   }, []);
 
+  const sortJobOffers = async () => {
+    try {
+      const accessToken = sessionStorage.getItem("accessToken"); // Replace with actual way of getting the token
+      const response = await axios.get("http://localhost:3001/recruiter/rankedJobOffers", {
+        headers: {
+          accessToken: accessToken,
+        },
+      });
+      setListOfRecruiters(response.data);
+    } catch (error) {
+      console.error('Error fetching ranked job offers:', error);
+    }
+  };
+
   return (
     <div className="Home1">
       <header className="CvNavbar">
         <Link to="/accountjobseeker">Mon compte</Link>
       </header>
       <div className="container1">
+        <button onClick={sortJobOffers} className="sortButton">Sort by Relevance</button>
         <div className="jobOffers1">
           {listOfRecruiters.map((value, key) => (
             <div
