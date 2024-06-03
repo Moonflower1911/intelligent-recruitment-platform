@@ -1,54 +1,183 @@
+.account10 {
+  height: 100vh;
+  width: 100%;
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  overflow: hidden;
+}
+
+.container10 {
+  display: flex;
+  flex: 1;
+  height: 100%;
+}
+
+.compte10 {
+  width: 30%; /* Adjust width as needed */
+  background: linear-gradient(to bottom, #175d69 23%, #07142b 95%);
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  position: sticky;
+  top: 0;
+  height: 100vh; /* Full viewport height */
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow-y: auto; /* Enable vertical scrolling within compte */
+  box-sizing: border-box;
+}
+
+.user10 {
+  width: 100%;
+  height: 300px;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.userInfo10 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.img10 {
+  background-image: url("photo.png");
+  background-size: cover;
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  margin-bottom: 10px;
+}
+
+.loading10 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  font-size: 20px;
+  color: #333;
+}
+
+.loading10::before {
+  content: "";
+  display: inline-block;
+  width: 40px;
+  height: 40px;
+  border: 4px solid rgba(0, 0, 0, 0.1);
+  border-left-color: #df9500;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
 .statistics {
-    
-    width: 100%;
-    background-color: #e4ebed;
-    border-radius: 5px;
-    padding: 20px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    overflow-y: auto;
-    color: #000;
-   
+  width: 100%;
+  background-color: #e4ebed;
+  border-radius: 5px;
+  padding: 20px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  overflow-y: auto;
+  color: #000;
 }
 
 .statistics h2 {
-    text-align: center;
-    margin-bottom: 20px;
-    color: #175d69;
+  text-align: center;
+  margin-bottom: 20px;
+  color: #175d69;
 }
 
 .statistic-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 10px;
-    
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
 }
 
 .statistic-box {
-    background-color: #e4ebed;
-    border-radius: 5px;
-    padding: 15px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5); /* Adding shadow to the inner statistic box */
+  background-color: #e4ebed;
+  border-radius: 5px;
+  padding: 15px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5); /* Adding shadow to the inner statistic box */
 }
 
-
 .statistic-label {
-    font-weight: bold;
-    flex: 1;
-    text-align: center;
+  font-weight: bold;
+  flex: 1;
+  text-align: center;
 }
 
 .statistic-value {
-    flex: 1;
-    text-align: center;
-    position: relative;
+  flex: 1;
+  text-align: center;
+  position: relative;
 }
 
 .statistic-number {
-    background-color: #df9500;
-    color: #fff;
-    padding: 5px 10px;
-    border-radius: 3px;
-    display: inline-block;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Adding shadow */
+  background-color: #df9500;
+  color: #fff;
+  padding: 5px 10px;
+  border-radius: 3px;
+  display: inline-block;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Adding shadow */
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Media Queries for Responsive Design */
+@media (max-width: 1200px) {
+  .compte10 {
+    width: 35%; /* Adjust width for medium screens */
+  }
+}
+
+@media (max-width: 992px) {
+  .compte10 {
+    width: 40%; /* Adjust width for small screens */
+  }
+}
+
+@media (max-width: 768px) {
+  .compte10 {
+    width: 100%; /* Full width for very small screens */
+    position: relative; /* Remove sticky positioning */
+    height: auto; /* Adjust height */
+  }
+
+  .container10 {
+    flex-direction: column; /* Stack vertically */
+  }
+
+  .resumes10 {
+    height: auto; /* Adjust height for small screens */
+    margin-top: 20px; /* Add some margin for separation */
+  }
+}
+
+button {
+  background-color: #df9500;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+  border-radius: 3px;
+}
+
+button:hover {
+  opacity: 0.8;
 }

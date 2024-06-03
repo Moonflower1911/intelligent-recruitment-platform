@@ -29,32 +29,32 @@ function JobSeekerHome() {
   };
 
   return (
-    <div className="Home1">
-      <header className="CvNavbar">
+    <div className="Home5">
+      <header className="CvNavbar5">
         <Link to="/accountjobseeker">Mon compte</Link>
       </header>
-      <div className="container1">
-        <button onClick={sortJobOffers} className="sortButton">Trier</button>
-        <div className="jobOffers1">
+      <div className="container5">
+        <button onClick={sortJobOffers} className="sortButton5">Trier</button>
+        <div className="jobOffers5">
           {listOfRecruiters.map((value, key) => (
             <div
-              className="jobOffer1"
+              className="jobOffer5"
               key={key}
               onClick={() => navigate(`/jobOffer/${value.id}`)}
             >
-              <div className="personalInfo">
-                <div className="nomEntreprise">Nom de l'entreprise: {value.nomEntreprise}</div>
-                <div className="address">Adresse: {value.address}</div>
-                <div className="city">Ville: {value.city}</div>
+              <div className="personalInfo5">
+                <div className="nomEntreprise5">Nom de l'entreprise: {value.nomEntreprise}</div>
+                <div className="address5">Adresse: {value.address}</div>
+                <div className="city5">Ville: {value.city}</div>
               </div>
-              <div className="body">
-                <div className="poste">Poste: {value.poste}</div>
-                <div className="description">Description: {value.description}</div>
-                <div className="experience">Expérience: {value.experience}</div>
-                <div className="formations">Formations: {value.formations}</div>
-                <div className="skills">Compétences: {value.skills}</div>
-                <div className="keywords">Mots-clés: {value.keywords}</div>
-                <div className="langues">Langues: {value.langues}</div>
+              <div className="body5">
+                <div className="poste5">Poste: {value.poste}</div>
+                <div className="description5">Description: {value.description}</div>
+                <div className="experience5">Expérience: {value.experience}</div>
+                <div className="formations5">Formations: {value.formations}</div>
+                <div className="skills5">Compétences: {value.skills}</div>
+                <div className="keywords5">Mots-clés: {value.keywords}</div>
+                <div className="langues5">Langues: {value.langues}</div>
               </div>
             </div>
           ))}

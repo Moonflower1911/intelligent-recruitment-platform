@@ -30,8 +30,8 @@ function LoginJobSeeker() {
   };
 
   return (
-    <body className="auth">
-      <div className="form-container">
+    <body className="auth2">
+      <div className="form-container2">
         <form onSubmit={handleSubmit}>
           <h2>Se connecter</h2>
           <div>

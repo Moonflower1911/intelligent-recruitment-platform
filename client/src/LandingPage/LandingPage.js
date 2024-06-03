@@ -4,12 +4,12 @@ import "./LandingPage.css";
 
 function LandingPage() {
   return (
-    <body className="landing">
-      <section className="hero-section">
-        <header className="header">
-          <nav className="navbar">
-            <h2 className="logo">
-              <a href="#">JobConnect</a>
+    <body className="landing1">
+      <section className="hero-section1">
+        <header className="header1">
+          <nav className="navbar1">
+            <h2 className="logo1">
+              <div className="img2"></div>
             </h2>
             <input type="checkbox" id="menu-toggle" />
             <label htmlFor="menu-toggle" id="hamburger-btn">
@@ -27,7 +27,7 @@ function LandingPage() {
                 />
               </svg>
             </label>
-            <ul className="links">
+            <ul className="links1">
               <li>
                 <a href="#">Accueil</a>
               </li>
@@ -43,23 +43,23 @@ function LandingPage() {
             </ul>
           </nav>
         </header>
-        <div className="hero">
+        <div className="hero1">
           <h2>
             Bienvenue à JobConnect
           </h2>
           <p>
             Votre avenir commence ici! Choisissez votre rôle pour continuer.
           </p>
-          <div className="buttons">
-            <Link to="/authRecruiter/login" className="button">
+          <div className="buttons1">
+            <Link to="/authRecruiter/login" className="button1">
               recruteur
             </Link>
-            <Link to="/authJobSeeker/login" className="button">
+            <Link to="/authJobSeeker/login" className="button1">
               chercheur d'emploi{" "}
             </Link>
           </div>
         </div>
-        <div className="img"></div>
+        <div className="img1"></div>
       </section>
     </body>
   );

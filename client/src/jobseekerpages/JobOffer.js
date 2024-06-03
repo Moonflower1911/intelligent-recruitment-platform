@@ -41,20 +41,20 @@ function JobOffer() {
 
     return (
         <div>
-            <Link to="/jobseeker" className="backButton">
+            <Link to="/jobseeker" className="backButton6">
                 Accueil
             </Link>
-            <div className="jobOfferContainer2">
-                <div className="jobOfferDetail"><strong>Nom de l'entreprise :</strong> {offreEmploi.nomEntreprise}</div>
-                <div className="jobOfferDetail"><strong>Adresse :</strong> {offreEmploi.address}</div>
-                <div className="jobOfferDetail"><strong>Ville :</strong> {offreEmploi.city}</div>
-                <div className="jobOfferDetail"><strong>Poste :</strong> {offreEmploi.poste}</div>
-                <div className="jobOfferDetail"><strong>Description :</strong> {offreEmploi.description}</div>
-                <div className="jobOfferDetail"><strong>Expérience :</strong> {offreEmploi.experience}</div>
-                <div className="jobOfferDetail"><strong>Formation :</strong> {offreEmploi.formations}</div>
-                <div className="jobOfferDetail"><strong>Compétences :</strong> {offreEmploi.skills}</div>
-                <div className="jobOfferDetail"><strong>Langues :</strong> {offreEmploi.langues}</div>
-                <button onClick={handleLike} className="likeButton">
+            <div className="jobOfferContainer6">
+                <div className="jobOfferDetail6"><strong>Nom de l'entreprise :</strong> {offreEmploi.nomEntreprise}</div>
+                <div className="jobOfferDetail6"><strong>Adresse :</strong> {offreEmploi.address}</div>
+                <div className="jobOfferDetail6"><strong>Ville :</strong> {offreEmploi.city}</div>
+                <div className="jobOfferDetail6"><strong>Poste :</strong> {offreEmploi.poste}</div>
+                <div className="jobOfferDetail6"><strong>Description :</strong> {offreEmploi.description}</div>
+                <div className="jobOfferDetail6"><strong>Expérience :</strong> {offreEmploi.experience}</div>
+                <div className="jobOfferDetail6"><strong>Formation :</strong> {offreEmploi.formations}</div>
+                <div className="jobOfferDetail6"><strong>Compétences :</strong> {offreEmploi.skills}</div>
+                <div className="jobOfferDetail6"><strong>Langues :</strong> {offreEmploi.langues}</div>
+                <button onClick={handleLike} className="likeButton6">
                     {liked ? 'Unlike' : 'Like'}
                 </button>
             </div>

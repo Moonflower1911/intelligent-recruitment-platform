@@ -1,0 +1,105 @@
+.Home11 {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(to bottom, #175d69 23%, #07142b 95%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    overflow-wrap: break-word;
+}
+
+.container11 {
+    max-width: 1200px;
+    margin: 80px auto 0;
+    padding: 0px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.compte11 {
+    width: 100%; /* Full width */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: #fff;
+    margin-bottom: 20px; /* Space below the back button */
+}
+
+.resumes11 {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    margin-top: 10px;
+    justify-content: center;
+}
+
+.resume11 {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 20px;
+    width: 400px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    cursor: pointer;
+    overflow: hidden; /* Ensure no overflow content visible */
+}
+
+.resume11:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+}
+
+/* Responsive styling */
+@media (max-width: 768px) {
+    .resume11 {
+        width: calc(50% - 40px); /* Two job offers per row */
+    }
+}
+
+@media (max-width: 480px) {
+    .resume11 {
+        width: 100%; /* One job offer per row */
+    }
+}
+
+.backButton11 {
+    background-color: #df9500;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 3px;
+    margin-bottom: 20px; /* Space below the back button */
+}
+
+.backButton11:hover {
+    opacity: 0.8;
+}
+
+.deleteButton11 {
+    background-color: #f44336;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 3px;
+    margin-bottom: 20px; /* Space below the back button */
+}
+
+.deleteButton11:hover {
+    opacity: 0.8;
+}

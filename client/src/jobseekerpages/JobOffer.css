@@ -6,7 +6,7 @@ body {
     color: #000;
 }
 
-.backButton {
+.backButton6 {
     background-color: #df9500;
     color: #fff;
     border: none;
@@ -20,11 +20,11 @@ body {
     border-radius: 3px;
 }
 
-.backButton:hover {
+.backButton6:hover {
     opacity: 0.8;
 }
 
-.jobOfferContainer2 {
+.jobOfferContainer6 {
     width: 60%;
     margin: 0px auto;
     background-color: #e6e5e5;
@@ -34,14 +34,14 @@ body {
     color: #fff;
 }
 
-.jobOfferDetail {
+.jobOfferDetail6 {
     margin-bottom: 10px;
     padding: 10px;
     border-radius: 5px;
     color: #000;
 }
 
-.showInterestButton {
+.likeButton6 {
     background-color: #df9500;
     color: #fff;
     border: none;
@@ -55,6 +55,6 @@ body {
     border-radius: 3px;
 }
 
-.showInterestButton:hover {
+.likeButton6:hover {
     opacity: 0.8;
 }

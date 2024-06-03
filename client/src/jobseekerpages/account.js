@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { useNavigate , Link } from "react-router-dom";
-import './account.css';
+import { useNavigate, Link } from "react-router-dom";
+import "./account.css";
 
 function AccountJobSeeker() {
   const [userData, setUserData] = useState(null);
@@ -124,38 +124,71 @@ function AccountJobSeeker() {
   if (!isLoggedIn) {
     return (
       <div className="login-container">
-        <h2 className="acces-requis">Pour accéder à la page veuillez vous connectez</h2>
-        <button onClick={() => navigate("/authjobseeker/login")}>Login</button>
+        <style jsx>{`
+          .login-container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: linear-gradient(to bottom, #175d69 23%, #07142b 95%);
+            font-family: Arial, sans-serif;
+            color: #fff;
+            text-align: center;
+            padding: 20px;
+          }
+
+          .acces-requis {
+            font-size: 1.5em;
+            margin-bottom: 20px;
+            background-color: rgba(0, 0, 0, 0.6);
+            padding: 10px 20px;
+            border-radius: 5px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            color: #fff;
+          }
+        `}</style>
+        <h2 className="acces-requis">
+          Pour accéder à la page veuillez vous connectez
+        </h2>
+        <button
+          className="login-button"
+          onClick={() => navigate("/authjobseeker/login")}
+        >
+          Login
+        </button>
       </div>
     );
   }
 
   if (!userData) {
-    return <div className="loading">Loading...</div>;
+    return <div className="loading3">Loading...</div>;
   }
 
   return (
-    <body className="account">
-      <div className="container">
-        <div className="compte">
-          <div className="user">
-            <div className="userInfo">
-              <div className="img"></div>
+    <body className="account3">
+      <div className="container3">
+        <div className="compte3">
+          <div className="user3">
+            <div className="userInfo3">
+              <div className="img3"></div>
               <p>Nom d'utilisateur: {userData.username}</p>
               <p>ID: {userData.id}</p>
             </div>
           </div>
-          <Link to="/jobseeker" className="backButton">
-          Accueil
-        </Link>
+          <Link to="/jobseeker" className="backButton3">
+            Accueil
+          </Link>
           <button onClick={createResume}>Créer un nouveau CV</button>
           {isLoggedIn && <button onClick={logout}>Se déconnecter</button>}
-          <button onClick={deleteAccount} className="deleteAccountButton">Supprimer mon compte</button>
+          <button onClick={deleteAccount} className="deleteAccountButton3">
+            Supprimer mon compte
+          </button>
         </div>
-        <div className="resumes">
-          <h2>Mon CV</h2>
+        <div className="resumes3">
+          <h2 className="title3">Mon CV</h2>
           {resumes.map((resume, index) => (
-            <div className="resume" key={index}>
+            <div className="resume3" key={index}>
               <h3>{resume.poste}</h3>
               <p>
                 <strong>Nom :</strong> {resume.nom}
@@ -194,7 +227,7 @@ function AccountJobSeeker() {
 
               <button
                 onClick={() => deleteResume(resume.id)}
-                className="deleteButton"
+                className="deleteButton3"
               >
                 Supprimer
               </button>

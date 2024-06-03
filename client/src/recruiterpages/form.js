@@ -58,12 +58,12 @@ function CreateJobOffer() {
   };
 
   return (
-    <body className="form">
-      <div className="homeR">
-        <Link to="/recruiter" className="backButton">
+    <body className="form8">
+      <div className="homeR8">
+        <Link to="/recruiter" className="backButton8">
           Accueil
         </Link>
-        <div className="jobOfferContainer">
+        <div className="jobOfferContainer8">
           <Formik
             initialValues={initialValues}
             onSubmit={onSubmit}

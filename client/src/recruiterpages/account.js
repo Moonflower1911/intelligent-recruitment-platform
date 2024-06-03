@@ -124,16 +124,16 @@ function AccountRecruiter() {
   
 
   if (!userData) {
-    return <div className="loading">Loading...</div>;
+    return <div className="loading7">Loading...</div>;
   }
 
   return (
-    <body className="account">
-      <div className="container">
-        <div className="compte">
-          <div className="user">
-            <div className="userInfo">
-              <div className="img"></div>
+    <body className="account7">
+      <div className="container7">
+        <div className="compte7">
+          <div className="user7">
+            <div className="userInfo7">
+              <div className="img7"></div>
               <p>Nom d'utilisateur: {userData.username}</p>
               <p>ID: {userData.id}</p>
             </div>
@@ -142,14 +142,14 @@ function AccountRecruiter() {
             Créer une nouvelle offre d'emploi
           </button>
           {isLoggedIn && <button onClick={logout}>Se déconnecter</button>}
-          <button onClick={deleteAccount} className="deleteAccountButton">
+          <button onClick={deleteAccount} className="deleteAccountButton7">
             Supprimer mon compte
           </button>
         </div>
-        <div className="jobOffers">
-          <h2 className="title6">Mes Offres d'emploi</h2>
+        <div className="jobOffers7">
+          <h2 className="title7">Mes Offres d'emploi</h2>
           {jobOffers.map((offer, index) => (
-            <div className="jobOffer" key={index}>
+            <div className="jobOffer7" key={index}>
               <p>
                 <strong>Nom de l'Entreprise:</strong> {offer.nomEntreprise}
               </p>
@@ -182,13 +182,13 @@ function AccountRecruiter() {
               </p>
               <button
                 onClick={() => deleteJobOffer(offer.id)}
-                className="deleteButton"
+                className="deleteButton7"
               >
                 Supprimer
               </button>
               <button
                 onClick={() => navigate(`/OfferInterested/${offer.id}`)}
-                className="eachOffer"
+                className="eachOffer7"
               >
                 voir qui est intéressé
               </button>

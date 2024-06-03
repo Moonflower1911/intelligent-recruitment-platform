@@ -70,12 +70,12 @@ function CreateCV() {
   };
 
   return (
-    <div className="form">
-      <div className="homeR">
-        <Link to="/jobseeker" className="backButton">
+    <div className="form4">
+      <div className="homeR4">
+        <Link to="/jobseeker" className="backButton4">
           Accueil
         </Link>
-        <div className="resumeContainer">
+        <div className="resumeContainer4">
           <Formik
             initialValues={initialValues}
             validationSchema={validationSchema}
@@ -84,7 +84,7 @@ function CreateCV() {
             {({ isSubmitting }) => (
               <Form>
                 <label>Nom :</label>
-                <ErrorMessage name="nom" component="span" className="error" />
+                <ErrorMessage name="nom" component="span" className="error4" />
                 <Field
                   id="inputNomCandidat"
                   name="nom"
@@ -92,7 +92,7 @@ function CreateCV() {
                 />
 
                 <label>Prénom :</label>
-                <ErrorMessage name="prenom" component="span" className="error" />
+                <ErrorMessage name="prenom" component="span" className="error4" />
                 <Field
                   id="inputPrenomCandidat"
                   name="prenom"
@@ -100,7 +100,7 @@ function CreateCV() {
                 />
 
                 <label>Email :</label>
-                <ErrorMessage name="email" component="span" className="error" />
+                <ErrorMessage name="email" component="span" className="error4" />
                 <Field
                   id="inputEmailCandidat"
                   name="email"
@@ -108,7 +108,7 @@ function CreateCV() {
                 />
 
                 <label>Numéro de téléphone :</label>
-                <ErrorMessage name="phoneNumber" component="span" className="error" />
+                <ErrorMessage name="phoneNumber" component="span" className="error4" />
                 <Field
                   id="inputPhoneNumberCandidat"
                   name="phoneNumber"
@@ -116,7 +116,7 @@ function CreateCV() {
                 />
 
                 <label>Adresse :</label>
-                <ErrorMessage name="address" component="span" className="error" />
+                <ErrorMessage name="address" component="span" className="error4" />
                 <Field
                   id="inputAddress"
                   name="address"
@@ -124,7 +124,7 @@ function CreateCV() {
                 />
 
                 <label>Formation :</label>
-                <ErrorMessage name="formations" component="span" className="error" />
+                <ErrorMessage name="formations" component="span" className="error4" />
                 <Field
                   id="inputFormation"
                   name="formations"
@@ -132,7 +132,7 @@ function CreateCV() {
                 />
 
                 <label>Expérience :</label>
-                <ErrorMessage name="experiences" component="span" className="error" />
+                <ErrorMessage name="experiences" component="span" className="error4" />
                 <Field
                   id="inputExperience"
                   name="experiences"
@@ -140,7 +140,7 @@ function CreateCV() {
                 />
 
                 <label>Projets académiques :</label>
-                <ErrorMessage name="projetsAcademiques" component="span" className="error" />
+                <ErrorMessage name="projetsAcademiques" component="span" className="error4" />
                 <Field
                   id="inputProjetsAcademiques"
                   name="projetsAcademiques"
@@ -148,7 +148,7 @@ function CreateCV() {
                 />
 
                 <label>Langues :</label>
-                <ErrorMessage name="langues" component="span" className="error" />
+                <ErrorMessage name="langues" component="span" className="error4" />
                 <Field
                   id="inputLangues"
                   name="langues"
@@ -156,7 +156,7 @@ function CreateCV() {
                 />
 
                 <label>Langages :</label>
-                <ErrorMessage name="langages" component="span" className="error" />
+                <ErrorMessage name="langages" component="span" className="error4" />
                 <Field
                   id="inputLangages"
                   name="langages"
@@ -164,7 +164,7 @@ function CreateCV() {
                 />
 
                 <label>Logiciels :</label>
-                <ErrorMessage name="logiciels" component="span" className="error" />
+                <ErrorMessage name="logiciels" component="span" className="error4" />
                 <Field
                   id="inputLogiciels"
                   name="logiciels"

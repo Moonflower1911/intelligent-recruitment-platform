@@ -1,12 +1,12 @@
 /*  */
-.form {
+.form4 {
   font-family: Arial, sans-serif;
   margin: 0;
   padding: 10px;
   background: linear-gradient(to bottom, #175d69 23%, #07142b 95%);
   display: flex;
 }
-.homeR {
+.homeR4 {
   width: 100%;
   font-family: Arial, sans-serif;
   margin: 0;
@@ -18,7 +18,7 @@
   color: #fff;
 }
 
-.resumeContainer {
+.resumeContainer4 {
   background-color: #fff;
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -28,7 +28,7 @@
   max-width: 500px;
 }
 
-.backButton {
+.backButton4 {
   background-color: #df9500;
   color: #fff;
   border: none;
@@ -41,7 +41,7 @@
   border-radius: 3px;
 }
 
-.backButton:hover {
+.backButton4:hover {
   opacity: 0.8;
 }
 
@@ -87,6 +87,6 @@ button {
 button:hover {
   opacity: 0.8;
 }
-label{
+label {
   color: black;
 }

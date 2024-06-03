@@ -38,8 +38,8 @@ function RegisterRecruiter() {
   };
 
   return (
-    <body className="auth">
-      <div className="form-container">
+    <body className="auth2">
+      <div className="form-container2">
         <form onSubmit={handleSubmit}>
           <h2>S'inscrire</h2>
           <div>
@@ -69,7 +69,7 @@ function RegisterRecruiter() {
               required
             />
           </div>
-          {error && <div className="error-message">{error}</div>}
+          {error && <div className="error-message2">{error}</div>}
           <button type="submit">Je m'inscris</button>
         </form>
         <p>

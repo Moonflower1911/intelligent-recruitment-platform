@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate, Link } from "react-router-dom";
+import './AdminCV.css';
+
 
 function AdminCV() {
   const [listCV, setListCV] = useState([]);
@@ -78,18 +80,18 @@ function AdminCV() {
   };
 
   return (
-    <div className="AdminCV">
-      <div className="container">
-        <div className="compte">
-          <h2>CV des Chercheurs d'emploi</h2>
-          <Link to="/admin/account" className="backButton">
+    <div className="Home11">
+      <div className="container11">
+        <div className="compte11">
+        <Link to="/admin/account" className="backButton11">
             Accueil
           </Link>
+          <h2>CV des Chercheurs d'emploi</h2>
         </div>
-        <div className="resumes">
+        <div className="resumes11">
           {/* List of jobseeker CVs */}
           {listCV.map((cv) => (
-            <div className="resume" key={cv.id}>
+            <div className="resume11" key={cv.id}>
               <h3>{cv.poste}</h3>
               <p><strong>ID du chercheur  :</strong> {cv.UserJobSeekerId}</p>
               <p><strong>ID du CV :</strong> {cv.id}</p>
@@ -100,8 +102,8 @@ function AdminCV() {
               {showDetails && selectedCV && selectedCV.id === cv.id ? (
                 <div>
                   <button onClick={() => setShowDetails(false)}>Cacher Détails</button>
-                  <button onClick={() => deleteCV(cv.id)} className="deleteButton">Supprimer le CV</button>
-                  <button onClick={() => deleteUser(cv.UserJobSeekerId)} className="deleteButton">Supprime l'utilisateur</button>
+                  <button onClick={() => deleteCV(cv.id)} className="deleteButton11">Supprimer le CV</button>
+                  <button onClick={() => deleteUser(cv.UserJobSeekerId)} className="deleteButton11">Supprime l'utilisateur</button>
                   {/* Display selected CV details */}
                   <div>
                     <h4>Détails du CV</h4>

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate, Link } from "react-router-dom";
+import './AdminCV';
 
 function AdminOffers() {
   const [listOfOffers, setListOfOffers] = useState([]);
@@ -83,19 +84,19 @@ function AdminOffers() {
   };
 
   return (
-    <div className="AdminOffers">
+    <div className="Home11">
       
-      <div className="container">
-        <div className="compte">
+      <div className="container11">
+        <div className="compte11">
           <h2>Offres des Chercheurs d'emploi</h2>
-          <Link to="/admin/account" className="backButton">
+          <Link to="/admin/account" className="backButton11">
             Accueil
           </Link>
         </div>
-        <div className="resumes">
+        <div className="resumes11">
           {/* List of job offers */}
           {listOfOffers.map((offer) => (
-            <div className="offer" key={offer.id}>
+            <div className="resume11" key={offer.id}>
               <h3>{offer.poste}</h3>
               <p><strong>ID de l'utilisateur :</strong> {offer.UserRecruiterId}</p>
               <p><strong>ID de l'Offre :</strong> {offer.id}</p>
@@ -104,8 +105,8 @@ function AdminOffers() {
               {showDetails && selectedOffer && selectedOffer.id === offer.id ? (
                 <div>
                   <button onClick={hideDetails}>Cacher Détails</button>
-                  <button onClick={() => deleteJobOffer(offer.id)} className="deleteButton">Supprimer l'offre</button>
-                  <button onClick={() => deleteUser(offer.UserRecruiterId)} className="deleteButton">Supprime l'utilisateur</button>
+                  <button onClick={() => deleteJobOffer(offer.id)} className="deleteButton11">Supprimer l'offre</button>
+                  <button onClick={() => deleteUser(offer.UserRecruiterId)} className="deleteButton11">Supprime l'utilisateur</button>
 
                   {/* Display selected offer details */}
                   <div>
