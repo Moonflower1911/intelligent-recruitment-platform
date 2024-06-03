@@ -1,22 +1,39 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { Link } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import "./AuthRecruiter.css";
 
 function RegisterRecruiter() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [error, setError] = useState("");
+  let navigate = useNavigate();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    if (password !== confirmPassword) {
+      setError("Les mots de passe ne correspondent pas");
+      return;
+    }
+
     try {
+      setError("");
       await axios.post("http://localhost:3001/authRecruiter", {
         username,
         password,
       });
-      alert("Registration successful");
+      alert("Inscription réussie");
+      navigate("/landingpage");
     } catch (error) {
-      alert("Registration failed");
+      if (
+        error.response &&
+        error.response.data.error === "Username is already taken"
+      ) {
+        setError("Le nom d'utilisateur est déjà utilisé");
+      } else {
+        setError("Échec de l'inscription");
+      }
     }
   };
 
@@ -43,6 +60,16 @@ function RegisterRecruiter() {
               required
             />
           </div>
+          <div>
+            <label>Confirmer le mot de passe:</label>
+            <input
+              type="password"
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+              required
+            />
+          </div>
+          {error && <div className="error-message">{error}</div>}
           <button type="submit">Je m'inscris</button>
         </form>
         <p>

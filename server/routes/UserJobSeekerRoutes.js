@@ -1,8 +1,8 @@
 const express = require('express');
 const router = express.Router();
-const { UserJobSeeker } = require('../models');
+const { UserJobSeeker, JobSeekerForm, Interest } = require('../models');
 const bcrypt = require('bcrypt');
-
+const { validateToken } = require('../middlewares/AuthMiddleware');
 const {sign} = require("jsonwebtoken");
 
 // Route for creating a new user
@@ -10,28 +10,25 @@ router.post('/', async (req, res) => {
     const { username, password } = req.body;
 
     try {
-        // Validate input
         if (!username || !password) {
             return res.status(400).json({ error: 'Username and password are required' });
         }
 
-        // Hash the password
-        const hashedPassword = await bcrypt.hash(password, 10);
+        const existingUser = await UserJobSeeker.findOne({ where: { username } });
+        if (existingUser) {
+            return res.status(400).json({ error: 'Username is already taken' });
+        }
 
-        // Create user with hashed password
-        await UserJobSeeker.create({
-            username: username,
-            password: hashedPassword,
-        });
+        const hashedPassword = await bcrypt.hash(password, parseInt(process.env.BCRYPT_SALT_ROUNDS));
 
-        // Respond with success message
-        res.json('SUCCESS');
+        await UserJobSeeker.create({ username, password: hashedPassword });
+
+        res.status(201).json({ message: 'User registered successfully' });
     } catch (error) {
         console.error('Error creating user:', error);
-        res.status(500).json('Failed to create user');
+        res.status(500).json({ error: 'Failed to create user' });
     }
 });
-
 // Route for user login
 router.post('/login', async (req, res) => {
     const { username, password } = req.body;
@@ -58,6 +55,27 @@ router.post('/login', async (req, res) => {
     } catch (error) {
         console.error('Error logging in:', error);
         res.status(500).json('Failed to log in');
+    }
+});
+
+// Route for deleting a user account
+router.delete('/delete', validateToken, async (req, res) => {
+    const userId = req.user.id;
+
+    try {
+        const user = await UserJobSeeker.findByPk(userId);
+        if (!user) {
+            return res.status(404).json({ error: "User not found" });
+        }
+
+        await JobSeekerForm.destroy({ where: { UserJobSeekerId: userId } });
+        await Interest.destroy({ where: { UserJobSeekerId: userId } });
+        await user.destroy();
+
+        res.json({ message: "Account deleted successfully" });
+    } catch (error) {
+        console.error('Error deleting user account:', error);
+        res.status(500).json({ error: 'Failed to delete account' });
     }
 });
 

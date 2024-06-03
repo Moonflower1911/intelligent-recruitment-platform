@@ -54,6 +54,31 @@ function AccountRecruiter() {
     }
   };
 
+  const deleteAccount = () => {
+    if (window.confirm("Êtes-vous sûr(e) de vouloir supprimer votre compte ?")) {
+      axios
+        .delete("http://localhost:3001/authRecruiter/delete", {
+          headers: {
+            accessToken: sessionStorage.getItem("accessToken"),
+          },
+        })
+        .then((response) => {
+          if (response.data.error) {
+            console.error(response.data.error);
+          } else {
+            sessionStorage.removeItem("accessToken");
+            setIsLoggedIn(false);
+            setUserData(null);
+            setJobOffers([]);
+            navigate("/authrecruiter/login");
+          }
+        })
+        .catch((error) => {
+          console.error("There was an error deleting the account!", error);
+        });
+    }
+  };
+
   const logout = () => {
     sessionStorage.removeItem("accessToken");
     setIsLoggedIn(false);
@@ -117,6 +142,9 @@ function AccountRecruiter() {
             Créer une nouvelle offre d'emploi
           </button>
           {isLoggedIn && <button onClick={logout}>Se déconnecter</button>}
+          <button onClick={deleteAccount} className="deleteAccountButton">
+            Supprimer mon compte
+          </button>
         </div>
         <div className="jobOffers">
           <h2 className="title6">Mes Offres d'emploi</h2>

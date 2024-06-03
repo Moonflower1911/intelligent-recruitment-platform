@@ -1,8 +1,8 @@
 const express = require('express');
 const router = express.Router();
-const { UserRecruiter } = require('../models');
+const { UserRecruiter, RecruiterForm , Interest } = require('../models');
 const bcrypt = require('bcrypt');
-
+const { validateToken } = require('../middlewares/AuthMiddleware');
 const {sign} = require("jsonwebtoken");
 
 
@@ -11,22 +11,19 @@ router.post('/', async (req, res) => {
     const { username, password } = req.body;
 
     try {
-        // Validate input
         if (!username || !password) {
             return res.status(400).json({ error: 'Username and password are required' });
         }
-
-        // Hash the password
-        const hashedPassword = await bcrypt.hash(password, 10);
+        const existingUser = await UserRecruiter.findOne({ where: { username } });
+        if (existingUser) {
+            return res.status(400).json({ error: 'Username is already taken' });
+        }
+        const hashedPassword = await bcrypt.hash(password, parseInt(process.env.BCRYPT_SALT_ROUNDS));
 
         // Create user with hashed password
-        await UserRecruiter.create({
-            username: username,
-            password: hashedPassword  ,
-        });
+        await UserRecruiter.create({username: username,password: hashedPassword});
 
-        // Respond with success message
-        res.json('SUCCESS');
+        res.status(201).json({ message: 'User registered successfully' });
     } catch (error) {
         console.error('Error creating user:', error);
         res.status(500).json('Failed to create user');
@@ -61,5 +58,28 @@ router.post('/login', async (req, res) => {
         res.status(500).json('Failed to log in');
     }
 });
+
+// Route for deleting a user account
+router.delete('/delete', validateToken, async (req, res) => {
+    const userId = req.user.id;
+
+    try {
+        // Delete related data from RecruiterForms and Interests tables
+    await Promise.all([
+        RecruiterForm.destroy({ where: { UserRecruiterId: userId } }),
+        Interest.destroy({ where: { OfferId: userId } }),
+        // Add more tables as needed
+      ]);
+  
+      // Finally, delete the user's account
+      await UserRecruiter.destroy({ where: { id: userId } });
+
+        res.json({ message: "Account deleted successfully" });
+    } catch (error) {
+        console.error('Error deleting user account:', error);
+        res.status(500).json({ error: 'Failed to delete account' });
+    }
+});
+
 
 module.exports = router;

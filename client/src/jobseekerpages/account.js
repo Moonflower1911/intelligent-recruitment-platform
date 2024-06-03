@@ -88,12 +88,37 @@ function AccountJobSeeker() {
     }
   };
 
+  const deleteAccount = () => {
+    if (window.confirm("Etes vous sur de vouloir supprimer votre compte ?")) {
+      axios
+        .delete("http://localhost:3001/authJobSeeker/delete", {
+          headers: {
+            accessToken: sessionStorage.getItem("accessToken"),
+          },
+        })
+        .then((response) => {
+          if (response.data.error) {
+            console.error(response.data.error);
+          } else {
+            sessionStorage.removeItem("accessToken");
+            setIsLoggedIn(false);
+            setUserData(null);
+            setResumes([]);
+            navigate("/landingpage");
+          }
+        })
+        .catch((error) => {
+          console.error("There was an error deleting the account!", error);
+        });
+    }
+  };
+
   const logout = () => {
     sessionStorage.removeItem("accessToken");
     setIsLoggedIn(false);
     setUserData(null);
     setResumes([]);
-    navigate("/authjobseeker/login"); // Redirect to login page after logout
+    navigate("/landingpage"); // Redirect to login page after logout
   };
 
   if (!isLoggedIn) {
@@ -125,6 +150,7 @@ function AccountJobSeeker() {
         </Link>
           <button onClick={createResume}>Créer un nouveau CV</button>
           {isLoggedIn && <button onClick={logout}>Se déconnecter</button>}
+          <button onClick={deleteAccount} className="deleteAccountButton">Supprimer mon compte</button>
         </div>
         <div className="resumes">
           <h2>Mon CV</h2>
