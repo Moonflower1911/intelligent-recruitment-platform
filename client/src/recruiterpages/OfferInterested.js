@@ -78,7 +78,7 @@ function OfferInterested() {
         )}
         {!sorted && (
           <button onClick={fetchSortedJobSeekers} className="sort-button">
-            Trier par Correspondance
+            Trier
           </button>
         )}
         <button onClick={() => navigate(`/recruiter/`)} className="goback">

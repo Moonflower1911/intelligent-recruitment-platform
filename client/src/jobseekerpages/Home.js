@@ -34,7 +34,7 @@ function JobSeekerHome() {
         <Link to="/accountjobseeker">Mon compte</Link>
       </header>
       <div className="container1">
-        <button onClick={sortJobOffers} className="sortButton">Sort by Relevance</button>
+        <button onClick={sortJobOffers} className="sortButton">Trier</button>
         <div className="jobOffers1">
           {listOfRecruiters.map((value, key) => (
             <div
