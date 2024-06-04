@@ -54,6 +54,13 @@ function OfferInterested() {
     <div className="interested9">
       <div className="offer-container9">
         <h2>Postulants Intéressés</h2>
+        {listOfJobSeekerForms.length > 0 && !sorted &&(
+          <div className="button-container9">
+          <button onClick={fetchSortedJobSeekers} className="sort-button9">
+            Trier
+          </button>
+          </div>
+        )}
         {listOfJobSeekerForms.length === 0 ? (
           <p>Aucun postulant n'a manifesté d'intérêt pour cette offre d'emploi.</p>
         ) : (
@@ -76,11 +83,6 @@ function OfferInterested() {
             </div>
           ))
         )}
-        {listOfJobSeekerForms.length > 0 && !sorted &&(
-          <button onClick={fetchSortedJobSeekers} className="sort-button9">
-            Trier
-          </button>
-        )}
         <button onClick={() => navigate(`/recruiter/`)} className="goback9">
           Accueil
         </button>

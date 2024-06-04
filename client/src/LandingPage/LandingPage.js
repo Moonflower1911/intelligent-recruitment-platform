@@ -38,29 +38,67 @@ function LandingPage() {
                 <a href="#">Services</a>
               </li>
               <li>
-                <a href="#">Contactez-nous </a>
+                <a href="#">Contactez-nous</a>
               </li>
             </ul>
           </nav>
         </header>
         <div className="hero1">
-          <h2>
-            Bienvenue à JobConnect
-          </h2>
-          <p>
-            Votre avenir commence ici! Choisissez votre rôle pour continuer.
-          </p>
+          <h2>Bienvenue à JobConnect</h2>
+          <p>Votre avenir commence ici! Choisissez votre rôle pour continuer.</p>
           <div className="buttons1">
             <Link to="/authRecruiter/login" className="button1">
               recruteur
             </Link>
             <Link to="/authJobSeeker/login" className="button1">
-              chercheur d'emploi{" "}
+              chercheur d'emploi
             </Link>
           </div>
         </div>
         <div className="img1"></div>
       </section>
+      <footer className="footer-distributed">
+        <div className="footer-left">
+          <h3>Job<span>Connect</span></h3>
+          <p className="footer-links">
+            <a href="#" className="link-1">Accueil</a>
+            <a href="#">Blog</a>
+            <a href="#">Tarifs</a>
+            <a href="#">À propos</a>
+            <a href="#">FAQ</a>
+            <a href="#">Contact</a>
+          </p>
+          <p className="footer-company-name">JobConnect © 2024</p>
+        </div>
+
+        <div className="footer-center">
+          <div>
+            <i className="fa fa-map-marker"></i>
+            <p>Ensias, Rabat</p>
+          </div>
+          <div>
+            <i className="fa fa-phone"></i>
+            <p>+212612345678</p>
+          </div>
+          <div>
+            <i className="fa fa-envelope"></i>
+            <p><a href="mailto:support@company.com">jobconnect24@gmail.com</a></p>
+          </div>
+        </div>
+
+        <div className="footer-right">
+          <p className="footer-company-about">
+            <span>À propos de l'entreprise</span>
+            JobConnect est dédié à la mise en relation des recruteurs et des chercheurs d'emploi. Nous fournissons une plateforme qui simplifie et rend efficace le processus de recrutement.
+          </p>
+          <div className="footer-icons">
+            <a href="#" className="facebook"></a>
+            <a href="#" className="twitter"></a>
+            <a href="#" className="linkedin"></a>
+            <a href="#" className="github"></a>
+          </div>
+        </div>
+      </footer>
     </body>
   );
 }
