@@ -75,3 +75,8 @@
 .text99 {
   font-weight: bold;
 }
+
+.matchScore9 {
+  font-weight: bold;
+  color: #4CAF50; /* Green color to indicate a positive score */
+}

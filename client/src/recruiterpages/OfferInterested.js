@@ -78,7 +78,7 @@ function OfferInterested() {
               <div className="text9">Langages : {value.langages}</div>
               <div className="text9">Logiciels : {value.logiciels}</div>
               {sorted && (
-                <div className="text9">Pourcentage de Correspondance : {value.matchPercentage}%</div>
+                <div className="matchScore9">Pourcentage de Correspondance : {value.matchPercentage.toFixed(2)}%</div>
               )}
             </div>
           ))

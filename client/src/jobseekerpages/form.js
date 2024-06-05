@@ -128,7 +128,7 @@ function CreateCV() {
                 <Field
                   id="inputFormation"
                   name="formations"
-                  placeholder="(Ex. Développement d'applications web...)"
+                  placeholder="(Ex. Licence en Informatique)"
                 />
 
                 <label>Expérience :</label>
@@ -136,7 +136,7 @@ function CreateCV() {
                 <Field
                   id="inputExperience"
                   name="experiences"
-                  placeholder="(Ex. 3 ans)"
+                  placeholder="(Ex. 3 ans en développement web)"
                 />
 
                 <label>Projets académiques :</label>
@@ -144,7 +144,7 @@ function CreateCV() {
                 <Field
                   id="inputProjetsAcademiques"
                   name="projetsAcademiques"
-                  placeholder="(Ex. Licence en Informatique)"
+                  placeholder="(Ex. Développement d'applications web...)"
                 />
 
                 <label>Langues :</label>

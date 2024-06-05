@@ -137,3 +137,8 @@ header.CvNavbar5 a:hover {
         text-align: center;
     }
 }
+
+.matchScore5 {
+    font-weight: bold;
+    color: #4CAF50; /* Green color to indicate a positive score */
+  }

@@ -863,7 +863,7 @@ router.get('/rankedJobOffers', validateToken, async (req, res) => {
       console.log(`Calculated match score for job offer ID ${jobOffer.id}: ${matchScore}`);
 
       return {
-        jobOffer,
+        ...jobOffer.dataValues,
         matchScore
       };
     });
@@ -871,7 +871,7 @@ router.get('/rankedJobOffers', validateToken, async (req, res) => {
     // Sort job offers by match score in descending order
     rankedJobOffers.sort((a, b) => b.matchScore - a.matchScore);
 
-    res.json(rankedJobOffers.map(item => item.jobOffer));
+    res.json(rankedJobOffers);
   } catch (error) {
     console.error('Error ranking job offers:', error);
     res.status(500).json({ error: 'Failed to rank job offers' });

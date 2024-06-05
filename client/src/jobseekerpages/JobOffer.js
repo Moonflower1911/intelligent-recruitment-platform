@@ -55,7 +55,7 @@ function JobOffer() {
                 <div className="jobOfferDetail6"><strong>Compétences :</strong> {offreEmploi.skills}</div>
                 <div className="jobOfferDetail6"><strong>Langues :</strong> {offreEmploi.langues}</div>
                 <button onClick={handleLike} className="likeButton6">
-                    {liked ? 'Unlike' : 'Like'}
+                    {liked ? 'Retirer ma candidature' : 'Candidater'}
                 </button>
             </div>
         </div>

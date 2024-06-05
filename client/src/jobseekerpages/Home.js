@@ -6,6 +6,7 @@ import './Home.css';
 
 function JobSeekerHome() {
   const [listOfRecruiters, setListOfRecruiters] = useState([]);
+  const [showScores, setShowScores] = useState(false);
   let navigate = useNavigate();
 
   useEffect(() => {
@@ -16,13 +17,14 @@ function JobSeekerHome() {
 
   const sortJobOffers = async () => {
     try {
-      const accessToken = sessionStorage.getItem("accessToken"); // Replace with actual way of getting the token
+      const accessToken = sessionStorage.getItem("accessToken");
       const response = await axios.get("http://localhost:3001/recruiter/rankedJobOffers", {
         headers: {
           accessToken: accessToken,
         },
       });
       setListOfRecruiters(response.data);
+      setShowScores(true);
     } catch (error) {
       console.error('Error fetching ranked job offers:', error);
     }
@@ -55,6 +57,11 @@ function JobSeekerHome() {
                 <div className="skills5">Compétences: {value.skills}</div>
                 <div className="keywords5">Mots-clés: {value.keywords}</div>
                 <div className="langues5">Langues: {value.langues}</div>
+                {showScores && ( // Conditionally render the score based on showScores state
+                  <div className="matchScore5">
+                    Score de correspondance: {value.matchScore !== undefined ? value.matchScore.toFixed(2) : 'N/A'}%
+                  </div>
+                )}
               </div>
             </div>
           ))}
