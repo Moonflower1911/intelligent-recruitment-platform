@@ -1,0 +1,2 @@
+Score: 92
+Explanation: The candidate's profile matches the job requirements exceptionally well due to their strong skills in React.js, Node.js, and JavaScript, which are all mentioned in the job description. Additionally, they have experience as a Backend Developer and Data Analyst, making them a great fit for this full stack web development role.

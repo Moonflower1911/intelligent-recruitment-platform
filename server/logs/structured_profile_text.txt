@@ -1,0 +1,6 @@
+Here are the four fields extracted from the candidate's resume:
+
+        Skills: Python, C/C++, Java, JavaScript, SQL, PL/SQL, YAML, JSON, XML, HTML, CSS, React.js, Next.js, Tailwind CSS, Bootstrap, Node.js, Express.js, Spring Boot, APIs REST, Sequelize, MySQL, PostgreSQL, Oracle Database, Docker, Kubernetes, Git/GitHub, Bash, Linux/Unix, Power BI, Power Query, DAX, Machine Learning, TensorFlow Lite  
+        Experience: Data Analyst  
+        Education: Génie Logiciel, Maths-Physique  
+        Languages: Arabe (Langue maternelle), Français (Niveau courant), Anglais (Niveau courant)

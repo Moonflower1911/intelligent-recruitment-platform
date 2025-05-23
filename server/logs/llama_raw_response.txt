@@ -1,0 +1,26 @@
+{
+  "id": "gen-1746706345-hlzkbUfeBULoPxr3nLcB",
+  "provider": "Chutes",
+  "model": "meta-llama/llama-4-scout:free",
+  "object": "chat.completion",
+  "created": 1746706345,
+  "choices": [
+    {
+      "logprobs": null,
+      "finish_reason": "stop",
+      "native_finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "role": "assistant",
+        "content": "Score: 85  \nExplanation: The candidate's profile closely matches the job requirements, possessing key skills in React.js, Node.js, and Java, as well as experience with PostgreSQL, and aligning well with the job's focus on full-stack development and relevant technologies.",
+        "refusal": null,
+        "reasoning": null
+      }
+    }
+  ],
+  "usage": {
+    "prompt_tokens": 514,
+    "completion_tokens": 55,
+    "total_tokens": 569
+  }
+}

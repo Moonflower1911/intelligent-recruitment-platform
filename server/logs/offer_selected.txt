@@ -1,0 +1,13 @@
+{
+  "id": 19,
+  "poste": "Full Stack Software Engineer",
+  "nomEntreprise": "InnoTech Labs",
+  "address": "11 Innovation Blvd",
+  "city": "Rabat",
+  "experience": "1+ year in full-stack development",
+  "formations": "Engineering degree in Software Engineering or Computer Science",
+  "skills": "React.js, Node.js, Java, PostgreSQL",
+  "keywords": "full stack, REST API, cloud, backend, frontend",
+  "langues": "English, French",
+  "description": "We are hiring a software engineer to build scalable web applications using React.js and Node.js. The role includes backend development, database design, and deployment using Docker."
+}

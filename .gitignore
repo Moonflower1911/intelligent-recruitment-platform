@@ -1,0 +1,8 @@
+# Ignore Python environments, uploads, and big files
+venv/
+server/venv39/
+server/uploads/
+*.dll
+*.lib
+*.mp4
+*.pdf

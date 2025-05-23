@@ -1,0 +1,2 @@
+Score: 10
+Explanation: The candidate's skills and experience do not match the job requirements, which focuses on marketing and digital communication, whereas the candidate has a background in software development and data analysis.

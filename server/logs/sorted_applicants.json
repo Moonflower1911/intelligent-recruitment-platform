@@ -1,0 +1,26 @@
+[
+  {
+    "id": 13,
+    "cvFilePath": "uploads\\cvs\\1746481558402-CV_ELFADILI_Meryem.pdf",
+    "videoFilePath": null,
+    "nom": "elfadili",
+    "prenom": "meryem",
+    "email": "elfadilimeryem03@gmail.com",
+    "phoneNumber": "1234567890",
+    "address": "casablanca",
+    "matchPercentage": 92,
+    "explanation": "Excellent candidate-job fit due to the significant overlap in skills, with React.js, Node.js, and JavaScript being key areas of match."
+  },
+  {
+    "id": 14,
+    "cvFilePath": "uploads\\cvs\\1746483192841-Data_analytics_resume.pdf",
+    "videoFilePath": null,
+    "nom": "jackson",
+    "prenom": "william",
+    "email": "jackson@gmail.com",
+    "phoneNumber": "2717278629",
+    "address": "Rabat",
+    "matchPercentage": 30,
+    "explanation": "The candidate's skills in programming languages like Python and R do not directly match the required skills of Full Stack Software Engineer, which mainly focuses on JavaScript-based technologies (React.js, Node.js). Although they have experience in data analysis, it is not relevant to the software engineering role."
+  }
+]
