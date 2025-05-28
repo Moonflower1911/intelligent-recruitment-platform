@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import RegisterTemplate from "C:/Users/ASUS/Desktop/GestionCV/client/src/components/signup.jsx";
+import RegisterTemplate from "../components/signup";
 
 function RegisterRecruiter() {
   const [username, setUsername] = useState("");

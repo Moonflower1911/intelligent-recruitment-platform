@@ -9,6 +9,8 @@ from flask import Flask, request, jsonify
 from sklearn.feature_extraction.text import TfidfVectorizer, ENGLISH_STOP_WORDS
 from sklearn.metrics.pairwise import cosine_similarity
 from nltk.stem import PorterStemmer
+from dotenv import load_dotenv
+load_dotenv()
 
 app = Flask(__name__)
 
@@ -26,13 +28,14 @@ print("[DONE] Whisper model loaded.")
 
 # DB Config
 DB_CONFIG = {
-    'host': 'localhost',
-    'user': 'root',
-    'password': 'meryem1234*',
-    'database': 'myDb',
+    'host': os.getenv('DB_HOST'),
+    'user': os.getenv('DB_USER'),
+    'password': os.getenv('DB_PASS'),
+    'database': os.getenv('DB_NAME'),
     'charset': 'utf8mb4',
     'cursorclass': pymysql.cursors.Cursor,
 }
+
 
 stemmer = PorterStemmer()
 

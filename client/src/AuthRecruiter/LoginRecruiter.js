@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import LoginTemplate from "C:/Users/ASUS/Desktop/GestionCV/client/src/components/login.jsx";
+import LoginTemplate from "../components/login";
 
 function LoginRecruiter() {
   const [username, setUsername] = useState("");

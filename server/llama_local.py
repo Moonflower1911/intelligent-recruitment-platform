@@ -1,5 +1,4 @@
 import os
-from dotenv import load_dotenv
 import pdfplumber
 import whisper
 import pymysql
@@ -8,10 +7,9 @@ import json
 import re
 from flask import Flask, request, jsonify
 
-load_dotenv()  # Load environment variables from .env
-print("Loaded OpenRouter API Key:", os.getenv("OPENROUTER_API_KEY"))
-
 app = Flask(__name__)
+
+# Prepare log directory
 os.makedirs("logs", exist_ok=True)
 
 def log_to_file(filename, content):
@@ -22,11 +20,7 @@ print("[INFO] Loading Whisper model...")
 whisper_model = whisper.load_model("base")
 print("[DONE] Whisper model loaded.")
 
-# API Config
-OPENROUTER_URL = "https://openrouter.ai/api/v1/chat/completions"
-OPENROUTER_API_KEY = os.getenv("OPENROUTER_API_KEY")
-HTTP_REFERER = os.getenv("HTTP_REFERER", "")
-APP_TITLE = os.getenv("APP_TITLE", "")
+OLLAMA_URL = "http://localhost:11434/api/generate"
 
 DB_CONFIG = {
     'host': os.getenv('DB_HOST'),
@@ -63,17 +57,8 @@ def build_combined_profile(cv_text, video_text=""):
     print("[DONE] Raw profile built.")
     return profile
 
-def get_common_headers():
-    return {
-        "Authorization": f"Bearer {OPENROUTER_API_KEY}",
-        "Content-Type": "application/json",
-        "HTTP-Referer": HTTP_REFERER,
-        "X-Title": APP_TITLE
-    }
-
 def extract_structured_profile_text(profile_text):
-    print("[INFO] Asking LLaMA (OpenRouter) for structured plain-text profile...")
-
+    print("[INFO] Asking LLaMA for structured plain-text profile...")
     prompt = f"""
         Extract the following **four fields** from the candidate's resume and return them in this strict format:
 
@@ -92,34 +77,24 @@ def extract_structured_profile_text(profile_text):
 
         Candidate Resume:
         {profile_text}
-    """
+""".strip()
+
     log_to_file("llama_structured_input.txt", prompt)
 
-    payload = {
-        "model": "meta-llama/llama-4-scout:free",
-        "messages": [
-            {"role": "system", "content": "You are an expert recruitment assistant."},
-            {"role": "user", "content": prompt}
-        ]
-    }
-
-    response = requests.post(OPENROUTER_URL, headers=get_common_headers(), json=payload)
+    response = requests.post(OLLAMA_URL, json={
+        "model": "llama3",
+        "prompt": prompt,
+        "stream": False
+    })
 
     if response.status_code != 200:
-        raise Exception(f"OpenRouter API error: {response.text}")
+        raise Exception(f"LLaMA API error: {response.text}")
 
-    response_json = response.json()
-    log_to_file("llama_raw_response.txt", json.dumps(response_json, indent=2))
-
-    if "choices" not in response_json:
-        raise Exception(f"Unexpected response format: {response_json}")
-
-    profile_summary = response_json["choices"][0]["message"]["content"].strip()
-
+    profile_summary = response.json().get("response", "").strip()
     log_to_file("structured_profile_text.txt", profile_summary)
 
     if not profile_summary:
-        raise Exception("Model returned empty structured summary")
+        raise Exception("LLaMA returned empty structured summary")
 
     print("[DONE] Structured plain-text profile extracted.")
     return profile_summary
@@ -185,7 +160,7 @@ def score_candidate_against_offer(structured_profile_text, offer):
         10–29: Weak  
         0–9: Poor
 
-        ✍️ Output Format:
+        ✍️ Respect this output Format, no more, no less, and do not add any extra text or special characters:
         Score: <number from 0 to 100>  
         Explanation: <1 sentence explanation>
 
@@ -199,30 +174,19 @@ def score_candidate_against_offer(structured_profile_text, offer):
         Langues: {offer['langues']}
         Keywords: {offer['keywords']}
         Description: {offer['description']}
-    """
+    """.strip()
 
-    payload = {
-        "model": "meta-llama/llama-4-scout:free",
-        "messages": [
-            {"role": "system", "content": "You are a helpful assistant for recruiter-candidate matching."},
-            {"role": "user", "content": prompt}
-        ]
-    }
-
-    response = requests.post(OPENROUTER_URL, headers=get_common_headers(), json=payload)
+    response = requests.post(OLLAMA_URL, json={
+        "model": "llama3",
+        "prompt": prompt,
+        "stream": False
+    })
 
     if response.status_code != 200:
-        raise Exception(f"Scoring API error: {response.text}")
+        raise Exception(f"LLaMA scoring API failed: {response.text}")
 
-
-    response_json = response.json()
-    log_to_file("llama_raw_response.txt", json.dumps(response_json, indent=2))
-
-    if "choices" not in response_json:
-        raise Exception(f"Unexpected response format: {response_json}")
-
-    result = response_json["choices"][0]["message"]["content"].strip()
-
+    result = response.json().get("response", "").strip()
+    log_to_file(f"match_result_{offer['id']}.txt", result)
     print(f"[DONE] Scored offer {offer['id']}.")
     return result
 
@@ -248,13 +212,13 @@ def analyze():
         enriched = []
         for offer in job_offers:
             result_text = score_candidate_against_offer(structured_profile_text, offer)
-            match = re.search(r"Score:\s*(\d+).*?Explanation:\s*(.*)", result_text, re.DOTALL)
+            match = re.search(r"\*{0,2}Score\*{0,2}:\s*(\d+).*?\*{0,2}Explanation\*{0,2}:\s*(.*)", result_text, re.DOTALL)
             if match:
                 offer["score"] = int(match.group(1))
                 offer["explanation"] = match.group(2).strip()
             else:
                 offer["score"] = 0
-                offer["explanation"] = "Could not parse score from model response."
+                offer["explanation"] = "Could not parse score from LLaMA response."
             enriched.append(offer)
 
         enriched.sort(key=lambda x: x["score"], reverse=True)
@@ -265,10 +229,89 @@ def analyze():
     except Exception as e:
         print(f"[ERROR] {str(e)}")
         return jsonify({"error": str(e)}), 500
+
 @app.route("/offer-analyze", methods=["POST"])
-def offer_baseline():
-    return jsonify({"message": "OK from /offer-analyze"})
+def offer_analyze():
+    print("[INFO] /offer-analyze route triggered.")
+    data = request.json
+    offer_id = data.get("offer_id")
+
+    if not offer_id:
+        return jsonify({"error": "Missing offer_id"}), 400
+
+    try:
+        connection = pymysql.connect(**DB_CONFIG)
+        with connection.cursor() as cursor:
+            cursor.execute("""
+                SELECT id, poste, nomEntreprise, address, city, experience,
+                       formations, skills, keywords, langues, description
+                FROM RecruiterForms
+                WHERE id = %s
+            """, (offer_id,))
+            row = cursor.fetchone()
+
+        if not row:
+            return jsonify({"error": "Offer not found"}), 404
+
+        offer = dict(zip((
+            "id", "poste", "nomEntreprise", "address", "city", "experience",
+            "formations", "skills", "keywords", "langues", "description"
+        ), row))
+
+        log_to_file("offer_selected.txt", json.dumps(offer, indent=2))
+
+        with connection.cursor() as cursor:
+            cursor.execute("""
+                SELECT jsf.id, jsf.cvFilePath, jsf.videoFilePath,
+                jsf.nom, jsf.prenom, jsf.email, jsf.phoneNumber, jsf.address
+                FROM Interests i
+                JOIN JobSeekerForms jsf ON jsf.UserJobSeekerId = i.UserJobSeekerId
+                WHERE i.OfferId = %s
+            """, (offer_id,))
+            seekers = cursor.fetchall()
+        connection.close()
+
+        enriched = []
+        for seeker in seekers:
+            seeker_data = dict(zip((
+               "id", "cvFilePath", "videoFilePath",
+                "nom", "prenom", "email", "phoneNumber", "address"
+            ), seeker))
+
+            try:
+                cv_path = seeker_data["cvFilePath"]
+                video_path = seeker_data.get("videoFilePath")
+
+                if not cv_path or not os.path.exists(cv_path):
+                    raise Exception("Missing CV")
+
+                cv_text = extract_cv_text(cv_path)
+                video_text = transcribe_video(video_path) if video_path and os.path.exists(video_path) else ""
+                combined = build_combined_profile(cv_text, video_text)
+                structured = extract_structured_profile_text(combined)
+
+                result_text = score_candidate_against_offer(structured, offer)
+
+                match = re.search(r"\*{0,2}Score\*{0,2}:\s*(\d+).*?\*{0,2}Explanation\*{0,2}:\s*(.*)", result_text, re.DOTALL)
+                seeker_data["matchPercentage"] = int(match.group(1)) if match else 0
+                seeker_data["explanation"] = match.group(2).strip() if match else "Could not parse explanation"
+
+            except Exception as e:
+                print(f"[WARN] Error for seeker {seeker_data['id']}: {str(e)}")
+                seeker_data["matchPercentage"] = 0
+                seeker_data["explanation"] = "Erreur lors de l'analyse"
+
+            enriched.append(seeker_data)
+
+        enriched.sort(key=lambda x: x["matchPercentage"], reverse=True)
+        log_to_file("sorted_applicants.json", json.dumps(enriched, indent=2))
+        return jsonify(enriched)
+
+    except Exception as e:
+        print(f"[ERROR] {str(e)}")
+        return jsonify({"error": str(e)}), 500
+
+
 if __name__ == "__main__":
     print("[INFO] Flask server running at port 5000.")
     app.run(host="0.0.0.0", port=5000, debug=True)
-

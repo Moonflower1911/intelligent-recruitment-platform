@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import Navbar from "C:/Users/ASUS/Desktop/GestionCV/client/src/components/navbar.jsx";
-import JobOfferCard from "C:/Users/ASUS/Desktop/GestionCV/client/src/components/JobOfferCard.jsx";
-import SearchBar from "C:/Users/ASUS/Desktop/GestionCV/client/src/components/searchBar.jsx";
+import Navbar from "../components/navbar";
+import JobOfferCard from "../components/JobOfferCard";
+import SearchBar from "../components/searchBar";
 
 function MyApplications() {
   const [applications, setApplications] = useState([]);

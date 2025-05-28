@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import Navbar from "C:/Users/ASUS/Desktop/GestionCV/client/src/components/navbar.jsx";
-import SidebarAccountJobSeeker from "C:/Users/ASUS/Desktop/GestionCV/client/src/components/SidebarJobseeker2.jsx";
-import ResumeCard from "C:/Users/ASUS/Desktop/GestionCV/client/src/components/ResumeCard.jsx";
-import VideoSection from "C:/Users/ASUS/Desktop/GestionCV/client/src/components/VideoSection.jsx";
+import Navbar from "../components/navbar";
+import SidebarAccountJobSeeker from "../components/SidebarJobseeker2";
+import ResumeCard from "../components/ResumeCard";
+import VideoSection from "../components/VideoSection";
 
 function AccountJobSeeker() {
   const [userData, setUserData] = useState(null);

@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import SidebarRecruiter from "C:/Users/ASUS/Desktop/GestionCV/client/src/components/SidebarRecruiter.jsx";
-import OfferCard from "C:/Users/ASUS/Desktop/GestionCV/client/src/components/OfferCard.jsx";
-import Navbar from "C:/Users/ASUS/Desktop/GestionCV/client/src/components/navbar.jsx";
-import SearchBar from "C:/Users/ASUS/Desktop/GestionCV/client/src/components/searchBar.jsx";
+import SidebarRecruiter from "../components/SidebarRecruiter";
+import OfferCard from "../components/OfferCard";
+import Navbar from "../components/navbar";
+import SearchBar from "../components/searchBar";
 
 
 

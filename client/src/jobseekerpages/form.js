@@ -1,6 +1,6 @@
 import React from "react";
-import Navbar from "C:/Users/ASUS/Desktop/GestionCV/client/src/components/navbar.jsx";
-import CreateCVForm from "C:/Users/ASUS/Desktop/GestionCV/client/src/components/CreateCVForm.jsx";
+import Navbar from "../components/navbar";
+import CreateCVForm from "../components/CreateCVForm";
 
 function CreateCV() {
   return (

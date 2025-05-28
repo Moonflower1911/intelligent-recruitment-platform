@@ -8,8 +8,7 @@
     "email": "test1@gmail.com",
     "phoneNumber": "0600000000",
     "address": "Rabat",
-    "matchPercentage": 92,
-    "explanation": "The candidate has excellent skills in React and related technologies, making them a strong match for the Web Developer role."
+    "tfidfScore": 5.56
   },
   {
     "id": 2,
@@ -20,7 +19,6 @@
     "email": "test1@gmail.com",
     "phoneNumber": "0600000000",
     "address": "Casablanca",
-    "matchPercentage": 0,
-    "explanation": "Erreur lors de l'analyse"
+    "tfidfScore": 0.0
   }
 ]

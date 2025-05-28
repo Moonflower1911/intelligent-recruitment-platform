@@ -34,6 +34,13 @@ export default function OfferCard({ offer, onDelete }) {
         >
           View Interested
         </button>
+        <button
+          onClick={() => navigate(`/recruiter/offers/${offer.id}/interviews`)}
+          className="bg-[#175d69] text-white px-4 py-2 rounded hover:bg-[#124b55] transition"
+        >
+          View Interviewees
+        </button>
+        
       </div>
     </div>
   );

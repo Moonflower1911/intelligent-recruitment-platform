@@ -16,7 +16,9 @@ const UserJobSeekerRoutes = require("./routes/UserJobSeekerRoutes");
 const UserRecruiterRoutes = require("./routes/UserRecruiterRoutes");
 const InterestRoutes = require("./routes/InterestRoutes");
 const AdminRoutes = require("./routes/AdminRoutes");
+const InterviewRoutes = require("./routes/InterviewRoutes");
 
+app.use("/interview", InterviewRoutes);
 app.use("/jobseeker", jobSeekerRoutes);
 app.use("/recruiter", recruiterRoutes);
 app.use("/authJobSeeker", UserJobSeekerRoutes );

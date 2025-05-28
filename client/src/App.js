@@ -17,8 +17,11 @@ import AdminAccount from "./Admin/Account";
 import AdminLogin from "./Admin/AdminLogin";
 import AdminOffers from "./Admin/AdminOffers";
 import AdminCV from "./Admin/AdminCV";
+import AddInterview from "./recruiterpages/AddInterview";
 import { Helmet, HelmetProvider } from 'react-helmet-async';
 import MyApplications from "./jobseekerpages/MyApplications";
+import ViewInterview from "./components/ViewInterview";
+import InterviewsGrid from "./components/InterviewsGrid";
 
 function App() {
   return (
@@ -35,7 +38,7 @@ function App() {
             <Route path="/CreateJobOffer" element={<CreateJobOffer />} />
             <Route path="/jobOffer/:id" element={<JobOffer />} />
             <Route path="/CV/:id" element={<CV />} />
-            <Route path="/landingpage" element={<LandingPage />} />
+            <Route path="/" element={<LandingPage />} />
             <Route path="/authjobseeker" element={<RegisterJobSeeker />} />
             <Route path="/authjobseeker/login" element={<LoginJobSeeker />} />
             <Route path="/authrecruiter" element={<RegisterRecruiter />} />
@@ -43,6 +46,11 @@ function App() {
             <Route path="/accountjobseeker" element={<AccountJobSeeker />} />
             <Route path="/OfferInterested/:id" element={<OfferInterested />} />
             <Route path="/OfferInterested/:id" element={<OfferInterested />} />
+            <Route path="/recruiter/interview/:interestId" element={<AddInterview />} />       
+            <Route path="/recruiter/interview/view/:id" element={<ViewInterview />} />       
+<Route path="/recruiter/offers/:offerId/interviews" element={<InterviewsGrid />} />
+
+            {/* Job Seeker Routes */}
 
             <Route path="/my-applications" element={<MyApplications />} />
 

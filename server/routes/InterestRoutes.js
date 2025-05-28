@@ -819,7 +819,10 @@ router.get("/:OfferId", validateToken, async (req, res) => {
       ],
     });
 
-    const jobSeekers = interests.map((interest) => interest.JobSeekerForm);
+ const jobSeekers = interests.map((interest) => ({
+      interestId: interest.id,
+      jobSeekerForm: interest.JobSeekerForm,
+    }));
     console.log("Job Seekers:", jobSeekers);
     res.json(jobSeekers);
   } catch (error) {

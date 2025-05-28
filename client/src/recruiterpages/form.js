@@ -1,8 +1,8 @@
 // src/pages/CreateJobOffer.jsx
 
 import React from "react";
-import JobOfferForm from "C:/Users/ASUS/Desktop/GestionCV/client/src/components/JobOfferForm.jsx";
-import Navbar from "C:/Users/ASUS/Desktop/GestionCV/client/src/components/navbar.jsx";
+import JobOfferForm from "../components/JobOfferForm";
+import Navbar from "../components/navbar";
 
 function CreateJobOffer() {
   return (

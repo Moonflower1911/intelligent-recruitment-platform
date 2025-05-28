@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from "axios";
-import Navbar from "C:/Users/ASUS/Desktop/GestionCV/client/src/components/navbar.jsx";
-import SidebarJobSeeker from "C:/Users/ASUS/Desktop/GestionCV/client/src/components/SidebarJobseeker.jsx";
-import JobOfferCard from "C:/Users/ASUS/Desktop/GestionCV/client/src/components/JobOfferCard.jsx";
+import Navbar from "../components/navbar";
+import SidebarJobSeeker from "../components/SidebarJobseeker";
+import JobOfferCard from "../components/JobOfferCard";
 
 function JobOffer() {
   const { id } = useParams();
