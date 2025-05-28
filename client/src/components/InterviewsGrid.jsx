@@ -22,6 +22,9 @@ import {
   ArrowLeft,
   Users,
   Briefcase,
+  BarChart2,
+  ListOrdered,
+  Sparkles
 } from "lucide-react"
 
 const InterviewsGrid = () => {
@@ -32,20 +35,45 @@ const InterviewsGrid = () => {
   const [error, setError] = useState(null)
   const [expandedCards, setExpandedCards] = useState(new Set())
   const [visibleVideos, setVisibleVideos] = useState(new Set())
+  const [isRanked, setIsRanked] = useState(false)
+  const [isRanking, setIsRanking] = useState(false)
 
   useEffect(() => {
-    axios
-      .get(`http://localhost:3001/interview/offer/${offerId}`)
-      .then((res) => {
-        setInterviews(res.data)
-        setLoading(false)
-      })
-      .catch((err) => {
-        console.error("Error fetching interviews:", err)
-        setError("Failed to load interviews")
-        setLoading(false)
-      })
+    fetchInterviews()
   }, [offerId])
+
+  const fetchInterviews = async () => {
+    try {
+      setLoading(true)
+      const response = await axios.get(`http://localhost:3001/interview/offer/${offerId}`)
+      setInterviews(response.data)
+      setIsRanked(false)
+    } catch (err) {
+      console.error("Error fetching interviews:", err)
+      setError("Failed to load interviews")
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  const handleRankCandidates = async () => {
+    try {
+      setIsRanking(true)
+      const accessToken = sessionStorage.getItem("accessToken")
+      const response = await axios.post(
+        `http://localhost:3001/interview/rank/${offerId}`,
+        {},
+        { headers: { accessToken } }
+      )
+      setInterviews(response.data.rankedCandidates)
+      setIsRanked(true)
+    } catch (err) {
+      console.error("Error ranking candidates:", err)
+      setError("Failed to rank candidates")
+    } finally {
+      setIsRanking(false)
+    }
+  }
 
   const handleBackToDashboard = () => {
     navigate("/recruiter")
@@ -91,15 +119,34 @@ const InterviewsGrid = () => {
     const scores = [interview.communication_score, interview.technical_score, interview.motivation_score].filter(
       (score) => score !== undefined && score !== null,
     )
-
     if (scores.length === 0) return null
     return scores.reduce((sum, score) => sum + score, 0) / scores.length
+  }
+
+  const HeaderBadge = () => {
+    if (isRanked) {
+      return (
+        <div className="inline-flex items-center gap-2 bg-green-100 text-green-800 px-4 py-2 rounded-xl font-medium ml-4">
+          <ListOrdered className="w-5 h-5" />
+          Ranked by AI Analysis
+        </div>
+      )
+    }
+    return null
+  }
+
+  const RankingIndicator = ({ index }) => {
+    if (!isRanked) return null
+    return (
+      <div className="absolute top-4 right-4 bg-teal-600 text-white text-sm font-bold w-6 h-6 rounded-full flex items-center justify-center">
+        {index + 1}
+      </div>
+    )
   }
 
   if (loading) {
     return (
       <div className="min-h-screen bg-gray-50">
-        {/* Header */}
         <div className="bg-white shadow-sm border-b border-gray-200">
           <div className="max-w-7xl mx-auto px-6 py-4">
             <div className="flex items-center space-x-4">
@@ -136,7 +183,6 @@ const InterviewsGrid = () => {
   if (error) {
     return (
       <div className="min-h-screen bg-gray-50">
-        {/* Header */}
         <div className="bg-white shadow-sm border-b border-gray-200">
           <div className="max-w-7xl mx-auto px-6 py-4">
             <div className="flex items-center space-x-4">
@@ -182,7 +228,6 @@ const InterviewsGrid = () => {
   if (interviews.length === 0) {
     return (
       <div className="min-h-screen bg-gray-50">
-        {/* Header */}
         <div className="bg-white shadow-sm border-b border-gray-200">
           <div className="max-w-7xl mx-auto px-6 py-4">
             <div className="flex items-center space-x-4">
@@ -206,7 +251,6 @@ const InterviewsGrid = () => {
           </div>
         </div>
 
-        {/* Empty State */}
         <div className="max-w-4xl mx-auto mt-8 px-6">
           <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-12">
             <div className="text-center space-y-6">
@@ -236,36 +280,59 @@ const InterviewsGrid = () => {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Header */}
       <div className="bg-white shadow-sm border-b border-gray-200">
         <div className="max-w-7xl mx-auto px-6 py-4">
-          <div className="flex items-center space-x-4">
-            <button
-              onClick={handleBackToDashboard}
-              className="flex items-center space-x-2 text-gray-600 hover:text-gray-900 transition-colors"
-            >
-              <ArrowLeft className="w-5 h-5" />
-              <span className="font-medium">Back to Dashboard</span>
-            </button>
-            <div className="flex items-center space-x-3">
-              <div className="w-12 h-12 bg-teal-600 rounded-xl flex items-center justify-center">
-                <Users className="w-6 h-6 text-white" />
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+            <div className="flex items-center space-x-4">
+              <button
+                onClick={handleBackToDashboard}
+                className="flex items-center space-x-2 text-gray-600 hover:text-gray-900 transition-colors"
+              >
+                <ArrowLeft className="w-5 h-5" />
+                <span className="font-medium">Back to Dashboard</span>
+              </button>
+              
+              <div className="flex items-center space-x-3">
+                <div className="w-12 h-12 bg-teal-600 rounded-xl flex items-center justify-center">
+                  <Users className="w-6 h-6 text-white" />
+                </div>
+                <div>
+                  <h1 className="text-2xl font-bold text-gray-900">Interview Results</h1>
+                  <p className="text-gray-500">
+                    {interviews.length} interview{interviews.length !== 1 ? "s" : ""} found
+                  </p>
+                </div>
               </div>
-              <div>
-                <h1 className="text-2xl font-bold text-gray-900">Interview Results</h1>
-                <p className="text-gray-500">
-                  {interviews.length} interview{interviews.length !== 1 ? "s" : ""} found
-                </p>
-              </div>
+              
+              <HeaderBadge />
             </div>
+
+            {interviews.length > 0 && !isRanked && (
+              <button
+                onClick={handleRankCandidates}
+                disabled={isRanking}
+                className="flex items-center gap-2 bg-gradient-to-r from-teal-600 to-blue-600 text-white px-6 py-3 rounded-xl hover:from-teal-700 hover:to-blue-700 transition-all font-semibold shadow-lg hover:shadow-xl disabled:opacity-70 disabled:cursor-not-allowed"
+              >
+                {isRanking ? (
+                  <>
+                    <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
+                    Ranking...
+                  </>
+                ) : (
+                  <>
+                    <Sparkles className="w-5 h-5" />
+                    Rank Candidates
+                  </>
+                )}
+              </button>
+            )}
           </div>
         </div>
       </div>
 
-      {/* Content */}
       <div className="max-w-7xl mx-auto p-6">
         <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
-          {interviews.map((interview) => {
+          {interviews.map((interview, index) => {
             const jobSeeker = interview.Interest?.JobSeekerForm
             const videoUrl = interview.video_path?.replace(/\\/g, "/")
             const cvUrl = jobSeeker?.cvFilePath?.replace(/\\/g, "/")
@@ -276,9 +343,10 @@ const InterviewsGrid = () => {
             return (
               <div
                 key={interview.id}
-                className="bg-white rounded-xl shadow-lg border border-gray-200 overflow-hidden hover:shadow-xl transition-all duration-300"
+                className="bg-white rounded-xl shadow-lg border border-gray-200 overflow-hidden hover:shadow-xl transition-all duration-300 relative"
               >
-                {/* Header */}
+                <RankingIndicator index={index} />
+
                 <div className="bg-gradient-to-r from-teal-50 to-blue-50 p-6 border-b border-gray-100">
                   <div className="flex items-start justify-between">
                     <div className="flex items-center space-x-3">
@@ -304,7 +372,6 @@ const InterviewsGrid = () => {
                   </div>
                 </div>
 
-                {/* Contact Info */}
                 <div className="p-6 space-y-3">
                   <div className="flex items-center space-x-3 text-gray-600">
                     <Mail className="w-4 h-4 text-teal-500" />
@@ -315,7 +382,6 @@ const InterviewsGrid = () => {
                     <span className="text-sm">{jobSeeker?.phoneNumber}</span>
                   </div>
 
-                  {/* Scores */}
                   <div className="grid grid-cols-3 gap-3 mt-4">
                     {[
                       { label: "Communication", score: interview.communication_score, icon: MessageSquare },
@@ -334,7 +400,6 @@ const InterviewsGrid = () => {
                     ))}
                   </div>
 
-                  {/* Expandable Content */}
                   <div className="mt-4">
                     <button
                       onClick={() => toggleCardExpansion(interview.id)}
@@ -350,7 +415,6 @@ const InterviewsGrid = () => {
 
                     {isExpanded && (
                       <div className="mt-4 space-y-4 animate-in slide-in-from-top-2 duration-200">
-                        {/* Notes */}
                         {interview.notes && (
                           <div className="p-4 bg-teal-50 rounded-lg">
                             <h4 className="font-semibold text-gray-900 mb-2 flex items-center">
@@ -361,9 +425,7 @@ const InterviewsGrid = () => {
                           </div>
                         )}
 
-                        {/* Media Files */}
                         <div className="space-y-3">
-                          {/* CV Link */}
                           {cvUrl && (
                             <a
                               href={`http://localhost:3001/${cvUrl}`}
@@ -379,7 +441,6 @@ const InterviewsGrid = () => {
                             </a>
                           )}
 
-                          {/* Interview Video */}
                           {videoUrl && (
                             <div className="space-y-2">
                               <button
@@ -406,7 +467,6 @@ const InterviewsGrid = () => {
                             </div>
                           )}
 
-                          {/* Pitch Video */}
                           {pitchVideoUrl && (
                             <div className="space-y-2">
                               <button

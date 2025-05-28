@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { Interview, UserRecruiter, Interest,JobSeekerForm } = require('../models');
+const { Interview, UserRecruiter, Interest,UserJobSeeker,JobSeekerForm, RecruiterForm } = require('../models');
 const multer = require('multer');
 const fs = require('fs');
 const path = require('path');
@@ -8,7 +8,7 @@ const { validateToken } = require('../middlewares/AuthMiddleware');
 const db = require("../models");
 const sequelize = db.sequelize;
 
-
+const axios = require("axios");
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -208,6 +208,89 @@ router.get("/offer/:offerId", async (req, res) => {
 });
 
 
+// New ranking endpoint - matches your existing pattern
+router.post('/rank/:offerId', validateToken, async (req, res) => {
+  try {
+    const recruiterId = req.user.id;
+    const offerId = req.params.offerId;
 
+    // Verify offer ownership
+    const offer = await RecruiterForm.findOne({
+      where: { id: offerId, UserRecruiterId: recruiterId }
+    });
+    if (!offer) {
+      return res.status(404).json({ error: "Offre introuvable ou non autorisée" });
+    }
+
+    // Get all completed interviews for this offer with related data
+    const interviews = await Interview.findAll({
+      include: [{
+        model: Interest,
+        where: { OfferId: offerId },
+        include: [{
+          model: JobSeekerForm,
+          include: [UserJobSeeker]
+        }]
+      }]
+    });
+
+    // Prepare data for Python processing
+    const interviewData = interviews.map(interview => ({
+      id: interview.id,
+      communication: interview.communication_score,
+      technical: interview.technical_score,
+      motivation: interview.motivation_score,
+      notes: interview.notes,
+      video_path: interview.video_path,
+      seeker_data: {
+        ...interview.Interest.JobSeekerForm.toJSON(),
+        user: interview.Interest.JobSeekerForm.UserJobSeeker.toJSON()
+      }
+    }));
+
+    // Send to Python for processing
+    const response = await axios.post('http://localhost:4000/interview-analyze', {
+      offer_id: offerId,
+      interviews: interviewData
+    });
+
+    // Update interviews with calculated scores
+    await Promise.all(interviews.map((interview, index) => {
+      return interview.update({
+        notes_score: response.data.scores[index].notes,
+        video_score: response.data.scores[index].video,
+        overall_score: response.data.scores[index].overall
+      });
+    }));
+
+    // Return ranked results with all needed associations
+    const rankedResults = await Interview.findAll({
+      include: [{
+        model: Interest,
+        where: { OfferId: offerId },
+        include: [{
+          model: JobSeekerForm,
+          include: [UserJobSeeker]
+        }]
+      }],
+      order: [['overall_score', 'DESC']]
+    });
+
+    res.json({ 
+      rankedCandidates: rankedResults.map(result => ({
+        ...result.toJSON(),
+        JobSeekerForm: result.Interest.JobSeekerForm,
+        UserJobSeeker: result.Interest.JobSeekerForm.UserJobSeeker
+      }))
+    });
+
+  } catch (error) {
+    console.error('Erreur moteur d\'entretien :', error);
+    res.status(500).json({ 
+      error: 'Erreur serveur interne',
+      details: error.message 
+    });
+  }
+});
 
 module.exports = router;

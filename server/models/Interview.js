@@ -1,7 +1,7 @@
 module.exports = (sequelize, DataTypes) => {
     const Interview = sequelize.define("Interview", {
         date: {
-            type : DataTypes.DATE,
+            type: DataTypes.DATE,
             allowNull: false,
             defaultValue: DataTypes.NOW
         },
@@ -22,11 +22,23 @@ module.exports = (sequelize, DataTypes) => {
         },
         video_path: {
             type: DataTypes.STRING
+        },
+        notes_score: {
+            type: DataTypes.FLOAT,
+            allowNull: true
+        },
+        video_score: {
+            type: DataTypes.FLOAT,
+            allowNull: true
+        },
+        overall_score: {
+            type: DataTypes.FLOAT,
+            allowNull: true
         }
     }, {
-        // this part was missing
         tableName: 'Interviews'
     });
+
 
     Interview.associate = (models) => {
         Interview.belongsTo(models.UserRecruiter, {
