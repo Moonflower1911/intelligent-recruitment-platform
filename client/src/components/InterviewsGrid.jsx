@@ -1,8 +1,8 @@
-"use client"
+"use client";
 
-import { useEffect, useState } from "react"
-import { useParams, useNavigate } from "react-router-dom"
-import axios from "axios"
+import { useEffect, useState } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import axios from "axios";
 import {
   User,
   Mail,
@@ -24,104 +24,98 @@ import {
   Briefcase,
   BarChart2,
   ListOrdered,
-  Sparkles
-} from "lucide-react"
+  Sparkles,
+} from "lucide-react";
 
 const InterviewsGrid = () => {
-  const { offerId } = useParams()
-  const navigate = useNavigate()
-  const [interviews, setInterviews] = useState([])
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState(null)
-  const [expandedCards, setExpandedCards] = useState(new Set())
-  const [visibleVideos, setVisibleVideos] = useState(new Set())
-  const [isRanked, setIsRanked] = useState(false)
-  const [isRanking, setIsRanking] = useState(false)
+  const { offerId } = useParams();
+  const navigate = useNavigate();
+  const [interviews, setInterviews] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [expandedCards, setExpandedCards] = useState(new Set());
+  const [visibleVideos, setVisibleVideos] = useState(new Set());
+  const [isRanked, setIsRanked] = useState(false);
+  const [isRanking, setIsRanking] = useState(false);
 
   useEffect(() => {
-    fetchInterviews()
-  }, [offerId])
+    fetchInterviews();
+  }, [offerId]);
 
   const fetchInterviews = async () => {
     try {
-      setLoading(true)
-      const response = await axios.get(`http://localhost:3001/interview/offer/${offerId}`)
-      setInterviews(response.data)
-      setIsRanked(false)
+      setLoading(true);
+      const response = await axios.get(
+        `http://localhost:3001/interview/offer/${offerId}`
+      );
+      setInterviews(response.data);
+      setIsRanked(false);
     } catch (err) {
-      console.error("Error fetching interviews:", err)
-      setError("Failed to load interviews")
+      console.error("Error fetching interviews:", err);
+      setError("Failed to load interviews");
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }
+  };
 
   const handleRankCandidates = async () => {
     try {
-      setIsRanking(true)
-      const accessToken = sessionStorage.getItem("accessToken")
+      setIsRanking(true);
+      const accessToken = sessionStorage.getItem("accessToken");
       const response = await axios.post(
         `http://localhost:3001/interview/rank/${offerId}`,
         {},
         { headers: { accessToken } }
-      )
-      setInterviews(response.data.rankedCandidates)
-      setIsRanked(true)
+      );
+      setInterviews(response.data.rankedCandidates);
+      setIsRanked(true);
     } catch (err) {
-      console.error("Error ranking candidates:", err)
-      setError("Failed to rank candidates")
+      console.error("Error ranking candidates:", err);
+      setError("Failed to rank candidates");
     } finally {
-      setIsRanking(false)
+      setIsRanking(false);
     }
-  }
+  };
 
   const handleBackToDashboard = () => {
-    navigate("/recruiter")
-  }
+    navigate("/recruiter");
+  };
 
   const toggleCardExpansion = (interviewId) => {
-    const newExpanded = new Set(expandedCards)
+    const newExpanded = new Set(expandedCards);
     if (newExpanded.has(interviewId)) {
-      newExpanded.delete(interviewId)
+      newExpanded.delete(interviewId);
     } else {
-      newExpanded.add(interviewId)
+      newExpanded.add(interviewId);
     }
-    setExpandedCards(newExpanded)
-  }
+    setExpandedCards(newExpanded);
+  };
 
   const toggleVideoVisibility = (videoId) => {
-    const newVisible = new Set(visibleVideos)
+    const newVisible = new Set(visibleVideos);
     if (newVisible.has(videoId)) {
-      newVisible.delete(videoId)
+      newVisible.delete(videoId);
     } else {
-      newVisible.add(videoId)
+      newVisible.add(videoId);
     }
-    setVisibleVideos(newVisible)
-  }
+    setVisibleVideos(newVisible);
+  };
 
   const getScoreColor = (score) => {
-    if (!score) return "bg-gray-500"
-    if (score >= 4) return "bg-green-500"
-    if (score >= 3) return "bg-blue-500"
-    if (score >= 2) return "bg-yellow-500"
-    return "bg-red-500"
-  }
+    if (!score) return "bg-gray-500";
+    if (score >= 4) return "bg-green-500";
+    if (score >= 3) return "bg-blue-500";
+    if (score >= 2) return "bg-yellow-500";
+    return "bg-red-500";
+  };
 
   const getScoreLabel = (score) => {
-    if (!score) return "N/A"
-    if (score >= 4) return "Excellent"
-    if (score >= 3) return "Good"
-    if (score >= 2) return "Average"
-    return "Poor"
-  }
-
-  const calculateAverageScore = (interview) => {
-    const scores = [interview.communication_score, interview.technical_score, interview.motivation_score].filter(
-      (score) => score !== undefined && score !== null,
-    )
-    if (scores.length === 0) return null
-    return scores.reduce((sum, score) => sum + score, 0) / scores.length
-  }
+    if (!score) return "N/A";
+    if (score >= 4) return "Excellent";
+    if (score >= 3) return "Good";
+    if (score >= 2) return "Average";
+    return "Poor";
+  };
 
   const HeaderBadge = () => {
     if (isRanked) {
@@ -130,19 +124,19 @@ const InterviewsGrid = () => {
           <ListOrdered className="w-5 h-5" />
           Ranked by AI Analysis
         </div>
-      )
+      );
     }
-    return null
-  }
+    return null;
+  };
 
   const RankingIndicator = ({ index }) => {
-    if (!isRanked) return null
+    if (!isRanked) return null;
     return (
       <div className="absolute top-4 right-4 bg-teal-600 text-white text-sm font-bold w-6 h-6 rounded-full flex items-center justify-center">
         {index + 1}
       </div>
-    )
-  }
+    );
+  };
 
   if (loading) {
     return (
@@ -162,7 +156,9 @@ const InterviewsGrid = () => {
                   <Users className="w-6 h-6 text-white" />
                 </div>
                 <div>
-                  <h1 className="text-2xl font-bold text-gray-900">Interview Results</h1>
+                  <h1 className="text-2xl font-bold text-gray-900">
+                    Interview Results
+                  </h1>
                   <p className="text-gray-500">Loading interviews...</p>
                 </div>
               </div>
@@ -177,7 +173,7 @@ const InterviewsGrid = () => {
           </div>
         </div>
       </div>
-    )
+    );
   }
 
   if (error) {
@@ -198,7 +194,9 @@ const InterviewsGrid = () => {
                   <Users className="w-6 h-6 text-white" />
                 </div>
                 <div>
-                  <h1 className="text-2xl font-bold text-gray-900">Interview Results</h1>
+                  <h1 className="text-2xl font-bold text-gray-900">
+                    Interview Results
+                  </h1>
                   <p className="text-red-500">Error loading data</p>
                 </div>
               </div>
@@ -211,7 +209,9 @@ const InterviewsGrid = () => {
             <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto">
               <MessageSquare className="w-8 h-8 text-red-600" />
             </div>
-            <h3 className="text-xl font-semibold text-gray-900">Error Loading Interviews</h3>
+            <h3 className="text-xl font-semibold text-gray-900">
+              Error Loading Interviews
+            </h3>
             <p className="text-red-600">{error}</p>
             <button
               onClick={() => window.location.reload()}
@@ -222,7 +222,7 @@ const InterviewsGrid = () => {
           </div>
         </div>
       </div>
-    )
+    );
   }
 
   if (interviews.length === 0) {
@@ -243,7 +243,9 @@ const InterviewsGrid = () => {
                   <Users className="w-6 h-6 text-white" />
                 </div>
                 <div>
-                  <h1 className="text-2xl font-bold text-gray-900">Interview Results</h1>
+                  <h1 className="text-2xl font-bold text-gray-900">
+                    Interview Results
+                  </h1>
                   <p className="text-gray-500">0 interviews found</p>
                 </div>
               </div>
@@ -258,10 +260,13 @@ const InterviewsGrid = () => {
                 <Briefcase className="w-12 h-12 text-gray-400" />
               </div>
               <div className="space-y-2">
-                <h3 className="text-2xl font-semibold text-gray-900">No Interviews Yet</h3>
+                <h3 className="text-2xl font-semibold text-gray-900">
+                  No Interviews Yet
+                </h3>
                 <p className="text-gray-600 max-w-md mx-auto leading-relaxed">
-                  No interviews have been conducted for this job offer. Check back later or start scheduling interviews
-                  with interested candidates.
+                  No interviews have been conducted for this job offer. Check
+                  back later or start scheduling interviews with interested
+                  candidates.
                 </p>
               </div>
               <button
@@ -275,7 +280,7 @@ const InterviewsGrid = () => {
           </div>
         </div>
       </div>
-    )
+    );
   }
 
   return (
@@ -291,19 +296,22 @@ const InterviewsGrid = () => {
                 <ArrowLeft className="w-5 h-5" />
                 <span className="font-medium">Back to Dashboard</span>
               </button>
-              
+
               <div className="flex items-center space-x-3">
                 <div className="w-12 h-12 bg-teal-600 rounded-xl flex items-center justify-center">
                   <Users className="w-6 h-6 text-white" />
                 </div>
                 <div>
-                  <h1 className="text-2xl font-bold text-gray-900">Interview Results</h1>
+                  <h1 className="text-2xl font-bold text-gray-900">
+                    Interview Results
+                  </h1>
                   <p className="text-gray-500">
-                    {interviews.length} interview{interviews.length !== 1 ? "s" : ""} found
+                    {interviews.length} interview
+                    {interviews.length !== 1 ? "s" : ""} found
                   </p>
                 </div>
               </div>
-              
+
               <HeaderBadge />
             </div>
 
@@ -333,12 +341,11 @@ const InterviewsGrid = () => {
       <div className="max-w-7xl mx-auto p-6">
         <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
           {interviews.map((interview, index) => {
-            const jobSeeker = interview.Interest?.JobSeekerForm
-            const videoUrl = interview.video_path?.replace(/\\/g, "/")
-            const cvUrl = jobSeeker?.cvFilePath?.replace(/\\/g, "/")
-            const pitchVideoUrl = jobSeeker?.videoFilePath?.replace(/\\/g, "/")
-            const isExpanded = expandedCards.has(interview.id)
-            const averageScore = calculateAverageScore(interview)
+            const jobSeeker = interview.Interest?.JobSeekerForm;
+            const videoUrl = interview.video_path?.replace(/\\/g, "/");
+            const cvUrl = jobSeeker?.cvFilePath?.replace(/\\/g, "/");
+            const pitchVideoUrl = jobSeeker?.videoFilePath?.replace(/\\/g, "/");
+            const isExpanded = expandedCards.has(interview.id);
 
             return (
               <div
@@ -359,16 +366,12 @@ const InterviewsGrid = () => {
                         </h2>
                         <div className="flex items-center space-x-2 mt-1">
                           <Calendar className="w-4 h-4 text-gray-500" />
-                          <span className="text-sm text-gray-600">{new Date(interview.date).toLocaleDateString()}</span>
+                          <span className="text-sm text-gray-600">
+                            {new Date(interview.date).toLocaleDateString()}
+                          </span>
                         </div>
                       </div>
                     </div>
-                    {averageScore && (
-                      <div className="text-center">
-                        <div className="text-2xl font-bold text-teal-600">{averageScore.toFixed(1)}</div>
-                        <div className="text-xs text-gray-500">Overall</div>
-                      </div>
-                    )}
                   </div>
                 </div>
 
@@ -384,18 +387,47 @@ const InterviewsGrid = () => {
 
                   <div className="grid grid-cols-3 gap-3 mt-4">
                     {[
-                      { label: "Communication", score: interview.communication_score, icon: MessageSquare },
-                      { label: "Technical", score: interview.technical_score, icon: Award },
-                      { label: "Motivation", score: interview.motivation_score, icon: TrendingUp },
+                      {
+                        label: "Communication",
+                        score: interview.communication_score,
+                        icon: MessageSquare,
+                      },
+                      {
+                        label: "Technical",
+                        score: interview.technical_score,
+                        icon: Award,
+                      },
+                      {
+                        label: "Motivation",
+                        score: interview.motivation_score,
+                        icon: TrendingUp,
+                      },
                     ].map(({ label, score, icon: Icon }) => (
-                      <div key={label} className="text-center p-3 bg-gray-50 rounded-lg">
+                      <div
+                        key={label}
+                        className="text-center p-3 bg-gray-50 rounded-lg"
+                      >
                         <Icon className="w-5 h-5 mx-auto mb-1 text-gray-600" />
-                        <div className="text-xs text-gray-500 mb-1">{label}</div>
-                        <div className="flex items-center justify-center space-x-1">
-                          <span className="text-lg font-bold text-gray-900">{score ?? "N/A"}</span>
-                          {score && <div className={`w-2 h-2 rounded-full ${getScoreColor(score)}`} />}
+                        <div className="text-xs text-gray-500 mb-1">
+                          {label}
                         </div>
-                        {score && <div className="text-xs text-gray-500 mt-1">{getScoreLabel(score)}</div>}
+                        <div className="flex items-center justify-center space-x-1">
+                          <span className="text-lg font-bold text-gray-900">
+                            {score ?? "N/A"}
+                          </span>
+                          {score && (
+                            <div
+                              className={`w-2 h-2 rounded-full ${getScoreColor(
+                                score
+                              )}`}
+                            />
+                          )}
+                        </div>
+                        {score && (
+                          <div className="text-xs text-gray-500 mt-1">
+                            {getScoreLabel(score)}
+                          </div>
+                        )}
                       </div>
                     ))}
                   </div>
@@ -405,7 +437,9 @@ const InterviewsGrid = () => {
                       onClick={() => toggleCardExpansion(interview.id)}
                       className="flex items-center justify-between w-full p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors"
                     >
-                      <span className="font-medium text-gray-900">{isExpanded ? "Hide Details" : "Show Details"}</span>
+                      <span className="font-medium text-gray-900">
+                        {isExpanded ? "Hide Details" : "Show Details"}
+                      </span>
                       {isExpanded ? (
                         <ChevronUp className="w-5 h-5 text-gray-500" />
                       ) : (
@@ -421,7 +455,9 @@ const InterviewsGrid = () => {
                               <MessageSquare className="w-4 h-4 mr-2 text-teal-600" />
                               Interview Notes
                             </h4>
-                            <p className="text-gray-700 text-sm leading-relaxed">{interview.notes}</p>
+                            <p className="text-gray-700 text-sm leading-relaxed">
+                              {interview.notes}
+                            </p>
                           </div>
                         )}
 
@@ -435,7 +471,9 @@ const InterviewsGrid = () => {
                             >
                               <div className="flex items-center space-x-3">
                                 <FileText className="w-5 h-5 text-green-600" />
-                                <span className="font-medium text-green-800">View CV</span>
+                                <span className="font-medium text-green-800">
+                                  View CV
+                                </span>
                               </div>
                               <Download className="w-4 h-4 text-green-600 group-hover:translate-y-0.5 transition-transform" />
                             </a>
@@ -444,20 +482,30 @@ const InterviewsGrid = () => {
                           {videoUrl && (
                             <div className="space-y-2">
                               <button
-                                onClick={() => toggleVideoVisibility(`interview-${interview.id}`)}
+                                onClick={() =>
+                                  toggleVideoVisibility(
+                                    `interview-${interview.id}`
+                                  )
+                                }
                                 className="flex items-center justify-between w-full p-3 bg-purple-50 rounded-lg hover:bg-purple-100 transition-colors"
                               >
                                 <div className="flex items-center space-x-3">
                                   <Video className="w-5 h-5 text-purple-600" />
-                                  <span className="font-medium text-purple-800">Interview Recording</span>
+                                  <span className="font-medium text-purple-800">
+                                    Interview Recording
+                                  </span>
                                 </div>
-                                {visibleVideos.has(`interview-${interview.id}`) ? (
+                                {visibleVideos.has(
+                                  `interview-${interview.id}`
+                                ) ? (
                                   <EyeOff className="w-4 h-4 text-purple-600" />
                                 ) : (
                                   <Eye className="w-4 h-4 text-purple-600" />
                                 )}
                               </button>
-                              {visibleVideos.has(`interview-${interview.id}`) && (
+                              {visibleVideos.has(
+                                `interview-${interview.id}`
+                              ) && (
                                 <video
                                   src={`http://localhost:3001/${videoUrl}`}
                                   controls
@@ -470,12 +518,16 @@ const InterviewsGrid = () => {
                           {pitchVideoUrl && (
                             <div className="space-y-2">
                               <button
-                                onClick={() => toggleVideoVisibility(`pitch-${interview.id}`)}
+                                onClick={() =>
+                                  toggleVideoVisibility(`pitch-${interview.id}`)
+                                }
                                 className="flex items-center justify-between w-full p-3 bg-orange-50 rounded-lg hover:bg-orange-100 transition-colors"
                               >
                                 <div className="flex items-center space-x-3">
                                   <Play className="w-5 h-5 text-orange-600" />
-                                  <span className="font-medium text-orange-800">Candidate Pitch</span>
+                                  <span className="font-medium text-orange-800">
+                                    Candidate Pitch
+                                  </span>
                                 </div>
                                 {visibleVideos.has(`pitch-${interview.id}`) ? (
                                   <EyeOff className="w-4 h-4 text-orange-600" />
@@ -492,18 +544,60 @@ const InterviewsGrid = () => {
                               )}
                             </div>
                           )}
+
+                          {/* Add this section to show Python-calculated scores */}
+                          {isRanked && (
+                            <div className="mt-4 p-4 bg-blue-50 rounded-lg border border-blue-100">
+                              <h4 className="font-semibold text-blue-800 mb-3 flex items-center">
+                                <Sparkles className="w-4 h-4 mr-2" />
+                                AI Evaluation Scores
+                              </h4>
+                              <div className="grid grid-cols-3 gap-3">
+                                {[
+                                  {
+                                    label: "Notes Analysis",
+                                    score: interview.notes_score,
+                                    icon: FileText,
+                                  },
+                                  {
+                                    label: "Video Analysis",
+                                    score: interview.video_score,
+                                    icon: Video,
+                                  },
+                                  {
+                                    label: "Overall Score",
+                                    score: interview.overall_score,
+                                    icon: BarChart2,
+                                  },
+                                ].map(({ label, score, icon: Icon }) => (
+                                  <div
+                                    key={label}
+                                    className="text-center p-3 bg-white rounded-lg shadow-xs"
+                                  >
+                                    <Icon className="w-5 h-5 mx-auto mb-1 text-blue-600" />
+                                    <div className="text-xs text-blue-600 mb-1">
+                                      {label}
+                                    </div>
+                                    <div className="text-lg font-bold text-blue-800">
+                                      {score ? score.toFixed(1) : "N/A"}
+                                    </div>
+                                  </div>
+                                ))}
+                              </div>
+                            </div>
+                          )}
                         </div>
                       </div>
                     )}
                   </div>
                 </div>
               </div>
-            )
+            );
           })}
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default InterviewsGrid
+export default InterviewsGrid;
