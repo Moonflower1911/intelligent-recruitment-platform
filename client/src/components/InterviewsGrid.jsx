@@ -67,6 +67,7 @@ const InterviewsGrid = () => {
         {},
         { headers: { accessToken } }
       );
+      console.log("[RANKING RESPONSE] Data received from backend:", response.data);
       setInterviews(response.data.rankedCandidates);
       setIsRanked(true);
     } catch (err) {
@@ -579,7 +580,7 @@ const InterviewsGrid = () => {
                                       {label}
                                     </div>
                                     <div className="text-lg font-bold text-blue-800">
-                                      {score ? score.toFixed(1) : "N/A"}
+                                      {score ?? "N/A"}
                                     </div>
                                   </div>
                                 ))}
