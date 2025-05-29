@@ -1,2 +1,0 @@
-Score: 90
-Explanation: Excellent domain-specific relevance due to the candidate's extensive skills in full-stack development with React.js, Node.js, and Java, matching the job requirements.
