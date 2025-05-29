@@ -294,7 +294,7 @@ router.post('/rank/:offerId', validateToken, async (req, res) => {
 });
 
 
-//route pour tester le calcul de notes_score
+//route pour tester le calcul de notes_score (elle retorune une liste de id interview pour un offre donnée)
 router.get("/offer/:offerId/interview-ids", async (req, res) => {
   try {
     const { offerId } = req.params;
