@@ -14,6 +14,9 @@ load_dotenv()
 
 app = Flask(__name__)
 
+
+
+
 # Create logs directory if needed
 os.makedirs("logs", exist_ok=True)
 

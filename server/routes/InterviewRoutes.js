@@ -293,4 +293,28 @@ router.post('/rank/:offerId', validateToken, async (req, res) => {
   }
 });
 
+
+//route pour tester le calcul de notes_score
+router.get("/offer/:offerId/interview-ids", async (req, res) => {
+  try {
+    const { offerId } = req.params;
+
+    const interviews = await Interview.findAll({
+      include: [
+        {
+          model: Interest,
+          where: { OfferId: offerId },
+        }
+      ],
+      attributes: ["id"]
+    });
+
+    const interviewIds = interviews.map((interview) => interview.id);
+    res.json({ interviewIds });
+  } catch (error) {
+    console.error("Error fetching interview IDs:", error);
+    res.status(500).json({ error: "Failed to fetch interview IDs" });
+  }
+});
+
 module.exports = router;

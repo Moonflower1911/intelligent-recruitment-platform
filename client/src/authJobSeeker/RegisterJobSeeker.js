@@ -24,7 +24,7 @@ function RegisterJobSeeker() {
         password,
       });
       alert("Registration successful");
-      navigate("/landingpage");
+      navigate("/");
     } catch (error) {
       if (
         error.response &&
