@@ -24,7 +24,7 @@ function RegisterRecruiter() {
         password,
       });
       alert("Registration successful");
-      navigate("/");
+      navigate("/authRecruiter/login");
     } catch (error) {
       if (
         error.response &&

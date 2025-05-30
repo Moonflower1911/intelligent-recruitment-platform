@@ -1,19 +1,19 @@
-// src/pages/CreateJobOffer.jsx
-
-import React from "react";
 import JobOfferForm from "../components/JobOfferForm";
-import Navbar from "../components/navbar";
 
 function CreateJobOffer() {
   return (
-    <div
-      className="min-h-screen bg-cover bg-center bg-no-repeat bg-fixed"
-      style={{
-        backgroundImage: "url('/18705217_v1016-a-08.jpg')",
-      }}
-    >
-      <Navbar />
-      <JobOfferForm />
+    <div className="min-h-screen bg-gradient-to-br from-[#f0f4f8] to-[#dfe7ef] py-8 px-4 sm:px-6">
+      <div className="max-w-4xl mx-auto">
+        <div className="text-center mb-6">
+          <h1 className="text-2xl font-bold text-[#1E3A8A]">
+            Create New Job Opportunity
+          </h1>
+          <p className="mt-1 text-sm text-gray-600 max-w-lg mx-auto">
+            Fill out the form below to post your job offer
+          </p>
+        </div>
+        <JobOfferForm />
+      </div>
     </div>
   );
 }

@@ -194,8 +194,23 @@ def score_candidate_against_offer(structured_profile_text, offer):
 def analyze():
     print("[INFO] /analyze route triggered.")
     data = request.json
-    cv_path = data.get("cv_path")
-    video_path = data.get("video_path")
+
+    # Get relative paths from JSON
+    rel_cv_path = data.get("cv_path")
+    rel_video_path = data.get("video_path")
+
+    # Base directory of the server (up one level from scripts_python)
+    base_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
+
+    # Resolve absolute paths
+    cv_path = os.path.abspath(os.path.join(base_dir, rel_cv_path.replace("\\", "/"))) if rel_cv_path else None
+    video_path = os.path.abspath(os.path.join(base_dir, rel_video_path.replace("\\", "/"))) if rel_video_path else None
+
+    # Debug logs
+    print(f"[DEBUG] Received cv_path: {rel_cv_path}")
+    print(f"[DEBUG] Absolute CV Path: {cv_path}")
+    print(f"[DEBUG] CV Exists? {os.path.exists(cv_path)}")
+    print(f"[DEBUG] Video Exists? {os.path.exists(video_path) if video_path else 'No video'}")
 
     if not cv_path or not os.path.exists(cv_path):
         print("[ERROR] Missing or invalid CV path.")
@@ -279,11 +294,20 @@ def offer_analyze():
             ), seeker))
 
             try:
-                cv_path = seeker_data["cvFilePath"]
-                video_path = seeker_data.get("videoFilePath")
+                base_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
+
+                rel_cv_path = seeker_data["cvFilePath"]
+                rel_video_path = seeker_data.get("videoFilePath")
+
+                cv_path = os.path.abspath(os.path.join(base_dir, rel_cv_path.replace("\\", "/"))) if rel_cv_path else None
+                video_path = os.path.abspath(os.path.join(base_dir, rel_video_path.replace("\\", "/"))) if rel_video_path else None
+
+                print(f"[DEBUG] Seeker {seeker_data['id']} CV path: {cv_path}")
+                print(f"[DEBUG] CV Exists? {os.path.exists(cv_path)}")
 
                 if not cv_path or not os.path.exists(cv_path):
                     raise Exception("Missing CV")
+
 
                 cv_text = extract_cv_text(cv_path)
                 video_text = transcribe_video(video_path) if video_path and os.path.exists(video_path) else ""

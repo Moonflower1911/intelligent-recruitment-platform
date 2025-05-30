@@ -1,33 +1,36 @@
-import React from "react";
+"use client"
+import { Search } from "lucide-react"
 
 function SearchBar({ value, onChange, onSubmit }) {
   return (
-    <div className="flex flex-1 items-center justify-center p-6">
-      <div className="w-full max-w-lg">
-        <form
-          className="mt-5 sm:flex sm:items-center"
-          onSubmit={onSubmit} // Submit handled by parent
-        >
+    <form onSubmit={onSubmit} className="w-full">
+      <div className="flex items-center space-x-3">
+        {/* Main Search */}
+        <div className="flex-1 relative">
+          <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+            <Search className="h-4 w-4 text-gray-400" />
+          </div>
           <input
             id="q"
             name="q"
-            className="inline w-full rounded-md border border-gray-300 bg-white py-2 pl-3 pr-3 leading-5 placeholder-gray-500 focus:border-[#175d69] focus:placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-[#175d69] sm:text-sm"
-            placeholder="Keyword"
+            className="block w-full pl-10 pr-3 py-2.5 border border-gray-300 rounded-lg bg-white text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#1E3A8A] focus:border-[#1E3A8A] text-sm"
+            placeholder="Search jobs, companies, or keywords..."
             type="search"
-            autoFocus
             value={value}
             onChange={onChange}
           />
-          <button
-            type="submit"
-            className="mt-3 inline-flex w-full items-center justify-center rounded-md border border-transparent bg-[#175d69] px-4 py-2 font-medium text-white shadow-sm hover:bg-[#134e58] focus:outline-none focus:ring-2 focus:ring-[#175d69] focus:ring-offset-2 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
-          >
-            Search
-          </button>
-        </form>
+        </div>
+
+        {/* Search Button */}
+        <button
+          type="submit"
+          className="px-6 py-2.5 bg-[#1E3A8A] text-white rounded-lg hover:bg-[#1E3A8A]/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#1E3A8A] transition-colors font-medium text-sm"
+        >
+          Search Jobs
+        </button>
       </div>
-    </div>
-  );
+    </form>
+  )
 }
 
-export default SearchBar;
+export default SearchBar

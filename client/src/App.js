@@ -48,7 +48,7 @@ function App() {
             <Route path="/OfferInterested/:id" element={<OfferInterested />} />
             <Route path="/recruiter/interview/:interestId" element={<AddInterview />} />       
             <Route path="/recruiter/interview/view/:id" element={<ViewInterview />} />       
-<Route path="/recruiter/offers/:offerId/interviews" element={<InterviewsGrid />} />
+            <Route path="/recruiter/offers/:offerId/interviews" element={<InterviewsGrid />} />
 
             {/* Job Seeker Routes */}
 

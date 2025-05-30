@@ -17,6 +17,15 @@ app = Flask(__name__)
 # Create logs directory if needed
 os.makedirs("logs", exist_ok=True)
 
+def resolve_path(rel_path):
+    """
+    Resolve a path like 'uploads/cvs/filename.pdf' to an absolute server-side path.
+    Handles both Windows and Linux style slashes.
+    """
+    base_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
+    return os.path.abspath(os.path.join(base_dir, rel_path.replace("\\", "/")))
+
+
 def log_to_file(name, content):
     with open(os.path.join("logs", name), "w", encoding="utf-8") as f:
         f.write(content)
@@ -131,10 +140,18 @@ def offer_baseline():
             ), seeker))
 
             try:
-                cv_path = seeker_data["cvFilePath"]
-                video_path = seeker_data.get("videoFilePath")
+                rel_cv_path = seeker_data["cvFilePath"]
+                rel_video_path = seeker_data.get("videoFilePath")
+
+                cv_path = resolve_path(rel_cv_path) if rel_cv_path else None
+                video_path = resolve_path(rel_video_path) if rel_video_path else None
+
+                print(f"[DEBUG] Seeker {seeker_data['id']} CV path: {cv_path}")
+                print(f"[DEBUG] CV Exists? {os.path.exists(cv_path)}")
+
                 if not cv_path or not os.path.exists(cv_path):
                     raise Exception("CV not found")
+
 
                 cv_text = extract_cv_text(cv_path)
                 video_text = transcribe_video(video_path) if video_path and os.path.exists(video_path) else ""
@@ -161,8 +178,14 @@ def offer_baseline():
 def baseline_analyze():
     print("[INFO] /baseline-analyze route triggered.")
     data = request.json
-    cv_path = data.get("cv_path")
-    video_path = data.get("video_path")
+    rel_cv_path = data.get("cv_path")
+    rel_video_path = data.get("video_path")
+
+    cv_path = resolve_path(rel_cv_path) if rel_cv_path else None
+    video_path = resolve_path(rel_video_path) if rel_video_path else None
+
+    print(f"[DEBUG] Absolute CV Path: {cv_path}")
+    print(f"[DEBUG] CV Exists? {os.path.exists(cv_path)}")
 
     if not cv_path or not os.path.exists(cv_path):
         return jsonify({"error": "CV file is missing or invalid"}), 400

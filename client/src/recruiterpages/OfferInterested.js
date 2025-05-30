@@ -4,8 +4,7 @@ import { useEffect, useState } from "react"
 import { useNavigate, useParams } from "react-router-dom"
 import axios from "axios"
 import JobSeekerCard from "../components/JobSeekerCard"
-import Navbar from "../components/navbar"
-import { ArrowLeft, Users, SortAsc, Briefcase } from "lucide-react"
+import { ArrowLeft, Users, SortAsc, Briefcase, Sparkles } from "lucide-react"
 
 function OfferInterested() {
   const { id } = useParams()
@@ -40,7 +39,16 @@ function OfferInterested() {
       const response = await axios.get(`http://localhost:3001/interest/recommendations/${id}`, {
         headers: { accessToken },
       })
-      const sortedJobSeekers = response.data.sortedApplicants || []
+      const sortedJobSeekers = (response.data.sortedApplicants || []).map((sortedSeeker) => {
+        const original = listOfJobSeekerForms.find(
+          (entry) => entry.jobSeekerForm?.id === sortedSeeker.id
+        )
+        return {
+          ...sortedSeeker,
+          interestId: original?.interestId || null, // attach the correct interestId
+        }
+      })
+
       setListOfJobSeekerForms(sortedJobSeekers)
       setSorted(true)
     } catch (error) {
@@ -56,150 +64,133 @@ function OfferInterested() {
 
   if (loading) {
     return (
-      <div
-        className="min-h-screen bg-cover bg-center bg-no-repeat bg-fixed"
-        style={{
-          backgroundImage: "url('/18705217_v1016-a-08.jpg')",
-        }}
-      >
-        <Navbar />
-        <div className="pl-16 py-10 px-4">
-          <div className="max-w-5xl mx-auto">
-            <div className="flex items-center justify-center min-h-[400px]">
-              <div className="text-center">
-                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#175d69] mx-auto mb-4"></div>
-                <p className="text-gray-600 font-medium">Loading applicants...</p>
-              </div>
-            </div>
+      <div className="min-h-screen flex flex-col bg-[#F8F5F0]">
+        <main className="flex-grow flex items-center justify-center px-4 py-12">
+          <div className="max-w-md w-full text-center">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#D4A574] mx-auto mb-4"></div>
+            <h2 className="text-2xl font-bold text-[#1E3A8A] mb-2">Loading Applicants</h2>
+            <p className="text-[#1E3A8A]/80">Please wait while we fetch the applicant data</p>
           </div>
-        </div>
+        </main>
+        <footer className="bg-[#1E3A8A] text-white py-4 text-center">
+          <p className="text-sm">© {new Date().getFullYear()} TalentConnect. All rights reserved.</p>
+        </footer>
       </div>
     )
   }
 
   return (
-    <div
-      className="min-h-screen bg-cover bg-center bg-no-repeat bg-fixed"
-      style={{
-        backgroundImage: "url('/18705217_v1016-a-08.jpg')",
-      }}
-    >
-      <Navbar />
+    <div className="min-h-screen bg-gray-50 flex flex-col">
+      {/* New Navbar - Starts Here */}
+      <header className="bg-white shadow-sm border-b border-[#F8F5F0]">
+        <div className="max-w-7xl mx-auto px-6 py-4">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
 
-      {/* Content */}
-      <div className="pl-16 py-10 px-4">
-        <div className="max-w-6xl mx-auto">
-          {/* Header Section */}
-          <div className="bg-white/95 backdrop-blur-sm rounded-2xl shadow-xl p-8 mb-8">
-            <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
-              {/* Title and Back Button */}
-              <div className="flex items-center gap-4">
-                <button
-                  onClick={handleBackToHome}
-                  className="inline-flex items-center gap-2 px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg transition-colors duration-200 font-medium"
-                >
-                  <ArrowLeft className="w-5 h-5" />
-                  Back to Dashboard
-                </button>
+            {/* Left Side - Back button and Title */}
+            <div className="flex items-center space-x-4">
+              <button
+                onClick={handleBackToHome}
+                className="flex items-center space-x-2 text-[#1E3A8A] hover:text-[#1E3A8A]/80 transition-colors"
+              >
+                <ArrowLeft className="w-5 h-5" />
+                <span className="font-medium">Back to Dashboard</span>
+              </button>
 
-                <div className="flex items-center gap-3">
-                  <div className="p-3 bg-[#175d69] rounded-xl">
-                    <Users className="w-6 h-6 text-white" />
-                  </div>
-                  <div>
-                    <h1 className="text-3xl font-bold text-[#175d69]">Interested Applicants</h1>
-                    <p className="text-gray-600 mt-1">
-                      {listOfJobSeekerForms.length} {listOfJobSeekerForms.length === 1 ? "applicant" : "applicants"}{" "}
-                      found
-                    </p>
-                  </div>
+              <div className="flex items-center space-x-3">
+                <div className="w-12 h-12 bg-[#1E3A8A] rounded-xl flex items-center justify-center">
+                  <Users className="w-6 h-6 text-white" />
+                </div>
+                <div>
+                  <h1 className="text-2xl font-bold text-[#1E3A8A]">
+                    Interested Applicants
+                  </h1>
+                  <p className="text-[#1E3A8A]/70">
+                    {listOfJobSeekerForms.length}{" "}
+                    {listOfJobSeekerForms.length === 1 ? "applicant" : "applicants"} found
+                  </p>
                 </div>
               </div>
+            </div>
 
-              {/* Sort Button */}
-              {listOfJobSeekerForms.length > 0 && !sorted && (
-                <button
-                  onClick={fetchSortedJobSeekers}
-                  disabled={sortLoading}
-                  className="inline-flex items-center gap-2 bg-gradient-to-r from-[#175d69] to-[#124b55] text-white px-6 py-3 rounded-xl hover:from-[#124b55] hover:to-[#0f3d47] transition-all duration-200 font-semibold shadow-lg hover:shadow-xl transform hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed"
-                >
-                  {sortLoading ? (
-                    <>
-                      <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
-                      Sorting...
-                    </>
-                  ) : (
-                    <>
-                      <SortAsc className="w-5 h-5" />
-                      Sort by Match Percentage
-                    </>
-                  )}
-                </button>
-              )}
-
-              {/* Sorted Indicator */}
-              {sorted && (
-                <div className="inline-flex items-center gap-2 bg-green-100 text-green-800 px-4 py-2 rounded-xl font-medium">
-                  <SortAsc className="w-5 h-5" />
-                  Sorted by Match Score
-                </div>
+            {/* Right Side - AI Sort Button or Badge */}
+            <div className="flex items-center justify-end sm:justify-normal">
+              {listOfJobSeekerForms.length > 0 && (
+                sorted ? (
+                  <div className="inline-flex items-center gap-2 bg-[#D4A574]/20 text-[#1E3A8A] px-4 py-2 rounded-xl font-medium border border-[#D4A574]/30">
+                    <Sparkles className="w-5 h-5 text-[#1E3A8A]" />
+                    AI-Sorted by Match Score
+                  </div>
+                ) : (
+                  <button
+                    onClick={fetchSortedJobSeekers}
+                    disabled={sortLoading}
+                    className="flex items-center gap-2 bg-gradient-to-r from-[#1E3A8A] to-[#D4A574] text-white px-6 py-3 rounded-xl hover:opacity-90 transition-all font-semibold shadow-lg hover:shadow-xl disabled:opacity-70 disabled:cursor-not-allowed"
+                  >
+                    {sortLoading ? (
+                      <>
+                        <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
+                        Analyzing...
+                      </>
+                    ) : (
+                      <>
+                        <Sparkles className="w-5 h-5" />
+                        AI-Powered Sort
+                      </>
+                    )}
+                  </button>
+                )
               )}
             </div>
           </div>
+        </div>
+      </header>
+
+
+      <main className="flex-grow px-4 py-8">
+        <div className="max-w-7xl mx-auto">
 
           {/* Content Area */}
           {listOfJobSeekerForms.length === 0 ? (
-            <div className="bg-white/95 backdrop-blur-sm rounded-2xl shadow-xl p-12">
-              <div className="text-center">
-                <div className="p-4 bg-gray-100 rounded-full w-20 h-20 mx-auto mb-6 flex items-center justify-center">
-                  <Briefcase className="w-10 h-10 text-gray-400" />
+            <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-12 text-center">
+              <div className="max-w-md mx-auto">
+                <div className="p-4 bg-[#F8F5F0] rounded-full w-16 h-16 mx-auto mb-4 flex items-center justify-center">
+                  <Briefcase className="w-8 h-8 text-[#D4A574]" />
                 </div>
-                <h3 className="text-xl font-semibold text-gray-900 mb-2">No Applicants Yet</h3>
-                <p className="text-gray-600 max-w-md mx-auto">
-                  No applicants have expressed interest in this job offer. Check back later or promote your job posting
-                  to attract more candidates.
+                <h3 className="text-xl font-semibold text-[#1E3A8A] mb-2">No Applicants Yet</h3>
+                <p className="text-[#1E3A8A]/70 mb-6 text-sm">
+                  No applicants have expressed interest in this job offer. Check back later or promote your job posting.
                 </p>
                 <button
                   onClick={handleBackToHome}
-                  className="mt-6 inline-flex items-center gap-2 bg-[#175d69] text-white px-6 py-3 rounded-lg hover:bg-[#124b55] transition-colors duration-200 font-medium"
+                  className="inline-flex items-center gap-2 bg-[#1E3A8A] text-white px-5 py-2.5 rounded-lg hover:bg-[#142A5E] transition-colors duration-200 font-medium text-sm"
                 >
-                  <ArrowLeft className="w-5 h-5" />
+                  <ArrowLeft className="w-4 h-4" />
                   Return to Dashboard
                 </button>
               </div>
             </div>
           ) : (
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-              {listOfJobSeekerForms.map((seeker, index) => (
-                <div key={index} className="transform transition-all duration-200 hover:scale-[1.02]">
-                  <JobSeekerCard seeker={seeker.jobSeekerForm} interestId={seeker.interestId} showMatch={sorted} />
-                </div>
-              ))}
-            </div>
-          )}
+            <>
+              <div className="flex flex-wrap gap-6">
+                {listOfJobSeekerForms.map((seeker, index) => (
+                  <div
+                    key={index}
+                    className="transition-all duration-200 hover:shadow-md hover:border-[#D4A574] min-w-[300px] flex-1 basis-[calc(33.333%-1.5rem)] bg-white"
+                    style={{ border: '1px solid #e5e7eb', borderRadius: '0.75rem' }}
+                  >
+                    <JobSeekerCard
+                      seeker={sorted ? seeker : seeker.jobSeekerForm}
+                      interestId={seeker.interestId}
+                      showMatch={sorted}
+                    />
 
-          {/* Footer Actions */}
-          {listOfJobSeekerForms.length > 0 && (
-            <div className="mt-12 bg-white/95 backdrop-blur-sm rounded-2xl shadow-xl p-6">
-              <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
-                <div className="text-center sm:text-left">
-                  <p className="text-gray-600">
-                    Showing {listOfJobSeekerForms.length} applicant{listOfJobSeekerForms.length !== 1 ? "s" : ""}
-                    {sorted && " (sorted by match score)"}
-                  </p>
-                </div>
-                <button
-                  onClick={handleBackToHome}
-                  className="inline-flex items-center gap-2 bg-gray-100 hover:bg-gray-200 text-gray-700 px-6 py-3 rounded-lg transition-colors duration-200 font-medium"
-                >
-                  <ArrowLeft className="w-5 h-5" />
-                  Back to Dashboard
-                </button>
+                  </div>
+                ))}
               </div>
-            </div>
+            </>
           )}
         </div>
-      </div>
+      </main>
     </div>
   )
 }

@@ -3,10 +3,12 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { Upload, FileText, X } from "lucide-react";
 
 const CreateCVForm = () => {
   const navigate = useNavigate();
-  const [fileUrl, setFileUrl] = useState(null); // For storing the preview URL
+  const [filePreview, setFilePreview] = useState(null);
+  const [fileName, setFileName] = useState("");
 
   const initialValues = {
     nom: "",
@@ -18,18 +20,18 @@ const CreateCVForm = () => {
   };
 
   const validationSchema = Yup.object().shape({
-    nom: Yup.string().required("Name is required"),
+    nom: Yup.string().required("Last name is required"),
     prenom: Yup.string().required("First name is required"),
     email: Yup.string()
       .email("Invalid email format")
       .required("Email is required"),
     phoneNumber: Yup.string()
-      .matches(/^[0-9]{10}$/, "Phone number must be exactly 10 digits")
-      .required("Phone number is required"),
+      .matches(/^[0-9]{10}$/, "Phone must be 10 digits")
+      .required("Phone is required"),
     address: Yup.string().required("Address is required"),
     cvFile: Yup.mixed()
-      .required("CV is required")
-      .test("fileFormat", "Only PDF files are allowed", (value) =>
+      .required("CV file is required")
+      .test("fileType", "Only PDF files are allowed", (value) => 
         value && value.type === "application/pdf"
       ),
   });
@@ -37,134 +39,148 @@ const CreateCVForm = () => {
   const onSubmit = async (values, { setSubmitting }) => {
     try {
       const formData = new FormData();
-      for (const key in values) {
-        formData.append(key, values[key]);
-      }
-
-      const response = await axios.post("http://localhost:3001/jobseeker", formData, {
-        headers: {
-          accessToken: sessionStorage.getItem("accessToken"),
-          "Content-Type": "multipart/form-data",
-        },
+      Object.entries(values).forEach(([key, value]) => {
+        formData.append(key, value);
       });
 
-      if (response.data.error) {
-        if (response.data.error.includes("already has a resume")) {
-          alert("You already have a CV. You cannot create another one.");
-        } else {
-          alert(response.data.error);
+      const response = await axios.post(
+        "http://localhost:3001/jobseeker",
+        formData,
+        {
+          headers: {
+            accessToken: sessionStorage.getItem("accessToken"),
+            "Content-Type": "multipart/form-data",
+          },
         }
+      );
+
+      if (response.data.error) {
+        alert(response.data.error.includes("already has a resume") 
+          ? "You already have a CV" 
+          : response.data.error);
       } else {
         navigate("/accountjobseeker");
       }
     } catch (error) {
-      console.error("Error submitting the form!", error);
+      console.error("Submission error:", error);
     } finally {
       setSubmitting(false);
     }
   };
 
-  // Handle file input change and generate a link
   const handleFileChange = (event, setFieldValue) => {
-    const file = event.currentTarget.files[0];
-    setFieldValue("cvFile", file);
-
-    // Generate the file URL
+    const file = event.target.files[0];
     if (file && file.type === "application/pdf") {
-      const fileUrl = URL.createObjectURL(file);
-      setFileUrl(fileUrl); // Set the link to the file
+      setFieldValue("cvFile", file);
+      setFileName(file.name);
+      setFilePreview(URL.createObjectURL(file));
     }
   };
 
+  const removeFile = (setFieldValue) => {
+    setFieldValue("cvFile", null);
+    setFileName("");
+    setFilePreview(null);
+  };
+
   return (
-    <div className="max-w-5xl mx-auto p-8 bg-white rounded-xl shadow-md mt-12">
-      <h2 className="text-3xl font-bold mb-8 text-center text-[#175d69]">
-        Create a New CV
-      </h2>
-      <Formik
-        initialValues={initialValues}
-        validationSchema={validationSchema}
-        onSubmit={onSubmit}
-      >
-        {({ setFieldValue, values }) => (
-          <Form className="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <Formik
+      initialValues={initialValues}
+      validationSchema={validationSchema}
+      onSubmit={onSubmit}
+    >
+      {({ setFieldValue, isSubmitting }) => (
+        <Form className="space-y-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {[
-              { name: "nom", label: "Last Name", placeholder: "E.g. Zuckerberg" },
-              { name: "prenom", label: "First Name", placeholder: "E.g. Mark" },
-              { name: "email", label: "Email", placeholder: "E.g. mark@gmail.com" },
-              { name: "phoneNumber", label: "Phone Number", placeholder: "0600000000" },
-              { name: "address", label: "Address", placeholder: "123 Main St." },
-            ].map(({ name, label, placeholder }) => (
-              <div key={name} className="flex flex-col">
-                <label htmlFor={name} className="font-semibold mb-1">{label}</label>
+              { name: "nom", label: "Last Name", placeholder: "Enter your last name" },
+              { name: "prenom", label: "First Name", placeholder: "Enter your first name" },
+              { name: "email", label: "Email", placeholder: "your.email@example.com" },
+              { name: "phoneNumber", label: "Phone Number", placeholder: "0612345678" },
+              { name: "address", label: "Address", placeholder: "123 Main Street", colSpan: "md:col-span-2" },
+            ].map((field) => (
+              <div key={field.name} className={`flex flex-col ${field.colSpan || ""}`}>
+                <label htmlFor={field.name} className="text-sm font-medium text-gray-700 mb-1">
+                  {field.label}
+                </label>
                 <Field
-                  name={name}
-                  placeholder={placeholder}
-                  className="p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-[#175d69]"
+                  name={field.name}
+                  id={field.name}
+                  placeholder={field.placeholder}
+                  className="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1E3A8A] focus:border-[#1E3A8A]"
                 />
-                <ErrorMessage name={name} component="div" className="text-red-500 text-sm mt-1" />
+                <ErrorMessage name={field.name} component="div" className="text-red-500 text-xs mt-1" />
               </div>
             ))}
+          </div>
 
-            {/* CV Upload with Custom Style and Preview */}
-            <div className="flex flex-col md:col-span-2">
-              <label htmlFor="cvFile" className="font-semibold mb-2">
-                CV (PDF required)
-              </label>
-
-              <div className="rounded-md border border-indigo-500 bg-gray-50 p-4 shadow-md w-36">
-                <label htmlFor="upload" className="flex flex-col items-center gap-2 cursor-pointer">
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-10 w-10 fill-white stroke-indigo-500" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M9 13h6m-3-3v6m5 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                  </svg>
-                  <span className="text-gray-600 font-medium">Upload file</span>
-                </label>
-                <input
-                  id="upload"
-                  name="cvFile"
-                  type="file"
-                  accept="application/pdf"
-                  className="hidden"
-                  onChange={(event) => handleFileChange(event, setFieldValue)}
-                />
-              </div>
-
-              {/* ✅ Show selected file name */}
-              {values.cvFile && (
-                <p className="text-sm text-gray-700 mt-2 truncate max-w-xs">
-                  Selected file: <strong>{values.cvFile.name}</strong>
-                </p>
-              )}
-
-              {/* PDF Preview Link */}
-              {fileUrl && (
-                <div className="mt-4">
-                  <a
-                    href={fileUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-blue-500 hover:underline"
-                  >
-                    Click here to view the CV
-                  </a>
+          {/* CV Upload Section */}
+          <div className="space-y-2">
+            <label className="text-sm font-medium text-gray-700">
+              Upload CV (PDF only)
+            </label>
+            
+            <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center">
+              {filePreview ? (
+                <div className="flex flex-col items-center">
+                  <FileText className="w-12 h-12 text-[#1E3A8A] mb-2" />
+                  <p className="text-sm font-medium text-gray-700 truncate max-w-xs">
+                    {fileName}
+                  </p>
+                  <div className="flex space-x-4 mt-4">
+                    <a
+                      href={filePreview}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-sm text-[#1E3A8A] hover:underline"
+                    >
+                      Preview
+                    </a>
+                    <button
+                      type="button"
+                      onClick={() => removeFile(setFieldValue)}
+                      className="text-sm text-red-500 hover:text-red-700 flex items-center"
+                    >
+                      <X className="w-4 h-4 mr-1" /> Remove
+                    </button>
+                  </div>
                 </div>
+              ) : (
+                <label className="cursor-pointer">
+                  <div className="flex flex-col items-center">
+                    <Upload className="w-12 h-12 text-gray-400 mb-2" />
+                    <p className="text-sm text-gray-600">
+                      Drag and drop or <span className="text-[#1E3A8A] font-medium">browse files</span>
+                    </p>
+                    <p className="text-xs text-gray-500 mt-1">
+                      PDF files only (max. 10MB)
+                    </p>
+                  </div>
+                  <input
+                    type="file"
+                    id="cvFile"
+                    name="cvFile"
+                    accept="application/pdf"
+                    className="hidden"
+                    onChange={(e) => handleFileChange(e, setFieldValue)}
+                  />
+                </label>
               )}
-
-              <ErrorMessage name="cvFile" component="div" className="text-red-500 text-sm mt-2" />
             </div>
+            <ErrorMessage name="cvFile" component="div" className="text-red-500 text-xs" />
+          </div>
 
-            <div className="md:col-span-2">
-              <button
-                type="submit"
-                className="w-full bg-[#175d69] text-white py-3 rounded hover:bg-[#124b55] transition"
-              >
-                Publish CV
-              </button>
-            </div>
-          </Form>
-        )}
-      </Formik>
-    </div>
+          {/* Submit Button */}
+          <button
+            type="submit"
+            disabled={isSubmitting}
+            className="w-full py-3 px-6 bg-[#1E3A8A] text-white rounded-lg hover:bg-[#1E3A8A]/90 transition-colors font-medium disabled:opacity-70"
+          >
+            {isSubmitting ? "Creating CV..." : "Create CV"}
+          </button>
+        </Form>
+      )}
+    </Formik>
   );
 };
 

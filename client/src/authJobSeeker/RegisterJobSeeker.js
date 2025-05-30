@@ -24,7 +24,7 @@ function RegisterJobSeeker() {
         password,
       });
       alert("Registration successful");
-      navigate("/");
+      navigate("/authJobSeeker/login");
     } catch (error) {
       if (
         error.response &&

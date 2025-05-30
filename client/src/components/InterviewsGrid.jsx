@@ -67,7 +67,10 @@ const InterviewsGrid = () => {
         {},
         { headers: { accessToken } }
       );
-      console.log("[RANKING RESPONSE] Data received from backend:", response.data);
+      console.log(
+        "[RANKING RESPONSE] Data received from backend:",
+        response.data
+      );
       setInterviews(response.data.rankedCandidates);
       setIsRanked(true);
     } catch (err) {
@@ -105,8 +108,8 @@ const InterviewsGrid = () => {
   const getScoreColor = (score) => {
     if (!score) return "bg-gray-500";
     if (score >= 4) return "bg-green-500";
-    if (score >= 3) return "bg-blue-500";
-    if (score >= 2) return "bg-yellow-500";
+    if (score >= 3) return "bg-[#1E3A8A]";
+    if (score >= 2) return "bg-[#D4A574]";
     return "bg-red-500";
   };
 
@@ -121,8 +124,8 @@ const InterviewsGrid = () => {
   const HeaderBadge = () => {
     if (isRanked) {
       return (
-        <div className="inline-flex items-center gap-2 bg-green-100 text-green-800 px-4 py-2 rounded-xl font-medium ml-4">
-          <ListOrdered className="w-5 h-5" />
+        <div className="inline-flex items-center gap-2 bg-[#D4A574]/20 text-[#1E3A8A] px-4 py-2 rounded-xl font-medium ml-4 border border-[#D4A574]/30">
+          <ListOrdered className="w-5 h-5 text-[#1E3A8A]" />
           Ranked by AI Analysis
         </div>
       );
@@ -133,7 +136,7 @@ const InterviewsGrid = () => {
   const RankingIndicator = ({ index }) => {
     if (!isRanked) return null;
     return (
-      <div className="absolute top-4 right-4 bg-teal-600 text-white text-sm font-bold w-6 h-6 rounded-full flex items-center justify-center">
+      <div className="absolute top-4 right-4 bg-[#1E3A8A] text-white text-sm font-bold w-6 h-6 rounded-full flex items-center justify-center">
         {index + 1}
       </div>
     );
@@ -141,26 +144,26 @@ const InterviewsGrid = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-50">
-        <div className="bg-white shadow-sm border-b border-gray-200">
+      <div className="min-h-screen bg-[#F8F5F0]">
+        <div className="bg-white shadow-sm border-b border-[#F8F5F0]">
           <div className="max-w-7xl mx-auto px-6 py-4">
             <div className="flex items-center space-x-4">
               <button
                 onClick={handleBackToDashboard}
-                className="flex items-center space-x-2 text-gray-600 hover:text-gray-900 transition-colors"
+                className="flex items-center space-x-2 text-[#1E3A8A] hover:text-[#1E3A8A]/80 transition-colors"
               >
                 <ArrowLeft className="w-5 h-5" />
                 <span className="font-medium">Back to Dashboard</span>
               </button>
               <div className="flex items-center space-x-3">
-                <div className="w-12 h-12 bg-teal-600 rounded-xl flex items-center justify-center">
+                <div className="w-12 h-12 bg-[#1E3A8A] rounded-xl flex items-center justify-center">
                   <Users className="w-6 h-6 text-white" />
                 </div>
                 <div>
-                  <h1 className="text-2xl font-bold text-gray-900">
+                  <h1 className="text-2xl font-bold text-[#1E3A8A]">
                     Interview Results
                   </h1>
-                  <p className="text-gray-500">Loading interviews...</p>
+                  <p className="text-[#1E3A8A]/70">Loading interviews...</p>
                 </div>
               </div>
             </div>
@@ -169,8 +172,8 @@ const InterviewsGrid = () => {
 
         <div className="flex items-center justify-center min-h-[400px]">
           <div className="text-center space-y-4">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-teal-600 mx-auto"></div>
-            <p className="text-lg text-gray-600">Loading interviews...</p>
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#D4A574] mx-auto"></div>
+            <p className="text-lg text-[#1E3A8A]/80">Loading interviews...</p>
           </div>
         </div>
       </div>
@@ -180,22 +183,22 @@ const InterviewsGrid = () => {
   if (error) {
     return (
       <div className="min-h-screen bg-gray-50">
-        <div className="bg-white shadow-sm border-b border-gray-200">
+        <div className="bg-white shadow-sm border-b border-[#F8F5F0]">
           <div className="max-w-7xl mx-auto px-6 py-4">
             <div className="flex items-center space-x-4">
               <button
                 onClick={handleBackToDashboard}
-                className="flex items-center space-x-2 text-gray-600 hover:text-gray-900 transition-colors"
+                className="flex items-center space-x-2 text-[#1E3A8A] hover:text-[#1E3A8A]/80 transition-colors"
               >
                 <ArrowLeft className="w-5 h-5" />
                 <span className="font-medium">Back to Dashboard</span>
               </button>
               <div className="flex items-center space-x-3">
-                <div className="w-12 h-12 bg-teal-600 rounded-xl flex items-center justify-center">
+                <div className="w-12 h-12 bg-[#1E3A8A] rounded-xl flex items-center justify-center">
                   <Users className="w-6 h-6 text-white" />
                 </div>
                 <div>
-                  <h1 className="text-2xl font-bold text-gray-900">
+                  <h1 className="text-2xl font-bold text-[#1E3A8A]">
                     Interview Results
                   </h1>
                   <p className="text-red-500">Error loading data</p>
@@ -210,13 +213,13 @@ const InterviewsGrid = () => {
             <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto">
               <MessageSquare className="w-8 h-8 text-red-600" />
             </div>
-            <h3 className="text-xl font-semibold text-gray-900">
+            <h3 className="text-xl font-semibold text-[#1E3A8A]">
               Error Loading Interviews
             </h3>
             <p className="text-red-600">{error}</p>
             <button
               onClick={() => window.location.reload()}
-              className="px-6 py-3 bg-teal-600 text-white rounded-lg hover:bg-teal-700 transition-colors font-medium"
+              className="px-6 py-3 bg-[#1E3A8A] text-white rounded-lg hover:bg-[#1E3A8A]/90 transition-colors font-medium"
             >
               Try Again
             </button>
@@ -228,26 +231,26 @@ const InterviewsGrid = () => {
 
   if (interviews.length === 0) {
     return (
-      <div className="min-h-screen bg-gray-50">
-        <div className="bg-white shadow-sm border-b border-gray-200">
+      <div className="min-h-screen bg-[#F8F5F0]">
+        <div className="bg-white shadow-sm border-b border-[#F8F5F0]">
           <div className="max-w-7xl mx-auto px-6 py-4">
             <div className="flex items-center space-x-4">
               <button
                 onClick={handleBackToDashboard}
-                className="flex items-center space-x-2 text-gray-600 hover:text-gray-900 transition-colors"
+                className="flex items-center space-x-2 text-[#1E3A8A] hover:text-[#1E3A8A]/80 transition-colors"
               >
                 <ArrowLeft className="w-5 h-5" />
                 <span className="font-medium">Back to Dashboard</span>
               </button>
               <div className="flex items-center space-x-3">
-                <div className="w-12 h-12 bg-teal-600 rounded-xl flex items-center justify-center">
+                <div className="w-12 h-12 bg-[#1E3A8A] rounded-xl flex items-center justify-center">
                   <Users className="w-6 h-6 text-white" />
                 </div>
                 <div>
-                  <h1 className="text-2xl font-bold text-gray-900">
+                  <h1 className="text-2xl font-bold text-[#1E3A8A]">
                     Interview Results
                   </h1>
-                  <p className="text-gray-500">0 interviews found</p>
+                  <p className="text-[#1E3A8A]/70">0 interviews found</p>
                 </div>
               </div>
             </div>
@@ -255,16 +258,16 @@ const InterviewsGrid = () => {
         </div>
 
         <div className="max-w-4xl mx-auto mt-8 px-6">
-          <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-12">
+          <div className="bg-white rounded-xl shadow-sm border border-[#F8F5F0] p-12">
             <div className="text-center space-y-6">
-              <div className="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mx-auto">
-                <Briefcase className="w-12 h-12 text-gray-400" />
+              <div className="w-24 h-24 bg-[#F8F5F0] rounded-full flex items-center justify-center mx-auto">
+                <Briefcase className="w-12 h-12 text-[#D4A574]" />
               </div>
               <div className="space-y-2">
-                <h3 className="text-2xl font-semibold text-gray-900">
+                <h3 className="text-2xl font-semibold text-[#1E3A8A]">
                   No Interviews Yet
                 </h3>
-                <p className="text-gray-600 max-w-md mx-auto leading-relaxed">
+                <p className="text-[#1E3A8A]/70 max-w-md mx-auto leading-relaxed">
                   No interviews have been conducted for this job offer. Check
                   back later or start scheduling interviews with interested
                   candidates.
@@ -272,7 +275,7 @@ const InterviewsGrid = () => {
               </div>
               <button
                 onClick={handleBackToDashboard}
-                className="inline-flex items-center space-x-2 px-6 py-3 bg-teal-600 text-white rounded-lg hover:bg-teal-700 transition-colors font-medium"
+                className="inline-flex items-center space-x-2 px-6 py-3 bg-[#1E3A8A] text-white rounded-lg hover:bg-[#1E3A8A]/90 transition-colors font-medium"
               >
                 <ArrowLeft className="w-4 h-4" />
                 <span>Return to Dashboard</span>
@@ -285,56 +288,66 @@ const InterviewsGrid = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <div className="bg-white shadow-sm border-b border-gray-200">
+    <div className="min-h-screen bg-gray-30">
+      {/* Header Section */}
+      <div className="bg-white shadow-sm border-b border-[#F8F5F0]">
         <div className="max-w-7xl mx-auto px-6 py-4">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+            {/* Left Side - Back button and Title */}
             <div className="flex items-center space-x-4">
               <button
                 onClick={handleBackToDashboard}
-                className="flex items-center space-x-2 text-gray-600 hover:text-gray-900 transition-colors"
+                className="flex items-center space-x-2 text-[#1E3A8A] hover:text-[#1E3A8A]/80 transition-colors"
               >
                 <ArrowLeft className="w-5 h-5" />
                 <span className="font-medium">Back to Dashboard</span>
               </button>
 
               <div className="flex items-center space-x-3">
-                <div className="w-12 h-12 bg-teal-600 rounded-xl flex items-center justify-center">
+                <div className="w-12 h-12 bg-[#1E3A8A] rounded-xl flex items-center justify-center">
                   <Users className="w-6 h-6 text-white" />
                 </div>
                 <div>
-                  <h1 className="text-2xl font-bold text-gray-900">
+                  <h1 className="text-2xl font-bold text-[#1E3A8A]">
                     Interview Results
                   </h1>
-                  <p className="text-gray-500">
+                  <p className="text-[#1E3A8A]/70">
                     {interviews.length} interview
                     {interviews.length !== 1 ? "s" : ""} found
                   </p>
                 </div>
               </div>
-
-              <HeaderBadge />
             </div>
 
-            {interviews.length > 0 && !isRanked && (
-              <button
-                onClick={handleRankCandidates}
-                disabled={isRanking}
-                className="flex items-center gap-2 bg-gradient-to-r from-teal-600 to-blue-600 text-white px-6 py-3 rounded-xl hover:from-teal-700 hover:to-blue-700 transition-all font-semibold shadow-lg hover:shadow-xl disabled:opacity-70 disabled:cursor-not-allowed"
-              >
-                {isRanking ? (
-                  <>
-                    <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
-                    Ranking...
-                  </>
-                ) : (
-                  <>
-                    <Sparkles className="w-5 h-5" />
-                    Rank Candidates
-                  </>
-                )}
-              </button>
-            )}
+            {/* Right Side - Rank Button or Badge */}
+            <div className="flex items-center justify-end sm:justify-normal">
+              {isRanked ? (
+                <div className="inline-flex items-center gap-2 bg-[#D4A574]/20 text-[#1E3A8A] px-4 py-2 rounded-xl font-medium border border-[#D4A574]/30">
+                  <ListOrdered className="w-5 h-5 text-[#1E3A8A]" />
+                  Ranked by AI Analysis
+                </div>
+              ) : (
+                interviews.length > 0 && (
+                  <button
+                    onClick={handleRankCandidates}
+                    disabled={isRanking}
+                    className="flex items-center gap-2 bg-gradient-to-r from-[#1E3A8A] to-[#D4A574] text-white px-6 py-3 rounded-xl hover:opacity-90 transition-all font-semibold shadow-lg hover:shadow-xl disabled:opacity-70 disabled:cursor-not-allowed"
+                  >
+                    {isRanking ? (
+                      <>
+                        <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
+                        Ranking...
+                      </>
+                    ) : (
+                      <>
+                        <Sparkles className="w-5 h-5" />
+                        Rank Candidates
+                      </>
+                    )}
+                  </button>
+                )
+              )}
+            </div>
           </div>
         </div>
       </div>
@@ -351,23 +364,23 @@ const InterviewsGrid = () => {
             return (
               <div
                 key={interview.id}
-                className="bg-white rounded-xl shadow-lg border border-gray-200 overflow-hidden hover:shadow-xl transition-all duration-300 relative"
+                className="bg-white rounded-xl shadow-lg border border-[#F8F5F0] overflow-hidden hover:shadow-xl transition-all duration-300 relative"
               >
                 <RankingIndicator index={index} />
 
-                <div className="bg-gradient-to-r from-teal-50 to-blue-50 p-6 border-b border-gray-100">
+                <div className="bg-gradient-to-r from-[#1E3A8A]/5 to-[#D4A574]/10 p-6 border-b border-[#F8F5F0]">
                   <div className="flex items-start justify-between">
                     <div className="flex items-center space-x-3">
-                      <div className="w-12 h-12 bg-gradient-to-r from-teal-600 to-blue-600 rounded-full flex items-center justify-center">
+                      <div className="w-12 h-12 bg-[#1E3A8A] rounded-full flex items-center justify-center">
                         <User className="w-6 h-6 text-white" />
                       </div>
                       <div>
-                        <h2 className="text-xl font-bold text-gray-900">
+                        <h2 className="text-xl font-bold text-[#1E3A8A]">
                           {jobSeeker?.prenom} {jobSeeker?.nom}
                         </h2>
                         <div className="flex items-center space-x-2 mt-1">
-                          <Calendar className="w-4 h-4 text-gray-500" />
-                          <span className="text-sm text-gray-600">
+                          <Calendar className="w-4 h-4 text-[#D4A574]" />
+                          <span className="text-sm text-[#1E3A8A]/70">
                             {new Date(interview.date).toLocaleDateString()}
                           </span>
                         </div>
@@ -377,12 +390,12 @@ const InterviewsGrid = () => {
                 </div>
 
                 <div className="p-6 space-y-3">
-                  <div className="flex items-center space-x-3 text-gray-600">
-                    <Mail className="w-4 h-4 text-teal-500" />
+                  <div className="flex items-center space-x-3 text-[#1E3A8A]/80">
+                    <Mail className="w-4 h-4 text-[#D4A574]" />
                     <span className="text-sm">{jobSeeker?.email}</span>
                   </div>
-                  <div className="flex items-center space-x-3 text-gray-600">
-                    <Phone className="w-4 h-4 text-green-500" />
+                  <div className="flex items-center space-x-3 text-[#1E3A8A]/80">
+                    <Phone className="w-4 h-4 text-[#D4A574]" />
                     <span className="text-sm">{jobSeeker?.phoneNumber}</span>
                   </div>
 
@@ -406,14 +419,14 @@ const InterviewsGrid = () => {
                     ].map(({ label, score, icon: Icon }) => (
                       <div
                         key={label}
-                        className="text-center p-3 bg-gray-50 rounded-lg"
+                        className="text-center p-3 bg-[#F8F5F0] rounded-lg"
                       >
-                        <Icon className="w-5 h-5 mx-auto mb-1 text-gray-600" />
-                        <div className="text-xs text-gray-500 mb-1">
+                        <Icon className="w-5 h-5 mx-auto mb-1 text-[#1E3A8A]" />
+                        <div className="text-xs text-[#1E3A8A]/70 mb-1">
                           {label}
                         </div>
                         <div className="flex items-center justify-center space-x-1">
-                          <span className="text-lg font-bold text-gray-900">
+                          <span className="text-lg font-bold text-[#1E3A8A]">
                             {score ?? "N/A"}
                           </span>
                           {score && (
@@ -425,7 +438,7 @@ const InterviewsGrid = () => {
                           )}
                         </div>
                         {score && (
-                          <div className="text-xs text-gray-500 mt-1">
+                          <div className="text-xs text-[#1E3A8A]/70 mt-1">
                             {getScoreLabel(score)}
                           </div>
                         )}
@@ -436,27 +449,27 @@ const InterviewsGrid = () => {
                   <div className="mt-4">
                     <button
                       onClick={() => toggleCardExpansion(interview.id)}
-                      className="flex items-center justify-between w-full p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors"
+                      className="flex items-center justify-between w-full p-3 bg-[#F8F5F0] rounded-lg hover:bg-[#1E3A8A]/5 transition-colors"
                     >
-                      <span className="font-medium text-gray-900">
+                      <span className="font-medium text-[#1E3A8A]">
                         {isExpanded ? "Hide Details" : "Show Details"}
                       </span>
                       {isExpanded ? (
-                        <ChevronUp className="w-5 h-5 text-gray-500" />
+                        <ChevronUp className="w-5 h-5 text-[#D4A574]" />
                       ) : (
-                        <ChevronDown className="w-5 h-5 text-gray-500" />
+                        <ChevronDown className="w-5 h-5 text-[#D4A574]" />
                       )}
                     </button>
 
                     {isExpanded && (
                       <div className="mt-4 space-y-4 animate-in slide-in-from-top-2 duration-200">
                         {interview.notes && (
-                          <div className="p-4 bg-teal-50 rounded-lg">
-                            <h4 className="font-semibold text-gray-900 mb-2 flex items-center">
-                              <MessageSquare className="w-4 h-4 mr-2 text-teal-600" />
+                          <div className="p-4 bg-[#1E3A8A]/5 rounded-lg border border-[#1E3A8A]/10">
+                            <h4 className="font-semibold text-[#1E3A8A] mb-2 flex items-center">
+                              <MessageSquare className="w-4 h-4 mr-2 text-[#1E3A8A]" />
                               Interview Notes
                             </h4>
-                            <p className="text-gray-700 text-sm leading-relaxed">
+                            <p className="text-[#1E3A8A]/80 text-sm leading-relaxed">
                               {interview.notes}
                             </p>
                           </div>
@@ -468,15 +481,15 @@ const InterviewsGrid = () => {
                               href={`http://localhost:3001/${cvUrl}`}
                               target="_blank"
                               rel="noopener noreferrer"
-                              className="flex items-center justify-between p-3 bg-green-50 rounded-lg hover:bg-green-100 transition-colors group"
+                              className="flex items-center justify-between p-3 bg-[#D4A574]/10 rounded-lg hover:bg-[#D4A574]/20 transition-colors group border border-[#D4A574]/20"
                             >
                               <div className="flex items-center space-x-3">
-                                <FileText className="w-5 h-5 text-green-600" />
-                                <span className="font-medium text-green-800">
+                                <FileText className="w-5 h-5 text-[#1E3A8A]" />
+                                <span className="font-medium text-[#1E3A8A]">
                                   View CV
                                 </span>
                               </div>
-                              <Download className="w-4 h-4 text-green-600 group-hover:translate-y-0.5 transition-transform" />
+                              <Download className="w-4 h-4 text-[#1E3A8A] group-hover:translate-y-0.5 transition-transform" />
                             </a>
                           )}
 
@@ -488,20 +501,20 @@ const InterviewsGrid = () => {
                                     `interview-${interview.id}`
                                   )
                                 }
-                                className="flex items-center justify-between w-full p-3 bg-purple-50 rounded-lg hover:bg-purple-100 transition-colors"
+                                className="flex items-center justify-between w-full p-3 bg-[#1E3A8A]/5 rounded-lg hover:bg-[#1E3A8A]/10 transition-colors border border-[#1E3A8A]/10"
                               >
                                 <div className="flex items-center space-x-3">
-                                  <Video className="w-5 h-5 text-purple-600" />
-                                  <span className="font-medium text-purple-800">
+                                  <Video className="w-5 h-5 text-[#1E3A8A]" />
+                                  <span className="font-medium text-[#1E3A8A]">
                                     Interview Recording
                                   </span>
                                 </div>
                                 {visibleVideos.has(
                                   `interview-${interview.id}`
                                 ) ? (
-                                  <EyeOff className="w-4 h-4 text-purple-600" />
+                                  <EyeOff className="w-4 h-4 text-[#1E3A8A]" />
                                 ) : (
-                                  <Eye className="w-4 h-4 text-purple-600" />
+                                  <Eye className="w-4 h-4 text-[#1E3A8A]" />
                                 )}
                               </button>
                               {visibleVideos.has(
@@ -522,18 +535,18 @@ const InterviewsGrid = () => {
                                 onClick={() =>
                                   toggleVideoVisibility(`pitch-${interview.id}`)
                                 }
-                                className="flex items-center justify-between w-full p-3 bg-orange-50 rounded-lg hover:bg-orange-100 transition-colors"
+                                className="flex items-center justify-between w-full p-3 bg-[#D4A574]/10 rounded-lg hover:bg-[#D4A574]/20 transition-colors border border-[#D4A574]/20"
                               >
                                 <div className="flex items-center space-x-3">
-                                  <Play className="w-5 h-5 text-orange-600" />
-                                  <span className="font-medium text-orange-800">
+                                  <Play className="w-5 h-5 text-[#1E3A8A]" />
+                                  <span className="font-medium text-[#1E3A8A]">
                                     Candidate Pitch
                                   </span>
                                 </div>
                                 {visibleVideos.has(`pitch-${interview.id}`) ? (
-                                  <EyeOff className="w-4 h-4 text-orange-600" />
+                                  <EyeOff className="w-4 h-4 text-[#1E3A8A]" />
                                 ) : (
-                                  <Eye className="w-4 h-4 text-orange-600" />
+                                  <Eye className="w-4 h-4 text-[#1E3A8A]" />
                                 )}
                               </button>
                               {visibleVideos.has(`pitch-${interview.id}`) && (
@@ -546,11 +559,10 @@ const InterviewsGrid = () => {
                             </div>
                           )}
 
-                          {/* Add this section to show Python-calculated scores */}
                           {isRanked && (
-                            <div className="mt-4 p-4 bg-blue-50 rounded-lg border border-blue-100">
-                              <h4 className="font-semibold text-blue-800 mb-3 flex items-center">
-                                <Sparkles className="w-4 h-4 mr-2" />
+                            <div className="mt-4 p-4 bg-[#1E3A8A]/5 rounded-lg border border-[#1E3A8A]/10">
+                              <h4 className="font-semibold text-[#1E3A8A] mb-3 flex items-center">
+                                <Sparkles className="w-4 h-4 mr-2 text-[#D4A574]" />
                                 AI Evaluation Scores
                               </h4>
                               <div className="grid grid-cols-3 gap-3">
@@ -575,11 +587,11 @@ const InterviewsGrid = () => {
                                     key={label}
                                     className="text-center p-3 bg-white rounded-lg shadow-xs"
                                   >
-                                    <Icon className="w-5 h-5 mx-auto mb-1 text-blue-600" />
-                                    <div className="text-xs text-blue-600 mb-1">
+                                    <Icon className="w-5 h-5 mx-auto mb-1 text-[#1E3A8A]" />
+                                    <div className="text-xs text-[#1E3A8A]/70 mb-1">
                                       {label}
                                     </div>
-                                    <div className="text-lg font-bold text-blue-800">
+                                    <div className="text-lg font-bold text-[#1E3A8A]">
                                       {score ?? "N/A"}
                                     </div>
                                   </div>

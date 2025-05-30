@@ -1,86 +1,180 @@
-import React from "react";
-import { useState } from "react";
-import { Link } from "react-router-dom";
+"use client"
+import { useState } from "react"
+import { Menu, X } from "lucide-react"
 
 const Navbar = () => {
-  const [menuOpen, setMenuOpen] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false)
 
   return (
-    <header className="bg-white shadow-md px-6 py-4">
-      <nav className="max-w-7xl mx-auto flex items-center justify-between relative">
+    <header className="bg-white/95 backdrop-blur-sm shadow-lg border-b border-[#F3E8D0] sticky top-0 z-50">
+      <nav className="max-w-7xl mx-auto px-6 py-4">
+        <div className="flex items-center justify-between">
+          {/* Logo */}
+          <div className="flex items-center">
+            <div className="relative">
+              <span className="font-bold text-3xl tracking-tight">
+                <span className="text-[#1E3A8A] drop-shadow-sm">Job</span>
+                <span className="text-[#D4A574] drop-shadow-sm">Connect</span>
+              </span>
+              <div className="absolute -bottom-1 left-0 w-full h-0.5 bg-gradient-to-r from-[#1E3A8A] to-[#D4A574] rounded-full"></div>
+            </div>
+          </div>
 
-        {/* Logo */}
-        <div className="flex items-center">
-          <span className="font-bold text-2xl">
-            <span style={{ color: '#175d69' }}>Job</span>
-            <span style={{ color: '#df9500' }}>Connect</span>
-          </span>
+          {/* Desktop Navigation */}
+          <ul className="hidden md:flex items-center space-x-8">
+            <li>
+              <a
+                href="#hero"
+                className="relative text-gray-700 hover:text-[#1E3A8A] font-medium transition-all duration-300 group cursor-pointer"
+                onClick={(e) => {
+                  e.preventDefault()
+                  document.getElementById("hero")?.scrollIntoView({ behavior: "smooth" })
+                }}
+              >
+                Home
+                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-[#1E3A8A] transition-all duration-300 group-hover:w-full"></span>
+              </a>
+            </li>
+            <li>
+              <a
+                href="#features"
+                className="relative text-gray-700 hover:text-[#1E3A8A] font-medium transition-all duration-300 group cursor-pointer"
+                onClick={(e) => {
+                  e.preventDefault()
+                  document.getElementById("features")?.scrollIntoView({ behavior: "smooth" })
+                }}
+              >
+                Features
+                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-[#1E3A8A] transition-all duration-300 group-hover:w-full"></span>
+              </a>
+            </li>
+            <li>
+              <a
+                href="#how-it-works"
+                className="relative text-gray-700 hover:text-[#1E3A8A] font-medium transition-all duration-300 group cursor-pointer"
+                onClick={(e) => {
+                  e.preventDefault()
+                  document.getElementById("how-it-works")?.scrollIntoView({ behavior: "smooth" })
+                }}
+              >
+                How It Works
+                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-[#1E3A8A] transition-all duration-300 group-hover:w-full"></span>
+              </a>
+            </li>
+            <li>
+              <a
+                href="#testimonials"
+                className="relative text-gray-700 hover:text-[#1E3A8A] font-medium transition-all duration-300 group cursor-pointer"
+                onClick={(e) => {
+                  e.preventDefault()
+                  document.getElementById("testimonials")?.scrollIntoView({ behavior: "smooth" })
+                }}
+              >
+                Testimonials
+                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-[#1E3A8A] transition-all duration-300 group-hover:w-full"></span>
+              </a>
+            </li>
+            <li>
+              <a
+                href="#contact"
+                className="bg-[#1E3A8A] text-white px-6 py-2.5 rounded-full font-medium hover:bg-[#1E3A8A]/90 hover:shadow-lg hover:scale-105 transition-all duration-300 cursor-pointer"
+                onClick={(e) => {
+                  e.preventDefault()
+                  document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" })
+                }}
+              >
+                Contact Us
+              </a>
+            </li>
+          </ul>
+
+          {/* Mobile menu button */}
+          <button
+            className="md:hidden p-2 rounded-lg hover:bg-[#F3E8D0]/50 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-[#1E3A8A] focus:ring-opacity-50"
+            onClick={() => setMenuOpen(!menuOpen)}
+            aria-label="Toggle menu"
+          >
+            {menuOpen ? <X className="h-6 w-6 text-gray-700" /> : <Menu className="h-6 w-6 text-gray-700" />}
+          </button>
         </div>
 
-        {/* Hamburger button */}
-        <button
-          className="sm:hidden focus:outline-none"
-          onClick={() => setMenuOpen(!menuOpen)}
-          aria-label="Toggle menu"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            height="24"
-            viewBox="0 0 24 24"
-            width="24"
-            className="text-gray-800"
-          >
-            <path
-              d="M3 6h18M3 12h18M3 18h18"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-            />
-          </svg>
-        </button>
-
-        {/* Links */}
-        <ul
-          className={`sm:flex sm:space-x-6 absolute sm:static top-full left-0 w-full sm:w-auto bg-white sm:bg-transparent z-10 shadow-md sm:shadow-none transition-all duration-300 ${
-            menuOpen ? "block" : "hidden"
+        {/* Mobile Navigation */}
+        <div
+          className={`md:hidden overflow-hidden transition-all duration-300 ease-in-out ${
+            menuOpen ? "max-h-80 opacity-100" : "max-h-0 opacity-0"
           }`}
         >
-          <li className="border-b sm:border-none">
-            <Link
-              to="/"
-              className="block px-4 py-2 text-gray-700 hover:bg-gray-100 sm:hover:bg-transparent sm:hover:text-indigo-600"
-            >
-              Home
-            </Link>
-          </li>
-          <li className="border-b sm:border-none">
-            <Link
-              to="/faq"
-              className="block px-4 py-2 text-gray-700 hover:bg-gray-100 sm:hover:bg-transparent sm:hover:text-indigo-600"
-            >
-              FAQ
-            </Link>
-          </li>
-          <li className="border-b sm:border-none">
-            <Link
-              to="/services"
-              className="block px-4 py-2 text-gray-700 hover:bg-gray-100 sm:hover:bg-transparent sm:hover:text-indigo-600"
-            >
-              Services
-            </Link>
-          </li>
-          <li>
-            <Link
-              to="/contact"
-              className="block px-4 py-2 text-gray-700 hover:bg-gray-100 sm:hover:bg-transparent sm:hover:text-indigo-600"
-            >
-              Contact Us
-            </Link>
-          </li>
-        </ul>
+          <ul className="pt-4 pb-2 space-y-2">
+            <li>
+              <a
+                href="#hero"
+                className="block px-4 py-3 text-gray-700 hover:text-[#1E3A8A] hover:bg-[#F3E8D0]/30 rounded-lg font-medium transition-all duration-200 cursor-pointer"
+                onClick={(e) => {
+                  e.preventDefault()
+                  document.getElementById("hero")?.scrollIntoView({ behavior: "smooth" })
+                  setMenuOpen(false)
+                }}
+              >
+                Home
+              </a>
+            </li>
+            <li>
+              <a
+                href="#features"
+                className="block px-4 py-3 text-gray-700 hover:text-[#1E3A8A] hover:bg-[#F3E8D0]/30 rounded-lg font-medium transition-all duration-200 cursor-pointer"
+                onClick={(e) => {
+                  e.preventDefault()
+                  document.getElementById("features")?.scrollIntoView({ behavior: "smooth" })
+                  setMenuOpen(false)
+                }}
+              >
+                Features
+              </a>
+            </li>
+            <li>
+              <a
+                href="#how-it-works"
+                className="block px-4 py-3 text-gray-700 hover:text-[#1E3A8A] hover:bg-[#F3E8D0]/30 rounded-lg font-medium transition-all duration-200 cursor-pointer"
+                onClick={(e) => {
+                  e.preventDefault()
+                  document.getElementById("how-it-works")?.scrollIntoView({ behavior: "smooth" })
+                  setMenuOpen(false)
+                }}
+              >
+                How It Works
+              </a>
+            </li>
+            <li>
+              <a
+                href="#testimonials"
+                className="block px-4 py-3 text-gray-700 hover:text-[#1E3A8A] hover:bg-[#F3E8D0]/30 rounded-lg font-medium transition-all duration-200 cursor-pointer"
+                onClick={(e) => {
+                  e.preventDefault()
+                  document.getElementById("testimonials")?.scrollIntoView({ behavior: "smooth" })
+                  setMenuOpen(false)
+                }}
+              >
+                Testimonials
+              </a>
+            </li>
+            <li>
+              <a
+                href="#contact"
+                className="block mx-4 mt-2 px-4 py-3 bg-[#1E3A8A] text-white text-center rounded-lg font-medium hover:bg-[#1E3A8A]/90 hover:shadow-lg transition-all duration-300 cursor-pointer"
+                onClick={(e) => {
+                  e.preventDefault()
+                  document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" })
+                  setMenuOpen(false)
+                }}
+              >
+                Contact Us
+              </a>
+            </li>
+          </ul>
+        </div>
       </nav>
     </header>
-  );
-};
+  )
+}
 
-export default Navbar;
+export default Navbar

@@ -14,9 +14,9 @@ const scoreLabels = {
 const scoreColors = {
   1: "bg-red-500",
   2: "bg-orange-500",
-  3: "bg-yellow-500",
-  4: "bg-blue-500",
-  5: "bg-green-500",
+  3: "bg-[#D4A574]", // Using your secondary color for average
+  4: "bg-[#1E3A8A]/80", // Using your primary color with opacity
+  5: "bg-green-500", // Keeping green for excellent
 }
 
 export default function CreateInterviewForm({ interestId, onSubmit }) {
@@ -163,7 +163,7 @@ export default function CreateInterviewForm({ interestId, onSubmit }) {
   const ScoreSlider = ({ label, field, description, value }) => (
     <div className="space-y-4">
       <div className="flex items-center justify-between">
-        <label className="text-base font-medium text-gray-900">{label}</label>
+        <label className="text-base font-medium text-[#1E3A8A]">{label}</label>
         <span className={`px-3 py-1 rounded-full text-white text-sm font-medium ${scoreColors[value]}`}>
           {value}/5 - {scoreLabels[value]}
         </span>
@@ -181,33 +181,33 @@ export default function CreateInterviewForm({ interestId, onSubmit }) {
         <div className="flex justify-between text-xs text-gray-500 mt-1">
           {[1, 2, 3, 4, 5].map((num) => (
             <span key={num} className="flex items-center">
-              <Star className="w-3 h-3 mr-1" />
+              <Star className={`w-3 h-3 mr-1 ${num === 3 ? 'text-[#D4A574]' : num >= 4 ? 'text-[#1E3A8A]' : ''}`} />
               {num}
             </span>
           ))}
         </div>
       </div>
-      <p className="text-sm text-gray-600">{description}</p>
+      <p className="text-sm text-[#1E3A8A]/70">{description}</p>
       {errors[field] && <p className="text-sm text-red-600">{errors[field]}</p>}
     </div>
   )
 
   return (
     <div className="max-w-4xl mx-auto p-6 space-y-6">
-      <div className="bg-white rounded-xl shadow-lg border-0">
-        <div className="text-center space-y-4 p-8 border-b border-gray-100">
-          <h1 className="text-3xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+      <div className="bg-white rounded-xl shadow-lg border-0 border border-[#F8F5F0]">
+        <div className="text-center space-y-4 p-8 border-b border-[#F8F5F0]">
+          <h1 className="text-3xl font-bold bg-gradient-to-r from-[#1E3A8A] to-[#D4A574] bg-clip-text text-transparent">
             Interview Evaluation Form
           </h1>
-          <p className="text-lg text-gray-600">Provide comprehensive feedback for the candidate interview</p>
+          <p className="text-lg text-[#1E3A8A]/80">Provide comprehensive feedback for the candidate interview</p>
           <div className="space-y-2">
-            <div className="flex justify-between text-sm text-gray-500">
+            <div className="flex justify-between text-sm text-[#1E3A8A]/70">
               <span>Form Progress</span>
               <span>{Math.round(formProgress)}%</span>
             </div>
-            <div className="w-full bg-gray-200 rounded-full h-2">
+            <div className="w-full bg-[#F8F5F0] rounded-full h-2">
               <div
-                className="bg-gradient-to-r from-blue-600 to-purple-600 h-2 rounded-full transition-all duration-300"
+                className="bg-gradient-to-r from-[#1E3A8A] to-[#D4A574] h-2 rounded-full transition-all duration-300"
                 style={{ width: `${formProgress}%` }}
               />
             </div>
@@ -216,15 +216,6 @@ export default function CreateInterviewForm({ interestId, onSubmit }) {
 
         <div className="p-8 space-y-8">
           <form onSubmit={handleSubmit} className="space-y-8">
-            <div className="bg-gradient-to-r from-blue-50 to-purple-50 border border-blue-200 rounded-lg p-6">
-              <div className="text-center space-y-2">
-                <h3 className="text-lg font-semibold text-gray-900">Overall Score</h3>
-                <div className="text-4xl font-bold text-blue-600">{averageScore.toFixed(1)}/5</div>
-                <span className="inline-block px-3 py-1 text-sm border border-gray-300 rounded-full">
-                  {averageScore >= 4 ? "Excellent" : averageScore >= 3 ? "Good" : averageScore >= 2 ? "Average" : "Needs Improvement"}
-                </span>
-              </div>
-            </div>
 
             <div className="space-y-8">
               <ScoreSlider
@@ -248,25 +239,25 @@ export default function CreateInterviewForm({ interestId, onSubmit }) {
             </div>
 
             <div className="space-y-2">
-              <label className="text-base font-medium text-gray-900">Interview Notes</label>
+              <label className="text-base font-medium text-[#1E3A8A]">Interview Notes</label>
               <textarea
                 value={formData.notes}
                 onChange={(e) => handleInputChange("notes", e.target.value)}
                 placeholder="Provide detailed feedback..."
-                className="w-full min-h-[120px] p-3 border border-gray-300 rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full min-h-[120px] p-3 border border-[#D4A574]/50 rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-[#D4A574] focus:border-transparent"
               />
-              <p className="text-sm text-gray-600">Minimum 10 characters required. Be specific and constructive.</p>
+              <p className="text-sm text-[#1E3A8A]/70">Minimum 10 characters required. Be specific and constructive.</p>
               {errors.notes && <p className="text-sm text-red-600">{errors.notes}</p>}
             </div>
 
             <div className="space-y-4">
-              <h3 className="text-base font-medium text-gray-900 mb-2">Interview Recording (Optional)</h3>
-              <p className="text-sm text-gray-600 mb-4">Upload a video recording of the interview for future reference</p>
+              <h3 className="text-base font-medium text-[#1E3A8A] mb-2">Interview Recording (Optional)</h3>
+              <p className="text-sm text-[#1E3A8A]/70 mb-4">Upload a video recording of the interview for future reference</p>
 
               {!videoFile ? (
                 <div
                   className={`border-2 border-dashed rounded-lg p-8 text-center cursor-pointer ${
-                    dragActive ? "border-blue-500 bg-blue-50" : "border-gray-300 hover:border-gray-400"
+                    dragActive ? "border-[#1E3A8A] bg-[#1E3A8A]/5" : "border-[#D4A574]/50 hover:border-[#D4A574]"
                   }`}
                   onDragEnter={handleDrag}
                   onDragLeave={handleDrag}
@@ -274,9 +265,9 @@ export default function CreateInterviewForm({ interestId, onSubmit }) {
                   onDrop={handleDrop}
                   onClick={() => document.getElementById("video-upload").click()}
                 >
-                  <Upload className="mx-auto h-12 w-12 text-gray-400 mb-4" />
-                  <p className="text-lg font-medium mb-2 text-gray-900">Drop video file here or click to browse</p>
-                  <p className="text-sm text-gray-500">Supports MP4, MOV, AVI files up to 100MB</p>
+                  <Upload className="mx-auto h-12 w-12 text-[#D4A574] mb-4" />
+                  <p className="text-lg font-medium mb-2 text-[#1E3A8A]">Drop video file here or click to browse</p>
+                  <p className="text-sm text-[#1E3A8A]/70">Supports MP4, MOV, AVI files up to 100MB</p>
                   <input
                     id="video-upload"
                     type="file"
@@ -286,17 +277,17 @@ export default function CreateInterviewForm({ interestId, onSubmit }) {
                   />
                 </div>
               ) : (
-                <div className="border border-gray-200 rounded-lg p-4">
+                <div className="border border-[#F8F5F0] rounded-lg p-4 bg-white">
                   <div className="flex items-start space-x-4">
-                    <Video className="h-8 w-8 text-blue-500 mt-1 flex-shrink-0" />
+                    <Video className="h-8 w-8 text-[#1E3A8A] mt-1 flex-shrink-0" />
                     <div className="flex-1 space-y-2">
                       <div className="flex items-center justify-between">
-                        <p className="font-medium text-gray-900">{videoFile.name}</p>
+                        <p className="font-medium text-[#1E3A8A]">{videoFile.name}</p>
                         <button type="button" onClick={removeVideo} className="text-red-500 hover:text-red-700 p-1">
                           <X className="h-4 w-4" />
                         </button>
                       </div>
-                      <p className="text-sm text-gray-500">{(videoFile.size / (1024 * 1024)).toFixed(2)} MB</p>
+                      <p className="text-sm text-[#1E3A8A]/70">{(videoFile.size / (1024 * 1024)).toFixed(2)} MB</p>
                       {videoPreview && <video src={videoPreview} controls className="w-full max-w-md rounded-lg shadow-sm" />}
                     </div>
                   </div>
@@ -320,7 +311,7 @@ export default function CreateInterviewForm({ interestId, onSubmit }) {
             <button
               type="submit"
               disabled={isSubmitting}
-              className="w-full h-12 text-lg font-medium bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white rounded-lg flex items-center justify-center space-x-2 disabled:opacity-50"
+              className="w-full h-12 text-lg font-medium bg-gradient-to-r from-[#1E3A8A] to-[#D4A574] hover:from-[#1E3A8A]/90 hover:to-[#D4A574]/90 text-white rounded-lg flex items-center justify-center space-x-2 disabled:opacity-50 transition-all duration-200 shadow-md"
             >
               {isSubmitting ? (
                 <>

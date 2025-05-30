@@ -8,6 +8,8 @@ server/uploads/
 *.pdf
 server/node_modules/
 server/logs/
+server/logs/scripts_python/phase1/logs/
+server/logs/scripts_python/phase2/logs/
 client/node_modules/
 # Environment files
 .env
