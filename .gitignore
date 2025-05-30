@@ -9,3 +9,14 @@ server/uploads/
 server/node_modules/
 server/logs/
 client/node_modules/
+# Environment files
+.env
+*.env
+
+# Logs
+logs/
+server/logs/
+*.log
+
+# Sensitive config
+server/config/config.json
