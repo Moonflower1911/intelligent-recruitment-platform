@@ -67,6 +67,7 @@ const InterviewsGrid = () => {
         {},
         { headers: { accessToken } }
       );
+      console.log("[RANKING RESPONSE] Data received from backend:", response.data);
       setInterviews(response.data.rankedCandidates);
       setIsRanked(true);
     } catch (err) {

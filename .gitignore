@@ -6,3 +6,6 @@ server/uploads/
 *.lib
 *.mp4
 *.pdf
+server/node_modules/
+server/logs/
+client/node_modules/

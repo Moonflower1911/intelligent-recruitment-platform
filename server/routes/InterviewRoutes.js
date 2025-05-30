@@ -254,7 +254,16 @@ router.post('/rank/:offerId', validateToken, async (req, res) => {
       interviews: interviewData
     });
 
+<<<<<<< HEAD
     console.log('etape 1 ', response.data); 
+=======
+    console.log('[PYTHON RESPONSE] Received scores:', JSON.stringify(response.data, null, 2));
+
+    // Ensure we have the scores array before processing
+    if (!response.data.scores || !Array.isArray(response.data.scores)) {
+      throw new Error('Invalid response format from analysis service');
+    }
+>>>>>>> 948d8d4ffc12f469f09797e405ce30a1e7ce20c7
 
     // Update interviews with calculated scores
     await Promise.all(interviews.map((interview, index) => {
