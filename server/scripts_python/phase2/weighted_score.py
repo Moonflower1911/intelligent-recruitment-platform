@@ -110,9 +110,9 @@ def analyze_interviews():
         weights = {
             'technical': 0.35,
             'communication': 0.25,
-            'motivation': 0.15,
-            'notes': 0.15,
-            'video': 0.10
+            'motivation': 0.20,
+            'notes': 0.16,
+            'video': 0.04
         }
 
         for interview in data['interviews']:
