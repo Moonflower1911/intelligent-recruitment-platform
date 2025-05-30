@@ -254,6 +254,8 @@ router.post('/rank/:offerId', validateToken, async (req, res) => {
       interviews: interviewData
     });
 
+    console.log('etape 1 ', response.data); 
+
     // Update interviews with calculated scores
     await Promise.all(interviews.map((interview, index) => {
       return interview.update({
@@ -262,6 +264,8 @@ router.post('/rank/:offerId', validateToken, async (req, res) => {
         overall_score: response.data.scores[index].overall
       });
     }));
+
+    console.log('etape 2');
 
     // Return ranked results with all needed associations
     const rankedResults = await Interview.findAll({

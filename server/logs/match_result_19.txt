@@ -1,2 +1,0 @@
-Score: 95
-Explanation: Excellent match due to the candidate's extensive skills in relevant technologies such as React.js, Node.js, and PostgreSQL, which align with the job offer's requirements.

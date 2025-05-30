@@ -1,5 +1,0 @@
-Here are the extracted fields in the strict format:
-
-**Skills:** Java, Python, C/C++, JavaScript, SQL, PL/SQL, Bash, HTML/CSS, XML, YAML/JSON, React.js, Next.js, Tailwind CSS, Bootstrap, jQuery, Java (Android), Room, TensorFlow Lite, Node.js, Express.js, Spring Boot, Sequelize, MySQL, PostgreSQL, Oracle, Docker, Kubernetes, Git/GitHub, Shell Scripting, Linux/Unix, UML/Merise, Agile/Scrum
-
-**Experience:** Full-Stack Developer, Software Engineer, Backend Developer

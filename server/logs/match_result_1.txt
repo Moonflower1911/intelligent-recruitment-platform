@@ -1,2 +1,0 @@
-Score: 92
-Explanation: The candidate has excellent skills in React and related technologies, making them a strong match for the Web Developer role.
