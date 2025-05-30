@@ -1,92 +1,115 @@
-import { UserPlus, Search, MessageSquare, CheckCircle } from "lucide-react"
+import { UserPlus, Search, MessageSquare, CheckCircle, Briefcase, Users } from "lucide-react"
+import { useState } from "react"
 
 export default function HowItWorks() {
-  const steps = [
+  const [activeTab, setActiveTab] = useState('jobseeker')
+
+  const jobseekerSteps = [
     {
       icon: UserPlus,
-      title: "Create Your Profile",
-      description: "Sign up and build a comprehensive profile showcasing your skills and experience.",
+      title: "Create Profile",
+      description: "Sign up and build your professional profile.",
     },
     {
       icon: Search,
-      title: "Discover Opportunities",
-      description: "Browse through thousands of job listings or let our AI match you with perfect opportunities.",
+      title: "Find Jobs",
+      description: "Browse or get AI-matched with opportunities.",
     },
     {
       icon: MessageSquare,
-      title: "Connect & Interview",
-      description: "Connect directly with recruiters and schedule interviews through our platform.",
+      title: "Apply",
+      description: "Submit applications.",
     },
     {
       icon: CheckCircle,
-      title: "Land Your Dream Job",
-      description: "Complete the hiring process and start your new career journey with confidence.",
+      title: "Get Hired",
+      description: "Receive offers and start your new role.",
     },
   ]
 
+  const recruiterSteps = [
+    {
+      icon: UserPlus,
+      title: "Create Account",
+      description: "Set up your company profile.",
+    },
+    {
+      icon: Briefcase,
+      title: "Post Jobs",
+      description: "List your open positions.",
+    },
+    {
+      icon: Users,
+      title: "Evaluate Candidates",
+      description: "Review applications and profiles.",
+    },
+    {
+      icon: CheckCircle,
+      title: "Hire Talent",
+      description: "Make offers to top candidates.",
+    },
+  ]
+
+  const steps = activeTab === 'jobseeker' ? jobseekerSteps : recruiterSteps
+
   return (
-    <section id="how-it-works" className="py-20 bg-gradient-to-br from-[#F3E8D0]/30 to-[#F3E8D0]/70">
-      <div className="max-w-7xl mx-auto px-6">
-        <div className="text-center mb-16">
-          <h2 className="text-4xl font-bold text-[#1E3A8A] mb-4">How It Works</h2>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            Get started with JobConnect in just four simple steps
+    <section id="how-it-works" className="py-14 bg-gradient-to-br from-[#F3E8D0]/30 to-[#F3E8D0]/70">
+      <div className="max-w-6xl mx-auto px-5">
+        <div className="text-center mb-12">
+          <h2 className="text-3xl font-bold text-[#1E3A8A] mb-3">How It Works</h2>
+          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+            Get started with JobConnect in four simple steps
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        {/* Role Tabs */}
+        <div className="flex justify-center mb-8">
+          <div className="inline-flex bg-white rounded-full p-1 shadow-sm border border-[#F3E8D0]">
+            <button
+              onClick={() => setActiveTab('jobseeker')}
+              className={`px-6 py-2 rounded-full text-sm font-medium transition-all ${activeTab === 'jobseeker' ? 'bg-[#1E3A8A] text-white' : 'text-gray-600 hover:bg-gray-100'}`}
+            >
+              <Briefcase className="inline w-4 h-4 mr-2" />
+              Job Seeker
+            </button>
+            <button
+              onClick={() => setActiveTab('recruiter')}
+              className={`px-6 py-2 rounded-full text-sm font-medium transition-all ${activeTab === 'recruiter' ? 'bg-[#1E3A8A] text-white' : 'text-gray-600 hover:bg-gray-100'}`}
+            >
+              <Users className="inline w-4 h-4 mr-2" />
+              Recruiter
+            </button>
+          </div>
+        </div>
+
+        {/* Steps Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {steps.map((step, index) => (
             <div key={index} className="text-center group">
-              <div className="relative mb-8">
-                <div className="w-20 h-20 bg-[#1E3A8A] rounded-full flex items-center justify-center mx-auto group-hover:scale-110 transition-transform duration-300 shadow-lg">
-                  <step.icon className="w-10 h-10 text-white" />
+              <div className="relative mb-6">
+                <div className="w-16 h-16 bg-[#1E3A8A] rounded-full flex items-center justify-center mx-auto group-hover:scale-105 transition-transform duration-300 shadow-md">
+                  <step.icon className="w-8 h-8 text-white" />
                 </div>
-                <div className="absolute -top-2 -right-2 w-8 h-8 bg-[#F3E8D0] rounded-full flex items-center justify-center text-[#1E3A8A] font-bold text-sm shadow-md border border-[#1E3A8A]/10">
+                <div className="absolute -top-2 -right-2 w-6 h-6 bg-[#F3E8D0] rounded-full flex items-center justify-center text-[#1E3A8A] font-bold text-xs shadow-sm border border-[#1E3A8A]/10">
                   {index + 1}
                 </div>
                 {index < steps.length - 1 && (
-                  <div className="hidden lg:block absolute top-10 left-full w-full h-0.5 bg-[#1E3A8A]/20 transform -translate-x-10"></div>
+                  <div className="hidden lg:block absolute top-8 left-full w-full h-0.5 bg-[#1E3A8A]/20 transform -translate-x-8"></div>
                 )}
               </div>
-              <h3 className="text-xl font-semibold text-[#1E3A8A] mb-3">{step.title}</h3>
-              <p className="text-gray-600 leading-relaxed">{step.description}</p>
+              <h3 className="text-lg font-semibold text-[#1E3A8A] mb-2">{step.title}</h3>
+              <p className="text-gray-600 text-sm leading-relaxed">{step.description}</p>
             </div>
           ))}
         </div>
 
-        {/* Additional Info Section */}
-        <div className="mt-16 bg-white rounded-2xl p-8 shadow-lg border border-[#F3E8D0]">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
-            <div className="space-y-3">
-              <div className="w-16 h-16 bg-[#1E3A8A] rounded-full flex items-center justify-center mx-auto">
-                <span className="text-2xl font-bold text-white">⚡</span>
-              </div>
-              <h4 className="text-lg font-semibold text-[#1E3A8A]">Fast Process</h4>
-              <p className="text-gray-600">Complete setup in under 10 minutes</p>
-            </div>
-            <div className="space-y-3">
-              <div className="w-16 h-16 bg-[#1E3A8A] rounded-full flex items-center justify-center mx-auto">
-                <span className="text-2xl font-bold text-white">🎯</span>
-              </div>
-              <h4 className="text-lg font-semibold text-[#1E3A8A]">Smart Matching</h4>
-              <p className="text-gray-600">AI-powered job recommendations</p>
-            </div>
-            <div className="space-y-3">
-              <div className="w-16 h-16 bg-[#1E3A8A] rounded-full flex items-center justify-center mx-auto">
-                <span className="text-2xl font-bold text-white">🔒</span>
-              </div>
-              <h4 className="text-lg font-semibold text-[#1E3A8A]">Secure Platform</h4>
-              <p className="text-gray-600">Your data is always protected</p>
-            </div>
-          </div>
-        </div>
-
+    
         {/* Call to Action */}
-        <div className="mt-12 text-center">
-          <div className="inline-flex items-center space-x-4 bg-[#1E3A8A] text-white px-8 py-4 rounded-full font-semibold hover:shadow-xl hover:bg-[#1E3A8A]/90 transition-all duration-300">
+        <div className="mt-10 text-center">
+          <button className="inline-flex items-center space-x-3 bg-[#1E3A8A] text-white px-6 py-3 rounded-full font-semibold hover:shadow-lg hover:bg-[#1E3A8A]/90 transition-all duration-300 text-sm">
             <span>Ready to get started?</span>
-            <CheckCircle className="w-5 h-5" />
-          </div>
+            <CheckCircle className="w-4 h-4" />
+          </button>
         </div>
       </div>
     </section>
