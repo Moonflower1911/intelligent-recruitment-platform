@@ -100,7 +100,7 @@ This approach uses a manually defined formula to compute a candidate's final sco
     - `notes_score`: sentiment analysis from recruiter comments (HuggingFace)
     - `video_score`: emotion analysis from the interview video (DeepFace)
 
-**Weighted Formula** (example):
+**Weighted Formula** :
 ![Weighted Formula](./assets/formula.png)
 ---
 
