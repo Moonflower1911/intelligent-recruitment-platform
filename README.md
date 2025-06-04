@@ -222,7 +222,7 @@ and then run the backend:
 ```bash
 cd server
 npm install
-npm run dev
+npm start
 ```
 ### 3. Frontend Setup
 
