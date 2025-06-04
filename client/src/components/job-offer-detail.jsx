@@ -111,8 +111,16 @@ export default function JobOfferDetail({ offer, liked, onApply }) {
           {offer.skills && (
             <div className="mb-6">
               <h2 className="text-lg font-semibold text-gray-900 mb-3">Required Skills</h2>
+              <p className="text-gray-700 bg-gray-50 rounded-lg p-3 text-sm">{offer.skills}</p>
+            </div>
+          )}
+
+          {/* Keywords Section */}
+          {offer.keywords && (
+            <div className="mb-6">
+              <h2 className="text-lg font-semibold text-gray-900 mb-3">Keywords</h2>
               <div className="flex flex-wrap gap-2">
-                {offer.skills.split(",").map((skill, index) => (
+                {offer.keywords.split(",").map((skill, index) => (
                   <span
                     key={index}
                     className="px-3 py-1 bg-[#F3E8D0]/50 text-[#1E3A8A] rounded-full font-medium border border-[#F3E8D0] text-sm"
@@ -121,14 +129,6 @@ export default function JobOfferDetail({ offer, liked, onApply }) {
                   </span>
                 ))}
               </div>
-            </div>
-          )}
-
-          {/* Keywords Section */}
-          {offer.keywords && (
-            <div className="mb-6">
-              <h2 className="text-lg font-semibold text-gray-900 mb-3">Keywords</h2>
-              <p className="text-gray-700 bg-gray-50 rounded-lg p-3 text-sm">{offer.keywords}</p>
             </div>
           )}
 

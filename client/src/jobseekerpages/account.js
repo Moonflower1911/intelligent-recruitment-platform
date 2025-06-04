@@ -100,7 +100,7 @@ function AccountJobSeeker() {
             setIsLoggedIn(false);
             setUserData(null);
             setResumes([]);
-            navigate("/landingpage");
+            navigate("/");
           }
         })
         .catch((error) => {
@@ -114,7 +114,7 @@ function AccountJobSeeker() {
     setIsLoggedIn(false);
     setUserData(null);
     setResumes([]);
-    navigate("/landingpage");
+    navigate("/");
   };
 
   if (!isLoggedIn && !loading) {
@@ -171,7 +171,7 @@ function AccountJobSeeker() {
         />
 
         {/* Main Content */}
-        <div className="flex-1 ml-80 p-8">
+        <div className="flex-1 ml-80 p-8 pt-2">
 
           {/* User Info Card */}
           {userData && (

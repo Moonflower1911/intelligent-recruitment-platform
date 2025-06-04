@@ -24,9 +24,9 @@ export default function SidebarAccountJobSeeker({
 
   return (
     <div className="fixed left-0 top-0 h-full w-80 bg-white border-r border-gray-200 shadow-sm z-40 overflow-y-auto">
-      <div className="p-4">
+      <div className="p-4 pb-2">
         {/* Logo */}
-        <div className="mb-2">
+        <div className="mb-1">
           <span className="font-bold text-xl tracking-tight">
             <span className="text-[#1E3A8A]">Job</span>
             <span className="text-[#D4A574]">Connect</span>
@@ -34,7 +34,7 @@ export default function SidebarAccountJobSeeker({
         </div>
 
         {/* Profile Section */}
-        <div className="bg-gradient-to-r from-[#1E3A8A]/10 to-[#D4A574]/5 rounded-xl p-4 mb-4 border border-gray-200">
+        <div className="bg-gradient-to-r from-[#1E3A8A]/10 to-[#D4A574]/5 rounded-xl p-4 mb-2 border border-gray-200">
           <div className="flex items-center space-x-3">
             <div className="w-12 h-12 bg-gradient-to-r from-[#1E3A8A] to-[#D4A574] rounded-full flex items-center justify-center shadow-md">
               <User className="w-5 h-5 text-white" />
@@ -127,7 +127,7 @@ export default function SidebarAccountJobSeeker({
         </div>
 
         {/* Help */}
-        <div className="p-3 bg-gradient-to-r from-[#1E3A8A]/5 to-[#D4A574]/5 rounded-lg">
+        <div className="p-2 bg-gradient-to-r from-[#1E3A8A]/5 to-[#D4A574]/5 rounded-lg">
           <div className="flex items-start space-x-2">
             <HelpCircle className="w-4 h-4 text-[#1E3A8A] mt-0.5" />
             <div>

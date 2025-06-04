@@ -742,7 +742,7 @@ router.post("/", validateToken, async (req, res) => {
   if (!jobSeekerForm) {
     return res.status(400).json({
       error:
-        "Vous devez créer un CV avant de manifester un intérêt pour une offre d'emploi",
+        "You must create a resume before expressing interest in a job offer.",
     });
   }
 

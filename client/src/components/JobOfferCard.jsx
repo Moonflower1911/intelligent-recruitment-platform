@@ -81,20 +81,20 @@ export default function JobOfferCard({ offer, showScore }) {
         {offer.skills && (
           <div>
             <span className="text-sm font-medium text-gray-700 mb-2 block">Required Skills:</span>
-            <div className="flex flex-wrap gap-2">
-              {offer.skills.split(",").map((skill, index) => (
-                <span key={index} className="px-3 py-1 bg-[#F3E8D0]/50 text-[#1E3A8A] text-sm rounded-full font-medium">
-                  {skill.trim()}
-                </span>
-              ))}
-            </div>
+            <p className="text-sm text-gray-600">{offer.skills}</p>
           </div>
         )}
 
         {offer.keywords && (
           <div>
             <span className="text-sm font-medium text-gray-700 mb-2 block">Keywords:</span>
-            <p className="text-sm text-gray-600">{offer.keywords}</p>
+            <div className="flex flex-wrap gap-2">
+              {offer.keywords.split(",").map((skill, index) => (
+                <span key={index} className="px-3 py-1 bg-[#F3E8D0]/50 text-[#1E3A8A] text-sm rounded-full font-medium">
+                  {skill.trim()}
+                </span>
+              ))}
+            </div>
           </div>
         )}
 

@@ -175,7 +175,7 @@ function OfferInterested() {
                 {listOfJobSeekerForms.map((seeker, index) => (
                   <div
                     key={index}
-                    className="transition-all duration-200 hover:shadow-md hover:border-[#D4A574] min-w-[300px] flex-1 basis-[calc(33.333%-1.5rem)] bg-white"
+                    className="transition-all duration-200 hover:shadow-md hover:border-[#D4A574] bg-white w-[calc(50%-0.75rem)]"
                     style={{ border: '1px solid #e5e7eb', borderRadius: '0.75rem' }}
                   >
                     <JobSeekerCard

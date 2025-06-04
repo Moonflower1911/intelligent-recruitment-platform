@@ -58,7 +58,7 @@ function AccountRecruiter() {
         .then(() => {
           sessionStorage.removeItem("accessToken");
           setIsLoggedIn(false);
-          navigate("/authrecruiter/login");
+          navigate("/");
         })
         .catch(console.error);
     }
@@ -67,7 +67,7 @@ function AccountRecruiter() {
   const logout = () => {
     sessionStorage.removeItem("accessToken");
     setIsLoggedIn(false);
-    navigate("/authrecruiter/login");
+    navigate("/");
   };
 
   if (!isLoggedIn) {
@@ -93,7 +93,7 @@ function AccountRecruiter() {
         <div className="flex-1 ml-80 p-8">
         
           {/* Search Bar */}
-          <div className="mb-8">
+          <div className="mb-2">
             <div className="bg-white rounded-2xl shadow-sm p-6 border border-gray-200">
               <SearchBar
                 value={searchTerm}
@@ -153,7 +153,7 @@ function AccountRecruiter() {
                     : "Create your first job offer to get started"}
                 </p>
                 <button
-                  onClick={() => navigate("/create-offer")}
+                  onClick={() => navigate("/createJobOffer")}
                   className="px-6 py-2 bg-[#1E3A8A] text-white rounded-lg hover:bg-[#1E3A8A]/90"
                 >
                   Create New Offer

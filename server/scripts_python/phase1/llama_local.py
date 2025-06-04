@@ -6,15 +6,10 @@ import requests
 import json
 import re
 from flask import Flask, request, jsonify
+from dotenv import load_dotenv
 
+load_dotenv()
 app = Flask(__name__)
-
-# Prepare log directory
-os.makedirs("logs", exist_ok=True)
-
-def log_to_file(filename, content):
-    with open(os.path.join("logs", filename), "w", encoding="utf-8") as f:
-        f.write(content)
 
 print("[INFO] Loading Whisper model...")
 whisper_model = whisper.load_model("base")
@@ -22,6 +17,7 @@ print("[DONE] Whisper model loaded.")
 
 OLLAMA_URL = "http://localhost:11434/api/generate"
 
+# DB Config
 DB_CONFIG = {
     'host': os.getenv('DB_HOST'),
     'user': os.getenv('DB_USER'),
@@ -35,7 +31,6 @@ def extract_cv_text(cv_path):
     print("[INFO] Extracting CV text...")
     with pdfplumber.open(cv_path) as pdf:
         text = "\n".join([page.extract_text() or "" for page in pdf.pages])
-    log_to_file("cv_output.txt", text)
     print("[DONE] CV text extracted.")
     return text
 
@@ -43,7 +38,6 @@ def transcribe_video(video_path):
     print("[INFO] Transcribing video...")
     result = whisper_model.transcribe(video_path)
     text = result["text"].strip()
-    log_to_file("video_output.txt", text)
     print("[DONE] Video transcribed.")
     return text
 
@@ -53,7 +47,6 @@ def clean_text(text):
 def build_combined_profile(cv_text, video_text=""):
     print("[INFO] Building raw candidate profile...")
     profile = clean_text(cv_text + "\n" + video_text)
-    log_to_file("profile_text.txt", profile)
     print("[DONE] Raw profile built.")
     return profile
 
@@ -77,9 +70,7 @@ def extract_structured_profile_text(profile_text):
 
         Candidate Resume:
         {profile_text}
-""".strip()
-
-    log_to_file("llama_structured_input.txt", prompt)
+    """.strip()
 
     response = requests.post(OLLAMA_URL, json={
         "model": "llama3",
@@ -91,7 +82,6 @@ def extract_structured_profile_text(profile_text):
         raise Exception(f"LLaMA API error: {response.text}")
 
     profile_summary = response.json().get("response", "").strip()
-    log_to_file("structured_profile_text.txt", profile_summary)
 
     if not profile_summary:
         raise Exception("LLaMA returned empty structured summary")
@@ -130,7 +120,6 @@ def get_job_offers():
                 })
     finally:
         connection.close()
-    log_to_file("job_offers.txt", json.dumps(offers, indent=2))
     print(f"[DONE] Retrieved {len(offers)} job offers.")
     return offers
 
@@ -186,7 +175,6 @@ def score_candidate_against_offer(structured_profile_text, offer):
         raise Exception(f"LLaMA scoring API failed: {response.text}")
 
     result = response.json().get("response", "").strip()
-    log_to_file(f"match_result_{offer['id']}.txt", result)
     print(f"[DONE] Scored offer {offer['id']}.")
     return result
 
@@ -195,22 +183,11 @@ def analyze():
     print("[INFO] /analyze route triggered.")
     data = request.json
 
-    # Get relative paths from JSON
     rel_cv_path = data.get("cv_path")
     rel_video_path = data.get("video_path")
-
-    # Base directory of the server (up one level from scripts_python)
     base_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
-
-    # Resolve absolute paths
     cv_path = os.path.abspath(os.path.join(base_dir, rel_cv_path.replace("\\", "/"))) if rel_cv_path else None
     video_path = os.path.abspath(os.path.join(base_dir, rel_video_path.replace("\\", "/"))) if rel_video_path else None
-
-    # Debug logs
-    print(f"[DEBUG] Received cv_path: {rel_cv_path}")
-    print(f"[DEBUG] Absolute CV Path: {cv_path}")
-    print(f"[DEBUG] CV Exists? {os.path.exists(cv_path)}")
-    print(f"[DEBUG] Video Exists? {os.path.exists(video_path) if video_path else 'No video'}")
 
     if not cv_path or not os.path.exists(cv_path):
         print("[ERROR] Missing or invalid CV path.")
@@ -237,7 +214,6 @@ def analyze():
             enriched.append(offer)
 
         enriched.sort(key=lambda x: x["score"], reverse=True)
-        log_to_file("final_results.json", json.dumps(enriched, indent=2))
         print("[DONE] All offers scored and sorted.")
         return jsonify(enriched)
 
@@ -273,8 +249,6 @@ def offer_analyze():
             "formations", "skills", "keywords", "langues", "description"
         ), row))
 
-        log_to_file("offer_selected.txt", json.dumps(offer, indent=2))
-
         with connection.cursor() as cursor:
             cursor.execute("""
                 SELECT jsf.id, jsf.cvFilePath, jsf.videoFilePath,
@@ -295,25 +269,18 @@ def offer_analyze():
 
             try:
                 base_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
-
                 rel_cv_path = seeker_data["cvFilePath"]
                 rel_video_path = seeker_data.get("videoFilePath")
-
                 cv_path = os.path.abspath(os.path.join(base_dir, rel_cv_path.replace("\\", "/"))) if rel_cv_path else None
                 video_path = os.path.abspath(os.path.join(base_dir, rel_video_path.replace("\\", "/"))) if rel_video_path else None
 
-                print(f"[DEBUG] Seeker {seeker_data['id']} CV path: {cv_path}")
-                print(f"[DEBUG] CV Exists? {os.path.exists(cv_path)}")
-
                 if not cv_path or not os.path.exists(cv_path):
                     raise Exception("Missing CV")
-
 
                 cv_text = extract_cv_text(cv_path)
                 video_text = transcribe_video(video_path) if video_path and os.path.exists(video_path) else ""
                 combined = build_combined_profile(cv_text, video_text)
                 structured = extract_structured_profile_text(combined)
-
                 result_text = score_candidate_against_offer(structured, offer)
 
                 match = re.search(r"\*{0,2}Score\*{0,2}:\s*(\d+).*?\*{0,2}Explanation\*{0,2}:\s*(.*)", result_text, re.DOTALL)
@@ -328,13 +295,11 @@ def offer_analyze():
             enriched.append(seeker_data)
 
         enriched.sort(key=lambda x: x["matchPercentage"], reverse=True)
-        log_to_file("sorted_applicants.json", json.dumps(enriched, indent=2))
         return jsonify(enriched)
 
     except Exception as e:
         print(f"[ERROR] {str(e)}")
         return jsonify({"error": str(e)}), 500
-
 
 if __name__ == "__main__":
     print("[INFO] Flask server running at port 5000.")

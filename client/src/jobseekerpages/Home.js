@@ -76,10 +76,10 @@ function JobSeekerHome() {
         <SidebarJobSeeker onSortJobOffers={getRecommendedJobOffers} />
 
         {/* Main Content */}
-        <div className="flex-1 ml-80 p-8">
+        <div className="flex-1 ml-80 p-2">
 
           {/* Search Section */}
-          <div className="mb-8">
+          <div className="mb-4">
             <div className="bg-white rounded-2xl shadow-sm p-6 border border-gray-200">
               <SearchBar
                 value={searchTerm}

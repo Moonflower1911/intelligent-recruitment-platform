@@ -131,9 +131,9 @@ function MyApplications() {
                     </div>
                     <p className="text-sm text-gray-600 line-clamp-2 mb-4">{offer.description}</p>
 
-                    {offer.skills && (
+                    {offer.keywords && (
                       <div className="flex flex-wrap gap-2">
-                        {offer.skills
+                        {offer.keywords
                           .split(",")
                           .slice(0, 3)
                           .map((skill, i) => (
@@ -144,9 +144,9 @@ function MyApplications() {
                               {skill.trim()}
                             </span>
                           ))}
-                        {offer.skills.split(",").length > 3 && (
+                        {offer.keywords.split(",").length > 3 && (
                           <span className="px-2 py-1 bg-gray-100 text-gray-600 text-xs rounded-full font-medium">
-                            +{offer.skills.split(",").length - 3} more
+                            +{offer.keywords.split(",").length - 3} more
                           </span>
                         )}
                       </div>

@@ -1,0 +1,15 @@
+Flask
+pdfplumber
+whisper
+pymysql
+requests
+python-dotenv
+scikit-learn
+nltk
+opencv-python
+deepface
+transformers
+joblib
+pandas
+xgboost
+numpy

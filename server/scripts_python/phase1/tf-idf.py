@@ -10,32 +10,14 @@ from sklearn.feature_extraction.text import TfidfVectorizer, ENGLISH_STOP_WORDS
 from sklearn.metrics.pairwise import cosine_similarity
 from nltk.stem import PorterStemmer
 from dotenv import load_dotenv
-load_dotenv()
 
+load_dotenv()
 app = Flask(__name__)
 
-# Create logs directory if needed
-os.makedirs("logs", exist_ok=True)
-
-def resolve_path(rel_path):
-    """
-    Resolve a path like 'uploads/cvs/filename.pdf' to an absolute server-side path.
-    Handles both Windows and Linux style slashes.
-    """
-    base_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
-    return os.path.abspath(os.path.join(base_dir, rel_path.replace("\\", "/")))
-
-
-def log_to_file(name, content):
-    with open(os.path.join("logs", name), "w", encoding="utf-8") as f:
-        f.write(content)
-
-# Whisper model
 print("[INFO] Loading Whisper model...")
 whisper_model = whisper.load_model("base")
 print("[DONE] Whisper model loaded.")
 
-# DB Config
 DB_CONFIG = {
     'host': os.getenv('DB_HOST'),
     'user': os.getenv('DB_USER'),
@@ -45,20 +27,19 @@ DB_CONFIG = {
     'cursorclass': pymysql.cursors.Cursor,
 }
 
-
 stemmer = PorterStemmer()
+
+def resolve_path(rel_path):
+    base_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
+    return os.path.abspath(os.path.join(base_dir, rel_path.replace("\\", "/")))
 
 def extract_cv_text(cv_path):
     with pdfplumber.open(cv_path) as pdf:
-        text = "\n".join([page.extract_text() or "" for page in pdf.pages])
-    log_to_file("cv_text.txt", text)
-    return text
+        return "\n".join([page.extract_text() or "" for page in pdf.pages])
 
 def transcribe_video(video_path):
     result = whisper_model.transcribe(video_path)
-    text = result["text"].strip()
-    log_to_file("video_text.txt", text)
-    return text
+    return result["text"].strip()
 
 def clean_text(text):
     text = text.lower()
@@ -66,17 +47,11 @@ def clean_text(text):
     text = re.sub(rf"[{re.escape(string.punctuation)}]", "", text)
     words = [w for w in text.split() if w not in ENGLISH_STOP_WORDS and len(w) > 1]
     stemmed = [stemmer.stem(w) for w in words]
-    cleaned = " ".join(stemmed)
-    return cleaned
+    return " ".join(stemmed)
 
 def tfidf_baseline_score(profile_text, job_offer_text):
-    documents = [profile_text, job_offer_text]
-    vectorizer = TfidfVectorizer(
-        stop_words='english',
-        lowercase=True,
-        ngram_range=(1, 2)
-    )
-    vectors = vectorizer.fit_transform(documents)
+    vectorizer = TfidfVectorizer(stop_words='english', lowercase=True, ngram_range=(1, 2))
+    vectors = vectorizer.fit_transform([profile_text, job_offer_text])
     similarity = cosine_similarity(vectors[0:1], vectors[1:2])[0][0]
     return round(similarity * 100, 2)
 
@@ -89,9 +64,7 @@ def build_offer_text(offer):
         offer.get("langues", ""),
         offer.get("description", "")
     ])
-    cleaned = clean_text(text)
-    log_to_file("offer_text_cleaned.txt", cleaned)
-    return cleaned
+    return clean_text(text)
 
 @app.route("/offer-analyze", methods=["POST"])
 def offer_baseline():
@@ -152,14 +125,13 @@ def offer_baseline():
                 if not cv_path or not os.path.exists(cv_path):
                     raise Exception("CV not found")
 
-
                 cv_text = extract_cv_text(cv_path)
                 video_text = transcribe_video(video_path) if video_path and os.path.exists(video_path) else ""
                 profile_text = clean_text(cv_text + "\n" + video_text)
-                log_to_file(f"profile_{seeker_data['id']}.txt", profile_text)
 
                 score = tfidf_baseline_score(profile_text, offer_text)
                 seeker_data["tfidfScore"] = score
+
             except Exception as e:
                 print(f"[WARN] {seeker_data['id']}: {str(e)}")
                 seeker_data["tfidfScore"] = 0.0
@@ -167,7 +139,6 @@ def offer_baseline():
             enriched.append(seeker_data)
 
         enriched.sort(key=lambda x: x["tfidfScore"], reverse=True)
-        log_to_file("baseline_results.json", json.dumps(enriched, indent=2))
         return jsonify(enriched)
 
     except Exception as e:
@@ -194,7 +165,6 @@ def baseline_analyze():
         cv_text = extract_cv_text(cv_path)
         video_text = transcribe_video(video_path) if video_path and os.path.exists(video_path) else ""
         combined_text = clean_text(cv_text + "\n" + video_text)
-        log_to_file("combined_profile_text.txt", combined_text)
 
         connection = pymysql.connect(**DB_CONFIG)
         offers = []
@@ -219,8 +189,6 @@ def baseline_analyze():
             offer["matchPercentage"] = score
 
         offers.sort(key=lambda x: x["matchPercentage"], reverse=True)
-        log_to_file("jobseeker_offer_baseline_results.json", json.dumps(offers, indent=2))
-
         print("[DONE] Job offers scored using TF-IDF baseline.")
         return jsonify(offers)
 
